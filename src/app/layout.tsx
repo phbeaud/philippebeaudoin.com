@@ -12,16 +12,16 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://philippebeaudoin.com"),
   title: {
-    default: "Conférencier IA, leadership et communication | Philippe Beaudoin",
+    default: "Philippe Beaudoin — Conférencier en personnalités, générations, leadership et communication",
     template: "%s | Philippe Beaudoin",
   },
   description:
-    "Conférences et formations en entreprise sur l'intelligence artificielle, les générations, les personnalités, le leadership et la communication. Plus de 1000 interventions.",
+    "Conférences et formations en entreprise sur les personnalités, les générations, le leadership, la communication et l'intelligence émotionnelle. Plus de 1000 interventions.",
   keywords: [
     "conférencier",
     "formateur",
-    "intelligence artificielle",
-    "IA",
+    "personnalités",
+    "intelligence émotionnelle",
     "leadership",
     "générations",
     "personnalités",
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Philippe Beaudoin" }],
   openGraph: {
-    title: "Conférencier IA, leadership et communication | Philippe Beaudoin",
+    title: "Philippe Beaudoin — Conférencier en personnalités, générations, leadership et communication",
     description:
-      "J'aide les organisations à comprendre et aligner leurs équipes dans un monde transformé par l'IA, les générations et les personnalités.",
+      "J'aide les organisations à mieux comprendre les humains pour mieux travailler ensemble. Personnalités, générations, leadership et communication.",
     url: "https://philippebeaudoin.com",
     siteName: "Philippe Beaudoin",
     locale: "fr_CA",
@@ -52,9 +52,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Conférencier IA, leadership et communication | Philippe Beaudoin",
+    title: "Philippe Beaudoin — Conférencier en personnalités, générations, leadership et communication",
     description:
-      "Conférences et formations sur l'IA, les générations, les personnalités et la communication.",
+      "Conférences et formations sur les personnalités, les générations, le leadership et la communication.",
     images: ["/images/hero/philippe-conference.jpg"],
   },
   robots: { index: true, follow: true },

@@ -14,6 +14,14 @@ const clientLogos = [
   { name: "Ville de Victoriaville", src: "/images/clients/victoriaville.png", w: 140, h: 33 },
 ];
 
+const tensions = [
+  { icon: "👥", text: "Des personnes qui ne se comprennent pas" },
+  { icon: "⚡", text: "Des styles de travail incompatibles" },
+  { icon: "🔇", text: "Des tensions silencieuses" },
+  { icon: "💬", text: "Des messages mal interprétés" },
+  { icon: "🎯", text: "Des équipes difficiles à mobiliser" },
+];
+
 export default function Accueil() {
   return (
     <>
@@ -24,24 +32,26 @@ export default function Accueil() {
           alt="Philippe Beaudoin en conférence"
           fill
           priority
-          className="object-cover"
+          className="object-cover scale-105"
+          style={{ animationName: "hero-zoom", animationDuration: "20s", animationTimingFunction: "ease-out", animationFillMode: "forwards" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/40" />
-        <div className="relative mx-auto flex max-w-7xl items-center px-6 lg:px-8" style={{ minHeight: "90vh" }}>
-          <div className="max-w-2xl py-24">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/70 to-violet-950/40" />
+        <div className="relative mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-12 lg:px-8" style={{ minHeight: "90vh", alignItems: "center" }}>
+          {/* Gauche */}
+          <div className="py-24 lg:col-span-7">
             <AnimatedSection variant="fadeIn">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-300">
                 Conférencier &middot; Formateur &middot; Stratège
               </p>
             </AnimatedSection>
             <AnimatedSection delay={100}>
-              <h1 className="mt-4 text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
-                Comprendre l&apos;humain pour réussir la transformation
+              <h1 className="mt-4 text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-[3.5rem]">
+                Mieux comprendre les humains pour mieux travailler ensemble
               </h1>
             </AnimatedSection>
             <AnimatedSection delay={200}>
               <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">
-                L&apos;intelligence artificielle redéfinit le travail. Les générations ne collaborent pas de la même façon. Les personnalités réagissent différemment au changement. J&apos;aide les organisations à aligner ces réalités pour avancer ensemble.
+                J&apos;aide les organisations à développer des équipes plus alignées et plus efficaces en comprenant les différences de personnalités, de générations et de communication — dans un contexte de leadership, de collaboration et de transformation.
               </p>
             </AnimatedSection>
             <AnimatedSection delay={300}>
@@ -50,14 +60,42 @@ export default function Accueil() {
                   href="/contact"
                   className="rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-950 shadow-lg transition hover:bg-slate-100"
                 >
-                  Réserver une conférence
+                  Discuter de vos enjeux
                 </Link>
                 <Link
                   href="/conferences"
                   className="rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
                 >
-                  Découvrir les thèmes
+                  Voir les conférences
                 </Link>
+              </div>
+            </AnimatedSection>
+          </div>
+
+          {/* Droite — bloc percutant */}
+          <div className="hidden lg:col-span-5 lg:block">
+            <AnimatedSection variant="slideRight" delay={200}>
+              <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-gradient-to-br from-white/10 to-white/[0.03] p-8 shadow-2xl backdrop-blur-lg">
+                <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-amber-500/10 blur-3xl" />
+                <div className="absolute -bottom-12 -left-12 h-32 w-32 rounded-full bg-violet-500/10 blur-3xl" />
+                <div className="relative">
+                  <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-400">Ce que vous observez déjà</p>
+                  <div className="mt-6 space-y-3">
+                    {tensions.map((t, i) => (
+                      <AnimatedSection key={t.text} variant="slideLeft" delay={400 + i * 80}>
+                        <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4 transition hover:border-amber-400/30 hover:bg-white/[0.08]">
+                          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-lg">{t.icon}</span>
+                          <p className="text-sm font-medium leading-5 text-white">{t.text}</p>
+                        </div>
+                      </AnimatedSection>
+                    ))}
+                  </div>
+                  <div className="mt-6 rounded-2xl border border-amber-400/20 bg-amber-400/5 px-5 py-4 text-center">
+                    <p className="text-base font-bold text-amber-300">
+                      Le défi n&apos;est pas technique. Il est humain.
+                    </p>
+                  </div>
+                </div>
               </div>
             </AnimatedSection>
           </div>
@@ -69,8 +107,8 @@ export default function Accueil() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-slate-100 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {[
             { big: "1 000+", small: "conférences et formations livrées" },
-            { big: "Privé · public · santé", small: "interventions adaptées au contexte" },
             { big: "MBTI & NOVA certifié", small: "outils psychométriques reconnus" },
+            { big: "Privé · public · santé", small: "interventions adaptées au contexte" },
           ].map((s) => (
             <div key={s.big} className="px-6 py-8 text-center lg:px-8">
               <p className="text-xl font-semibold tracking-tight text-slate-900 sm:text-2xl">{s.big}</p>
@@ -85,19 +123,19 @@ export default function Accueil() {
         <AnimatedSection>
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-500">Le problème</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-500">Le vrai problème</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                La technologie avance. Les équipes décrochent.
+                Les équipes ne manquent pas de compétences. Elles manquent de compréhension mutuelle.
               </h2>
               <p className="mt-5 text-lg leading-8 text-slate-600">
-                L&apos;IA accélère les transformations, mais les organisations sous-estiment l&apos;impact humain de ces changements. Résultat :
+                Dans la plupart des organisations, les gens travaillent ensemble sans vraiment se comprendre. Les différences de personnalités, de générations et de styles de communication créent des frictions invisibles qui minent la collaboration.
               </p>
               <ul className="mt-6 space-y-4">
                 {[
-                  "Désalignement entre les générations sur la façon de travailler",
-                  "Résistance au changement non identifiée ni comprise",
-                  "Perte d'efficacité et frictions internes croissantes",
-                  "Leaders mal outillés pour mobiliser dans l'incertitude",
+                  "Des collaborateurs qui n'arrivent pas à se parler efficacement",
+                  "Des leaders qui mobilisent certains profils mais en perdent d'autres",
+                  "Des générations qui n'ont pas les mêmes attentes ni les mêmes réflexes",
+                  "Des conflits silencieux qui érodent la performance collective",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-700">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-400" />
@@ -122,54 +160,93 @@ export default function Accueil() {
       <section className="bg-slate-50">
         <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
           <AnimatedSection>
-            <div className="max-w-3xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600">La solution</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Des interventions qui alignent la technologie et l&apos;humain
-              </h2>
-              <p className="mt-5 text-lg leading-8 text-slate-600">
-                Mes conférences et formations créent un langage commun dans vos équipes. Elles clarifient les dynamiques humaines, outillent vos leaders et accélèrent l&apos;adoption du changement.
-              </p>
+            <div className="grid items-center gap-12 lg:grid-cols-2">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
+                <Image
+                  src="/images/stock/team-collaboration.jpg"
+                  alt="Équipe en synergie"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600">La solution</p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+                  Des interventions qui créent un vrai langage commun dans vos équipes
+                </h2>
+                <p className="mt-5 text-lg leading-8 text-slate-600">
+                  Mes conférences et formations aident vos équipes à mieux se connaître, mieux se comprendre et mieux collaborer. En décodant les personnalités, les styles de communication et les dynamiques générationnelles, on transforme les différences en forces.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-4">
+                  <Link
+                    href="/conferences"
+                    className="rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
+                  >
+                    Voir les conférences
+                  </Link>
+                  <Link
+                    href="/formations"
+                    className="rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+                  >
+                    Voir les formations
+                  </Link>
+                </div>
+              </div>
             </div>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* ═══ 3 PILIERS ═══ */}
+      {/* ═══ PILIERS ═══ */}
       <section className="bg-slate-950 text-white">
         <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
           <AnimatedSection>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">Expertise</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">Mes champs d&apos;expertise</p>
             <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
-              Trois dimensions. Une seule lecture stratégique.
+              Une approche centrée sur l&apos;humain, applicable dans plusieurs dimensions
             </h2>
           </AnimatedSection>
-          <div className="mt-14 grid gap-6 lg:grid-cols-3">
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                tag: "Pilier 1",
-                title: "IA & transformation du travail",
-                text: "Comprendre concrètement comment l'intelligence artificielle transforme les rôles, les décisions et la performance des équipes. Accompagner les leaders dans cette transition.",
-                image: "/images/stock/ai-technology.jpg",
-                href: "/conferences",
-              },
-              {
-                tag: "Pilier 2",
-                title: "Générations & personnalités",
-                text: "Décoder les différences générationnelles et les profils de personnalité pour réduire les tensions, améliorer la communication et renforcer la collaboration.",
+                tag: "Personnalités",
+                title: "Personnalités et intelligence émotionnelle",
+                text: "Mieux se connaître pour mieux collaborer. MBTI, Nova, styles de communication — décoder les différences pour créer de la synergie au lieu de la friction.",
                 image: "/images/stock/team-discussion.jpg",
-                href: "/conferences",
               },
               {
-                tag: "Pilier 3",
-                title: "Communication & influence",
-                text: "Mobiliser, convaincre et structurer des messages qui créent de l'impact. Du pitch de vente à la mobilisation d'équipe.",
+                tag: "Générations",
+                title: "Générations et synergie d'équipe",
+                text: "Quatre générations cohabitent avec des attentes radicalement différentes. Comprendre ces écarts pour créer plus de fluidité et de collaboration.",
+                image: "/images/stock/workplace-generations.jpg",
+              },
+              {
+                tag: "Leadership",
+                title: "Leadership et mobilisation",
+                text: "Mieux mobiliser des équipes composées de profils variés. Un leadership plus relationnel, plus adapté, plus humain.",
+                image: "/images/stock/leadership-meeting.jpg",
+              },
+              {
+                tag: "Communication",
+                title: "Communication et art du pitch",
+                text: "Structurer ses idées pour mieux convaincre, vendre, influencer et mobiliser. Du pitch de vente au pitch de mobilisation interne.",
                 image: "/images/stock/presentation.jpg",
-                href: "/conferences",
+              },
+              {
+                tag: "Formation",
+                title: "Formation en ligne et pédagogie",
+                text: "Mieux former, mieux engager et mieux animer à distance. Des méthodes concrètes pour créer de l'apprentissage durable.",
+                image: "/images/stock/online-training.jpg",
+              },
+              {
+                tag: "IA × humain",
+                title: "IA à travers le prisme humain",
+                text: "Comment différentes personnalités, générations et styles de leadership réagissent à l'intelligence artificielle. Un angle unique et complémentaire.",
+                image: "/images/stock/ai-technology.jpg",
               },
             ].map((pilier, i) => (
-              <AnimatedSection key={pilier.title} delay={i * 150}>
-                <Link href={pilier.href} className="group block h-full overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition hover:border-white/20 hover:bg-white/[0.08]">
+              <AnimatedSection key={pilier.title} delay={i * 100}>
+                <Link href="/conferences" className="group block h-full overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition hover:border-white/20 hover:bg-white/[0.08]">
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
                       src={pilier.image}
@@ -183,7 +260,7 @@ export default function Accueil() {
                     </p>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold tracking-tight">{pilier.title}</h3>
+                    <h3 className="text-lg font-semibold tracking-tight">{pilier.title}</h3>
                     <p className="mt-3 text-sm leading-6 text-slate-300">{pilier.text}</p>
                   </div>
                 </Link>
@@ -228,11 +305,43 @@ export default function Accueil() {
         </div>
       </section>
 
+      {/* ═══ EN ACTION ═══ */}
+      <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+        <AnimatedSection>
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">En action</p>
+          <h2 className="mt-3 text-center text-2xl font-semibold tracking-tight sm:text-3xl">
+            Des conférences vivantes, concrètes et mobilisatrices
+          </h2>
+        </AnimatedSection>
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { src: "/images/hero/philippe-conference.jpg", alt: "Philippe en conférence", span: "sm:col-span-2 lg:col-span-2 lg:row-span-2" },
+            { src: "/images/hero/philippe-fl1.jpg", alt: "Présentation interactive", span: "" },
+            { src: "/images/hero/philippe-fl2.jpg", alt: "Échange avec l'audience", span: "" },
+          ].map((img) => (
+            <div
+              key={img.src}
+              className={`group relative overflow-hidden rounded-3xl ${img.span}`}
+            >
+              <div className={`relative ${img.span.includes("row-span") ? "aspect-[4/3]" : "aspect-[3/2]"}`}>
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover transition duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ═══ CTA FINAL ═══ */}
       <SectionCTA
-        title="Discutons de votre réalité organisationnelle"
-        description="Conférence, formation ou atelier — chaque intervention est conçue pour répondre à vos enjeux concrets."
-        primaryLabel="Discuter de vos enjeux"
+        title="Discutons de votre réalité"
+        description="Conférence, formation ou atelier — chaque intervention est conçue pour aider vos équipes à mieux se comprendre et mieux collaborer."
+        primaryLabel="Planifier un échange"
         secondaryLabel="Voir les conférences"
         secondaryHref="/conferences"
       />

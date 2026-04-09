@@ -4,41 +4,41 @@ import AnimatedSection from "@/components/AnimatedSection";
 import SectionCTA from "@/components/SectionCTA";
 
 export const metadata: Metadata = {
-  title: "Formations en entreprise — leadership, IA, communication | Philippe Beaudoin",
+  title: "Formations en entreprise — personnalités, leadership, communication, générations",
   description:
-    "Formations sur mesure en entreprise : leadership, intelligence artificielle, communication, générations et personnalités. Approche interactive et orientée résultats.",
+    "Formations sur mesure en entreprise : personnalités, générations, leadership, communication, intelligence émotionnelle et art du pitch. Approche interactive et orientée résultats.",
 };
 
 const themes = [
   {
-    title: "Leadership et gestion",
-    description: "Développer les compétences de vos leaders pour mobiliser, décider et accompagner le changement dans un contexte en mutation.",
-    image: "/images/stock/leadership-meeting.jpg",
-  },
-  {
-    title: "Intelligence artificielle",
-    description: "Comprendre, démystifier et intégrer l'IA dans les pratiques de travail de vos équipes. Formation adaptée aux non-techniciens.",
-    image: "/images/stock/ai-technology.jpg",
-  },
-  {
-    title: "Communication et influence",
-    description: "Structurer ses messages, convaincre avec impact et créer de l'adhésion dans ses projets et ses équipes.",
-    image: "/images/stock/presentation.jpg",
-  },
-  {
-    title: "Générations et personnalités",
-    description: "Mieux comprendre les différences de profils pour réduire les frictions, améliorer la collaboration et renforcer la synergie.",
+    title: "Personnalités et intelligence émotionnelle",
+    description: "Mieux se connaître et mieux comprendre les autres pour réduire les tensions, adapter sa communication et créer de vraies collaborations. MBTI, Nova et intelligence relationnelle.",
     image: "/images/stock/team-discussion.jpg",
   },
   {
-    title: "Formation en ligne",
-    description: "Concevoir et livrer des formations à distance qui captent l'attention et créent de l'apprentissage durable.",
+    title: "Générations et synergie d'équipe",
+    description: "Comprendre les attentes et les réflexes de chaque génération pour transformer les écarts en complémentarités et créer des équipes plus fluides.",
+    image: "/images/stock/workplace-generations.jpg",
+  },
+  {
+    title: "Leadership et mobilisation",
+    description: "Développer un leadership plus humain, plus relationnel et plus adapté aux profils variés de vos équipes. Mobiliser dans la complexité.",
+    image: "/images/stock/leadership-meeting.jpg",
+  },
+  {
+    title: "Communication et art du pitch",
+    description: "Structurer ses messages, convaincre avec impact et créer de l'adhésion. Du pitch de vente au pitch de mobilisation interne.",
+    image: "/images/stock/presentation.jpg",
+  },
+  {
+    title: "Formation en ligne et pédagogie",
+    description: "Concevoir et animer des formations à distance qui captent l'attention, qui engagent et qui créent de l'apprentissage durable.",
     image: "/images/stock/online-training.jpg",
   },
   {
-    title: "L'art du pitch",
-    description: "Former vos équipes à structurer des messages percutants pour vendre, présenter et mobiliser avec clarté.",
-    image: "/images/stock/speaker-stage.jpg",
+    title: "IA et dynamiques humaines",
+    description: "Comprendre comment différentes personnalités et générations réagissent à l'intelligence artificielle. Adapter l'accompagnement au profil humain.",
+    image: "/images/stock/ai-technology.jpg",
   },
 ];
 

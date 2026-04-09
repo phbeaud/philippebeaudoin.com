@@ -6,7 +6,7 @@ import SectionCTA from "@/components/SectionCTA";
 export const metadata: Metadata = {
   title: "À propos — Philippe Beaudoin, conférencier et formateur",
   description:
-    "Entrepreneur, orateur et stratège. Plus de 1000 conférences livrées. Spécialiste des transformations humaines à l'ère de l'IA, des générations et des personnalités.",
+    "Spécialiste des dynamiques humaines en organisation. Plus de 1000 conférences livrées sur les personnalités, les générations, le leadership et la communication.",
 };
 
 export default function APropos() {
@@ -20,7 +20,7 @@ export default function APropos() {
               <AnimatedSection>
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">À propos</p>
                 <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-                  Je travaille à l&apos;intersection de l&apos;humain, de la communication et des transformations organisationnelles
+                  J&apos;aide les organisations à mieux comprendre les dynamiques humaines qui influencent la collaboration
                 </h1>
               </AnimatedSection>
             </div>
@@ -48,15 +48,18 @@ export default function APropos() {
           <AnimatedSection>
             <div className="grid gap-12 lg:grid-cols-2">
               <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
-                <Image src="/images/stock/workplace-generations.jpg" alt="Transformations organisationnelles" fill className="object-cover" />
+                <Image src="/images/stock/workplace-generations.jpg" alt="Dynamiques d'équipe" fill className="object-cover" />
               </div>
               <div className="flex flex-col justify-center">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">La réalité</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Ce que j&apos;observe</p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight">
-                  Le monde du travail se transforme plus vite que les organisations ne s&apos;adaptent
+                  Les organisations ne manquent pas de talent. Elles manquent de compréhension mutuelle.
                 </h2>
                 <p className="mt-5 text-lg leading-8 text-slate-600">
-                  L&apos;intelligence artificielle redéfinit les rôles. Quatre générations cohabitent avec des attentes radicalement différentes. Les styles de personnalité influencent la manière dont chaque individu réagit au changement. Et les leaders doivent naviguer tout cela — souvent sans les bons outils.
+                  Des personnalités qui s&apos;affrontent au lieu de se compléter. Des générations qui ne se comprennent pas. Des leaders qui gèrent des tâches mais peinent à mobiliser des humains. Des messages qui passent mais qui ne créent pas d&apos;adhésion.
+                </p>
+                <p className="mt-4 text-lg leading-8 text-slate-600">
+                  Ces dynamiques ne sont pas visibles sur un organigramme. Mais elles déterminent si une équipe fonctionne ou s&apos;enlise.
                 </p>
               </div>
             </div>
@@ -64,17 +67,17 @@ export default function APropos() {
         </div>
       </section>
 
-      {/* ═══ 2. LA TENSION ═══ */}
+      {/* ═══ 2. MON APPROCHE ═══ */}
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
           <AnimatedSection>
             <div className="mx-auto max-w-3xl text-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-500">La tension</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600">Mon approche</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Quand l&apos;humain n&apos;est pas compris, la transformation échoue
+                Décoder les différences humaines pour créer de la synergie
               </h2>
               <p className="mt-5 text-lg leading-8 text-slate-600">
-                Les organisations investissent dans la technologie, mais sous-estiment le facteur humain. Résultat : résistance silencieuse, frictions intergénérationnelles, désengagement, perte d&apos;efficacité. Le problème n&apos;est pas la transformation elle-même — c&apos;est l&apos;absence de lecture humaine de cette transformation.
+                Mon travail consiste à rendre visible ce qui est habituellement invisible : les styles de personnalité, les écarts générationnels, les réflexes de communication, les blocages relationnels. Quand ces réalités sont comprises, les équipes passent du friction à la fluidité.
               </p>
             </div>
           </AnimatedSection>
@@ -87,15 +90,15 @@ export default function APropos() {
           <AnimatedSection>
             <div className="grid items-center gap-12 lg:grid-cols-2">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">Mon positionnement</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">Ce qui me distingue</p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                  L&apos;expert qui relie IA, générations, personnalités et communication
+                  Je ne parle pas de dynamiques humaines en théorie. Je les traduis en outils concrets pour vos équipes.
                 </h2>
                 <p className="mt-5 text-lg leading-8 text-slate-300">
-                  Peu d&apos;intervenants croisent ces dimensions dans une même lecture. C&apos;est pourtant à cette intersection que se jouent les vrais blocages — et les vrais leviers de transformation.
+                  Ma force, c&apos;est de croiser plusieurs grilles de lecture — personnalités, générations, intelligence émotionnelle, communication, leadership — dans une même intervention cohérente et applicable.
                 </p>
                 <p className="mt-4 text-lg leading-8 text-slate-300">
-                  Mon rôle : aider les organisations à comprendre et gérer l&apos;impact humain des transformations liées à l&apos;intelligence artificielle.
+                  Je ne donne pas une conférence sur les personnalités le lundi et une sur le leadership le mardi. Je montre comment ces dimensions s&apos;influencent mutuellement dans la réalité quotidienne de vos équipes.
                 </p>
               </div>
               <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
@@ -113,23 +116,23 @@ export default function APropos() {
             <div className="mx-auto max-w-3xl">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Ma différence</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Je ne parle pas seulement de concepts. Je traduis les transformations en actions concrètes.
+                Pas un consultant générique. Un lecteur de dynamiques humaines.
               </h2>
             </div>
           </AnimatedSection>
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {[
               {
-                title: "Ancré dans la réalité",
-                text: "Chaque intervention est construite à partir de cas vécus, de données actuelles et des enjeux spécifiques de votre organisation.",
+                title: "Ancré dans la réalité terrain",
+                text: "Chaque intervention part de situations vécues dans des organisations réelles — privées, publiques, en santé, en éducation. Pas de théorie déconnectée.",
               },
               {
-                title: "Multi-dimensionnel",
-                text: "Je combine expertise en IA, compréhension des générations, outils psychométriques et communication stratégique dans une lecture intégrée.",
+                title: "Une lecture intégrée",
+                text: "Je relie personnalités, générations, communication et leadership dans une même grille. C'est à cette intersection que se jouent les vraies dynamiques d'équipe.",
               },
               {
-                title: "Orienté action",
-                text: "Mon objectif n'est pas d'impressionner — c'est que vos équipes repartent avec des réflexes, des outils et un plan clair.",
+                title: "Des résultats concrets",
+                text: "L'objectif n'est pas d'impressionner — c'est que vos équipes repartent avec des réflexes nouveaux, un langage commun et une meilleure capacité à travailler ensemble.",
               },
             ].map((item, i) => (
               <AnimatedSection key={item.title} delay={i * 100}>
@@ -156,10 +159,10 @@ export default function APropos() {
                     Détenteur d&apos;une maîtrise en management public de l&apos;Université de Sherbrooke, je suis chargé de cours à l&apos;École de gestion et consultant-formateur en entreprise depuis plus de 15 ans.
                   </p>
                   <p>
-                    Entrepreneur en série à la tête de plusieurs entreprises dont Neobex, je comprends les réalités opérationnelles des organisations de l&apos;intérieur.
+                    Entrepreneur en série à la tête de plusieurs entreprises dont Neobex, je comprends les réalités opérationnelles des organisations de l&apos;intérieur — pas seulement depuis l&apos;estrade.
                   </p>
                   <p>
-                    Formateur MBTI et NOVA certifié, j&apos;utilise des outils psychométriques reconnus pour ancrer mes interventions dans une compréhension rigoureuse des profils humains.
+                    Formateur MBTI et NOVA certifié, j&apos;utilise des outils psychométriques reconnus pour ancrer mes interventions dans une compréhension rigoureuse et mesurable des profils humains.
                   </p>
                 </div>
               </div>
@@ -196,10 +199,10 @@ export default function APropos() {
               <div className="absolute inset-0 flex items-center justify-center bg-slate-950/70">
                 <div className="max-w-2xl px-8 text-center">
                   <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                    Mon objectif : faire de chaque intervention une expérience concrète et mémorable
+                    Mon objectif : que vos équipes se comprennent mieux et travaillent mieux ensemble
                   </h2>
                   <p className="mt-4 text-lg text-slate-300">
-                    Que vos équipes repartent alignées, outillées et prêtes à agir.
+                    Chaque intervention est une occasion de créer un déclic concret et durable.
                   </p>
                 </div>
               </div>
@@ -210,8 +213,8 @@ export default function APropos() {
 
       <SectionCTA
         title="Discutons de votre réalité"
-        description="Je peux adapter chaque intervention à votre contexte, vos enjeux et vos objectifs."
-        primaryLabel="Discuter de vos enjeux"
+        description="Je peux adapter chaque intervention à votre contexte, vos équipes et vos objectifs."
+        primaryLabel="Planifier un échange"
       />
     </>
   );
