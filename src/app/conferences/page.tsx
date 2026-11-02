@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import AnimatedSection from "@/components/AnimatedSection";
+import Icon, { type IconName } from "@/components/Icon";
 import PageHero from "@/components/PageHero";
 import SectionCTA from "@/components/SectionCTA";
 import TypeExplorer from "@/components/TypeExplorer";
@@ -22,7 +23,7 @@ const blocs = [
         title: "Mieux se connaître pour mieux collaborer (MBTI / Nova)",
         problem: "Beaucoup de conflits en équipe ne viennent pas d'un désaccord sur le fond, mais d'une incompatibilité de fonctionnement. Une personne analytique et une personne intuitive ne traitent pas l'information de la même manière — et cela crée des frictions invisibles.",
         impact: "Les participants découvrent leur style de personnalité, comprennent celui des autres et repartent avec des réflexes concrets pour adapter leur communication et réduire les malentendus au quotidien.",
-        benefits: ["Connaissance de soi et des autres", "Communication adaptée au profil", "Réduction immédiate des tensions"],
+        benefits: ["Connaissance de soi et des autres", "Communication adaptée au profil", "Moins de malentendus"],
       },
       {
         title: "Intelligence émotionnelle en milieu de travail",
@@ -35,19 +36,19 @@ const blocs = [
   {
     tag: "Générations et synergie d'équipe",
     intro:
-      "Quatre générations cohabitent aujourd'hui dans les organisations. Elles n'ont pas les mêmes attentes, les mêmes réflexes ni les mêmes façons de collaborer. Quand ces écarts ne sont pas compris, ils deviennent des sources de friction. Quand ils sont décodés, ils deviennent des leviers de complémentarité.",
+      "Plusieurs générations cohabitent aujourd'hui dans les organisations. Leurs repères diffèrent parfois, même si l'âge, le contexte et la personnalité pèsent tout autant. Mal comprises, ces différences alimentent des malentendus ; bien décodées, elles deviennent des leviers de complémentarité.",
     conferences: [
       {
         title: "Le défi des générations en entreprise",
-        problem: "Baby-boomers, X, milléniaux, Z — chaque génération arrive avec des attentes différentes sur le travail, la hiérarchie, la communication et la reconnaissance. Ces incompréhensions génèrent du désengagement, des départs et des tensions de gestion.",
-        impact: "Les participants comprennent les motivations profondes de chaque génération, identifient les points de friction dans leur propre équipe et repartent avec des stratégies concrètes pour créer une culture plus inclusive et plus mobilisatrice.",
-        benefits: ["Meilleure rétention des talents", "Moins de frictions intergénérationnelles", "Collaboration renforcée"],
+        problem: "Baby-boomers, X, milléniaux, Z : chaque génération a grandi avec des repères différents sur le travail, la hiérarchie, la communication et la reconnaissance. Mal comprises, ces différences nourrissent des malentendus et des tensions de gestion.",
+        impact: "Les participants font la part entre ce qui relève de la génération, de l'âge et de la personnalité, repèrent les points de friction dans leur équipe et repartent avec des stratégies concrètes pour une culture plus inclusive et plus mobilisatrice.",
+        benefits: ["Un climat propice à la rétention", "Moins de frictions intergénérationnelles", "Collaboration renforcée"],
       },
       {
         title: "Synergie d'équipe : transformer les différences en force",
         problem: "Les équipes performantes ne sont pas celles où tout le monde pense pareil — ce sont celles qui savent utiliser leurs différences. Mais sans langage commun, les différences de personnalités et de générations créent du bruit plutôt que de la valeur.",
         impact: "Les participants apprennent à reconnaître les forces complémentaires dans leur équipe, à communiquer de manière adaptée et à créer une dynamique de collaboration où chacun contribue à sa pleine mesure.",
-        benefits: ["Langage commun d'équipe", "Complémentarité activée", "Performance collective accrue"],
+        benefits: ["Langage commun d'équipe", "Complémentarité activée", "Collaboration plus efficace"],
       },
     ],
   },
@@ -78,8 +79,8 @@ const blocs = [
       {
         title: "L'art du pitch",
         problem: "La plupart des professionnels ont de bonnes idées mais les communiquent mal. Ils perdent leur auditoire dans les premières secondes, structurent leurs messages de manière confuse et n'arrivent pas à créer l'urgence ou l'adhésion.",
-        impact: "Les participants apprennent à capter l'attention dès les premières secondes, à structurer un message percutant, à illustrer avec des exemples qui marquent et à répondre aux objections avec aisance. Application immédiate.",
-        benefits: ["Structure de pitch éprouvée", "Capacité de persuasion", "Impact immédiat en réunion ou en vente"],
+        impact: "Les participants apprennent à capter l'attention dès les premières secondes, à structurer un message percutant, à illustrer avec des exemples qui marquent et à répondre aux objections avec aisance.",
+        benefits: ["Structure de pitch éprouvée", "Capacité de persuasion", "Applicable dès la prochaine présentation"],
       },
       {
         title: "Mobiliser et influencer par la communication",
@@ -90,6 +91,20 @@ const blocs = [
     ],
   },
   {
+    tag: "Quand l'IA rencontre les générations",
+    intro:
+      "L'intelligence artificielle transforme le travail — mais pas de la même manière pour tout le monde. Un analytique et un créatif ne vivent pas l'IA pareil, et d'une génération à l'autre, les réflexes d'adoption varient souvent. Cette conférence croise IA, personnalités et générations dans une lecture unique.",
+    conferences: [
+      {
+        title: "Comment les personnalités et les générations vivent l'IA",
+        problem: "Les organisations déploient l'IA en pensant que l'adoption est uniforme. Or, les profils de personnalité et les générations perçoivent, adoptent et utilisent souvent l'IA de manières différentes. Ignorer ces différences, c'est créer de la résistance.",
+        impact: "Les participants comprennent comment les différents profils humains réagissent à l'IA, pourquoi certains résistent et d'autres foncent, et comment adapter la communication et l'accompagnement pour accélérer l'adoption en respectant les personnes.",
+        benefits: ["Adoption différenciée de l'IA", "Stratégie par profil", "Moins de résistance, plus d'engagement"],
+      },
+    ],
+    differentiator: true,
+  },
+  {
     tag: "Formation en ligne et pédagogie",
     intro:
       "Former à distance est devenu incontournable, mais la plupart des formations en ligne échouent à maintenir l'attention et à créer un vrai transfert d'apprentissage. Ces conférences partagent les meilleures pratiques pour concevoir et animer des formations qui marquent.",
@@ -98,7 +113,7 @@ const blocs = [
         title: "Former efficacement en ligne",
         problem: "Les caméras fermées, l'attention fragmentée, les participants qui décrochent après 15 minutes — la formation en ligne est un défi que peu de formateurs maîtrisent. Les méthodes en présentiel ne se transposent pas telles quelles.",
         impact: "Les participants repartent avec des techniques concrètes pour concevoir des formations à distance qui captent l'attention, qui engagent les participants et qui produisent un apprentissage durable et applicable.",
-        benefits: ["Engagement à distance", "Design pédagogique moderne", "Résultats mesurables"],
+        benefits: ["Engagement à distance", "Design pédagogique moderne", "Participation active"],
       },
       {
         title: "Concevoir des formations qui créent de l'impact",
@@ -108,19 +123,29 @@ const blocs = [
       },
     ],
   },
+];
+
+const featured: { title: string; pitch: string; audience: string; theme: string; icon: IconName }[] = [
   {
-    tag: "Quand l'IA rencontre les générations",
-    intro:
-      "L'intelligence artificielle transforme le travail — mais pas de la même manière pour tout le monde. Un analytique et un créatif ne vivent pas l'IA pareil. Un baby-boomer et un millénial n'ont pas les mêmes réflexes d'adoption. Cette conférence croise IA, personnalités et générations dans une lecture unique.",
-    conferences: [
-      {
-        title: "Comment les personnalités et les générations vivent l'IA",
-        problem: "Les organisations déploient l'IA en pensant que l'adoption est uniforme. Or, chaque profil de personnalité et chaque génération perçoit, adopte et utilise l'IA de manière différente. Ignorer ces différences, c'est créer de la résistance.",
-        impact: "Les participants comprennent comment les différents profils humains réagissent à l'IA, pourquoi certains résistent et d'autres foncent, et comment adapter la communication et l'accompagnement pour accélérer l'adoption en respectant les personnes.",
-        benefits: ["Adoption différenciée de l'IA", "Stratégie par profil", "Moins de résistance, plus d'engagement"],
-      },
-    ],
-    differentiator: true,
+    title: "Le défi des générations",
+    pitch: "Faire la part entre génération, âge et personnalité pour mieux travailler ensemble.",
+    audience: "Entreprises et congrès",
+    theme: "Générations et synergie d'équipe",
+    icon: "generations",
+  },
+  {
+    title: "L'art du pitch",
+    pitch: "Structurer une idée pour qu'elle soit comprise, retenue et adoptée.",
+    audience: "Gestionnaires et professionnels",
+    theme: "Communication et art du pitch",
+    icon: "communication",
+  },
+  {
+    title: "Quand l'IA rencontre les générations",
+    pitch: "Faire de l'arrivée de l'IA un projet d'équipe plutôt qu'une source de fracture.",
+    audience: "Organisations et établissements d'enseignement",
+    theme: "Quand l'IA rencontre les générations",
+    icon: "ia",
   },
 ];
 
@@ -139,7 +164,7 @@ export default function Conferences() {
         eyebrow="Conférences"
         title={
           <>
-            Des conférences qui <em className="italic text-accent">inspirent</em>, et qui donnent le goût d&apos;agir.
+            Des conférences qui <em className="italic text-accent">inspirent</em> et qui donnent le goût d&apos;agir.
           </>
         }
         intro="Pour vos congrès, colloques et rencontres d'équipe. Chaque conférence s'adapte à votre secteur, à votre auditoire et au message que vous voulez laisser."
@@ -149,6 +174,29 @@ export default function Conferences() {
           position: "object-[38%_30%]",
         }}
       />
+
+      {/* ═══ LES PLUS DEMANDÉES ═══ */}
+      <section aria-label="Les plus demandées" className="mx-auto max-w-7xl px-6 py-16 sm:py-20 lg:px-8">
+        <p className="eyebrow opacity-60">Les plus demandées</p>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {featured.map((f, i) => (
+            <AnimatedSection key={f.title} delay={i * 120} className="h-full">
+              <a
+                href={`#${slug(f.theme)}`}
+                className="group relative isolate flex h-full flex-col overflow-hidden rounded-[2rem] border border-ink/10 bg-paper-deep/60 p-8 transition-colors duration-500 hover:text-paper"
+              >
+                <span aria-hidden="true" className="absolute inset-0 -z-10 origin-bottom scale-y-0 bg-ink transition-transform duration-500 ease-out group-hover:scale-y-100" />
+                <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-ink text-paper transition duration-500 group-hover:rotate-[-6deg] group-hover:bg-accent">
+                  <Icon name={f.icon} className="h-8 w-8" />
+                </span>
+                <h2 className="mt-10 font-display text-3xl leading-tight tracking-tight">{f.title}</h2>
+                <p className="mt-3 flex-1 leading-7 text-muted transition-colors duration-500 group-hover:text-paper/70">{f.pitch}</p>
+                <p className="eyebrow mt-8 opacity-60">{f.audience}</p>
+              </a>
+            </AnimatedSection>
+          ))}
+        </div>
+      </section>
 
       {/* ═══ INDEX DES THÈMES ═══ */}
       <nav aria-label="Thèmes" className="sticky top-[73px] z-30 border-b border-ink/10 bg-paper/90 backdrop-blur-md">
@@ -200,7 +248,7 @@ export default function Conferences() {
                         ))}
                       </ul>
                       <Link
-                        href="/contact"
+                        href={`/contact?sujet=${encodeURIComponent(conf.title)}`}
                         className="mt-8 inline-flex items-center gap-2 text-sm font-semibold transition hover:text-accent"
                       >
                         Demander une proposition

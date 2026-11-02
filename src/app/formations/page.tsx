@@ -30,6 +30,16 @@ const approach: { title: string; text: string; icon: IconName }[] = [
   },
 ];
 
+// Une formation se choisit par le besoin à combler, pas seulement par le sujet
+const needs: { need: string; training: string; icon: IconName }[] = [
+  { need: "Des gestionnaires récemment promus", training: "Développer son leadership", icon: "leadership" },
+  { need: "Des équipes qui collaborent difficilement", training: "Personnalités et synergie", icon: "personnalites" },
+  { need: "Des professionnels qui présentent souvent", training: "L'art du pitch", icon: "communication" },
+  { need: "Des gestionnaires confrontés au changement", training: "Mobiliser dans l'incertitude", icon: "boussole" },
+  { need: "Des employés qui doivent influencer sans autorité", training: "Communication et influence", icon: "echange" },
+  { need: "Des formateurs internes à outiller", training: "Concevoir des formations engageantes", icon: "education" },
+];
+
 const themes: { title: string; text: string; icon: IconName }[] = [
   {
     title: "Personnalités et intelligence émotionnelle",
@@ -117,6 +127,42 @@ export default function Formations() {
             ))}
           </ol>
         </div>
+      </section>
+
+      {/* ═══ BESOIN → FORMATION ═══ */}
+      <section className="mx-auto max-w-7xl px-6 pt-20 sm:pt-28 lg:px-8 lg:pt-36">
+        <AnimatedSection className="max-w-3xl">
+          <p className="eyebrow opacity-60">Partir de votre besoin</p>
+          <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
+            Une conférence inspire. Une formation <em className="italic">transforme</em>.
+          </h2>
+          <p className="mt-6 text-lg leading-8 text-muted">
+            Vous ne cherchez pas qu&apos;un sujet : vous voulez développer une compétence ou régler un problème. Voici par où
+            commencer.
+          </p>
+        </AnimatedSection>
+        <ul className="mt-12 border-t border-ink/15">
+          {needs.map((n, i) => (
+            <AnimatedSection key={n.need} delay={i * 70}>
+              <li className="group grid items-center gap-4 border-b border-ink/15 py-6 md:grid-cols-[1fr_auto_1fr] md:gap-8">
+                <p className="font-display text-xl leading-snug tracking-tight sm:text-2xl">
+                  <span className="eyebrow mr-3 align-middle opacity-50">Vous avez</span>
+                  {n.need.charAt(0).toLowerCase() + n.need.slice(1)}
+                </p>
+                <span aria-hidden="true" className="hidden items-center text-ink/30 transition-colors duration-500 group-hover:text-accent md:flex">
+                  <span className="h-px w-16 border-t-2 border-dashed border-current transition-all duration-500 group-hover:w-24" />
+                  <span className="-ml-1 text-xl">→</span>
+                </span>
+                <span className="inline-flex items-center gap-3 justify-self-start rounded-full border border-ink/15 bg-paper-deep/70 py-2 pl-2 pr-5 transition duration-500 group-hover:border-accent group-hover:bg-accent group-hover:text-white md:justify-self-end">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ink text-paper">
+                    <Icon name={n.icon} className="h-5 w-5" />
+                  </span>
+                  <span className="font-medium">{n.training}</span>
+                </span>
+              </li>
+            </AnimatedSection>
+          ))}
+        </ul>
       </section>
 
       {/* ═══ THÈMES ═══ */}

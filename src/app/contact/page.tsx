@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-export default function Contact() {
+export default async function Contact({ searchParams }: { searchParams: Promise<{ sujet?: string | string[] }> }) {
+  const { sujet } = await searchParams;
+  // Titre de la conférence quand on arrive d'une page de conférence ; borné pour éviter un texte arbitraire trop long
+  const topic = typeof sujet === "string" ? sujet.slice(0, 120) : undefined;
   return (
     <>
       <PageHero
@@ -60,7 +63,7 @@ export default function Contact() {
               Quelques précisions suffisent pour vous proposer la bonne formule. Seuls les champs marqués d&apos;un
               astérisque sont obligatoires.
             </p>
-            <ContactForm />
+            <ContactForm topic={topic} />
           </div>
         </div>
       </section>

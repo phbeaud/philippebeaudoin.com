@@ -98,32 +98,32 @@ export const audiences: { title: string; issues: string; icon: IconName }[] = [
   {
     title: "Entreprises et PME",
     icon: "entreprise",
-    issues: "Leadership, mobilisation, communication, vente et collaboration.",
+    issues: "Mobiliser vos équipes, améliorer la collaboration et développer l'influence de vos gestionnaires.",
   },
   {
     title: "Gestionnaires et dirigeants",
     icon: "boussole",
-    issues: "Influence, prise de décision, gestion des équipes et changement.",
+    issues: "Diriger des profils variés, décider dans l'incertitude et accompagner vos équipes dans le changement.",
   },
   {
     title: "Éducation et enseignement supérieur",
     icon: "education",
-    issues: "Générations, IA, pédagogie, communication et compétences humaines.",
+    issues: "Rejoindre différentes générations, renouveler les pratiques pédagogiques et accompagner l'arrivée de l'IA.",
   },
   {
     title: "Santé et ordres professionnels",
     icon: "sante",
-    issues: "Communication, leadership, présentations et collaboration interprofessionnelle.",
+    issues: "Mieux communiquer sous pression, présenter avec aisance et renforcer la collaboration interprofessionnelle.",
   },
   {
     title: "Associations et congrès",
     icon: "micro",
-    issues: "Conférences mobilisatrices pour vos événements professionnels.",
+    issues: "Offrir à vos participants une conférence qui combine réflexion, dynamisme et applications concrètes.",
   },
   {
     title: "OBNL et organisations à mission",
     icon: "mission",
-    issues: "Mobilisation, leadership, collaboration et résilience.",
+    issues: "Garder bénévoles et employés mobilisés, partager le leadership et tenir le cap malgré les ressources limitées.",
   },
 ];
 

@@ -33,8 +33,9 @@ export default function Accueil() {
               </span>
             </h1>
             <p className="rise mt-8 max-w-xl text-lg leading-8 text-paper/75" style={step(4)}>
-              Leadership, communication, intelligence émotionnelle, générations et intelligence artificielle. Des
-              interventions dynamiques, concrètes et adaptées aux réalités de votre organisation.
+              Conférencier, formateur et entrepreneur, j&apos;accompagne les organisations dans leurs défis de leadership, de
+              communication et de collaboration. Des interventions dynamiques qui allient expérience terrain, réflexion et
+              outils concrets.
             </p>
             <div className="rise mt-10 flex flex-wrap items-center gap-4" style={step(5)}>
               <Link
@@ -219,7 +220,7 @@ export default function Accueil() {
                   <p className="font-display text-5xl tracking-tight">
                     <Counter to={1000} suffix="+" />
                   </p>
-                  <p className="eyebrow mt-2 text-paper/65">Interventions</p>
+                  <p className="eyebrow mt-2 text-paper/65">Conférences et formations</p>
                 </div>
                 <div>
                   <p className="font-display text-5xl tracking-tight">

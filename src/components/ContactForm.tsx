@@ -8,12 +8,29 @@ const input =
 const label = "mb-2 block text-sm font-medium";
 const req = <span className="text-accent">*</span>;
 
-function Chips({ name, options, required = false }: { name: string; options: string[]; required?: boolean }) {
+function Chips({
+  name,
+  options,
+  required = false,
+  defaultValue,
+}: {
+  name: string;
+  options: string[];
+  required?: boolean;
+  defaultValue?: string;
+}) {
   return (
     <div className="flex flex-wrap gap-2">
       {options.map((option, i) => (
         <label key={option} className="cursor-pointer">
-          <input type="radio" name={name} value={option} required={required && i === 0} className="peer sr-only" />
+          <input
+            type="radio"
+            name={name}
+            value={option}
+            required={required && i === 0}
+            defaultChecked={option === defaultValue}
+            className="peer sr-only"
+          />
           <span className="inline-block rounded-full border border-ink/15 bg-white px-4 py-2 text-sm transition peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-accent/40 hover:border-ink/40">
             {option}
           </span>
@@ -37,7 +54,7 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
 
 const initialState: ContactState = { status: "idle" };
 
-export default function ContactForm() {
+export default function ContactForm({ topic }: { topic?: string }) {
   const [state, formAction, pending] = useActionState(sendContact, initialState);
 
   if (state.status === "success") {
@@ -54,7 +71,12 @@ export default function ContactForm() {
       <Step n={1} title="Votre intervention">
         <div>
           <p className={label}>Type d&apos;intervention {req}</p>
-          <Chips name="need" required options={["Conférence", "Formation", "Atelier", "Sur mesure", "À déterminer"]} />
+          <Chips
+            name="need"
+            required
+            defaultValue={topic ? "Conférence" : undefined}
+            options={["Conférence", "Formation", "Atelier", "Sur mesure", "À déterminer"]}
+          />
         </div>
         <div className="grid gap-6 sm:grid-cols-2">
           <div>
@@ -102,7 +124,7 @@ export default function ContactForm() {
         </div>
         <div>
           <label htmlFor="message" className={label}>
-            Thématique ou défi à aborder {req}
+            Votre événement ou le défi à aborder {req}
           </label>
           <textarea
             id="message"
@@ -110,7 +132,8 @@ export default function ContactForm() {
             rows={5}
             required
             className={input}
-            placeholder="Décrivez votre contexte, vos participants et le résultat recherché"
+            defaultValue={topic ? `Je m'intéresse à la conférence « ${topic} ». ` : undefined}
+            placeholder="Parlez-moi brièvement de votre événement ou du défi que vous souhaitez aborder"
           />
         </div>
         <div>
