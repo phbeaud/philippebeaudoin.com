@@ -1,6 +1,17 @@
 import Link from "next/link";
 import AnimatedSection from "@/components/AnimatedSection";
+import Icon, { type IconName } from "@/components/Icon";
 import { formulas, pricingNote } from "@/lib/content";
+
+// Picto de chaque repère de format, déduit de son libellé
+const formatIcon = (label: string): IconName => {
+  if (/minutes/i.test(label)) return "duree";
+  if (/présentiel/i.test(label)) return "lieu";
+  if (/en ligne/i.test(label)) return "enLigne";
+  if (/parcours/i.test(label)) return "parcours";
+  if (/groupe/i.test(label)) return "groupe";
+  return "surMesure";
+};
 
 export default function Formulas() {
   return (
@@ -25,6 +36,13 @@ export default function Formulas() {
               }`}
             >
               {f.featured && <div aria-hidden="true" className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/30 blur-[90px]" />}
+              <span
+                className={`relative mb-8 flex h-14 w-14 items-center justify-center rounded-2xl ${
+                  f.featured ? "bg-accent text-white" : "border border-ink/10 bg-paper text-ink"
+                }`}
+              >
+                <Icon name={f.icon} className="h-7 w-7" />
+              </span>
               <h3 className="relative font-display text-3xl tracking-tight">{f.title}</h3>
               <p className={`relative mt-2 font-display text-xl italic ${f.featured ? "text-paper/70" : "text-muted"}`}>{f.tagline}</p>
               <p className={`relative mt-6 flex-1 leading-7 ${f.featured ? "text-paper/70" : "text-muted"}`}>{f.text}</p>
@@ -32,8 +50,9 @@ export default function Formulas() {
                 {f.format.map((item) => (
                   <li
                     key={item}
-                    className={`eyebrow rounded-full border px-3 py-1.5 text-[0.72rem] ${f.featured ? "border-paper/25 text-paper/80" : "border-ink/15 text-muted"}`}
+                    className={`eyebrow inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[0.72rem] ${f.featured ? "border-paper/25 text-paper/80" : "border-ink/15 text-muted"}`}
                   >
+                    <Icon name={formatIcon(item)} className="h-3.5 w-3.5 shrink-0" />
                     {item}
                   </li>
                 ))}

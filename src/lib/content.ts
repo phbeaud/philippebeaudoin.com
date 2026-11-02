@@ -1,3 +1,5 @@
+import type { IconName } from "@/components/Icon";
+
 // Contenu partagé entre l'accueil et les pages internes.
 
 export const offers = [
@@ -27,27 +29,38 @@ export const offers = [
   },
 ];
 
-export const formulas = [
+export const formulas: {
+  title: string;
+  icon: IconName;
+  tagline: string;
+  text: string;
+  format: string[];
+  featured?: boolean;
+}[] = [
   {
     title: "Conférences et grands événements",
+    icon: "micro",
     tagline: "Inspirer, interpeller et mobiliser.",
     text: "Une intervention dynamique pour vos congrès, colloques, événements corporatifs et rassemblements professionnels, conçue pour susciter la réflexion et transmettre des idées concrètes que les participants pourront réinvestir dans leur quotidien.",
     format: ["60 à 150 minutes", "Présentiel", "Grands groupes"],
   },
   {
     title: "Formations et ateliers interactifs",
+    icon: "atelier",
     tagline: "Approfondir, expérimenter et progresser.",
     text: "Pour les équipes qui veulent aller au-delà de l'inspiration. Concepts, échanges, exercices pratiques et mises en situation pour favoriser l'apprentissage et l'application.",
     format: ["60 à 150 minutes", "Parcours personnalisés possibles", "Petits groupes"],
   },
   {
     title: "Conférences et formations virtuelles",
+    icon: "virtuel",
     tagline: "Une expérience engageante, même à distance.",
     text: "Une conférence ou une formation interactive sans les contraintes de déplacement, adaptée pour maintenir l'attention et favoriser la participation.",
     format: ["60 à 150 minutes", "En ligne"],
   },
   {
     title: "Formations entièrement sur mesure",
+    icon: "surMesure",
     tagline: "Votre réalité. Vos enjeux. Votre formation.",
     text: "Plusieurs thématiques, des gestionnaires à faire progresser, une équipe face à un défi particulier : conférence personnalisée, atelier d'équipe, journée complète ou parcours de développement, sur demande.",
     format: ["Durée et formule sur demande"],
