@@ -45,7 +45,7 @@ const path: { title: string; text: string; icon: IconName }[] = [
 const style: { title: string; text: string; icon: IconName }[] = [
   {
     title: "Le plaisir de communiquer",
-    text: "J'aime être devant un groupe. De l'énergie, du rythme, des exemples tirés du réel : on ne s'ennuie pas.",
+    text: "J'aime être devant un groupe. De l'énergie, de l'humour, des exemples tirés du réel : on rit, on réfléchit, on ne s'ennuie pas.",
     icon: "communication",
   },
   {
@@ -94,7 +94,8 @@ export default function APropos() {
             </p>
             <p className="rise mt-6 max-w-xl text-lg leading-8 text-paper/70" style={step(3)}>
               Bonjour, je suis Philippe. Ancien infirmier devenu gestionnaire, puis entrepreneur, je suis passionné de
-              communication et de formation. Ce qui m&apos;anime : provoquer la réflexion et voir les gens progresser.
+              communication et de formation. Ce qui m&apos;anime : faire rire, provoquer la réflexion et voir les gens
+              progresser.
             </p>
             <p className="rise eyebrow mt-8 opacity-60" style={step(4)}>
               Marié · Père de trois enfants · Sherbrooke
@@ -210,7 +211,7 @@ export default function APropos() {
         <AnimatedSection className="max-w-3xl">
           <p className="eyebrow opacity-60">Ce que j&apos;aime dans mon métier</p>
           <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">
-            De l&apos;énergie, des échanges, et du concret.
+            De l&apos;énergie, de l&apos;humour et du concret.
           </h2>
         </AnimatedSection>
         <div className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 lg:grid-cols-4">
