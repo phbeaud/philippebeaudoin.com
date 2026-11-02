@@ -43,7 +43,7 @@ export default function TypeExplorer() {
       <div className="space-y-4 lg:col-span-6">
         {axes.map((axis, i) => (
           <div key={axis.name} className="flex items-center gap-4">
-            <p className="eyebrow w-28 shrink-0 text-paper/50">{axis.name}</p>
+            <p className="eyebrow w-28 shrink-0 text-paper/65">{axis.name}</p>
             <div role="group" aria-label={axis.name} className="grid flex-1 grid-cols-2 rounded-full border border-paper/15 p-1">
               {axis.options.map((option, j) => {
                 const active = picks[i] === j;

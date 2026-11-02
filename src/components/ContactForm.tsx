@@ -27,7 +27,7 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
   return (
     <fieldset className="grid gap-6 border-t border-ink/10 pt-8">
       <legend className="flex items-baseline gap-3">
-        <span className="eyebrow text-accent">0{n}</span>
+        <span className="eyebrow opacity-60">0{n}</span>
         <span className="font-display text-2xl tracking-tight">{title}</span>
       </legend>
       {children}

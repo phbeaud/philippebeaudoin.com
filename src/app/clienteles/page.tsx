@@ -39,7 +39,7 @@ export default function Clienteles() {
           {audiences.map((a, i) => (
             <AnimatedSection key={a.title} delay={i * 60}>
               <li className="grid gap-6 border-b border-ink/15 py-12 lg:grid-cols-12 lg:gap-10">
-                <span className="eyebrow text-accent lg:col-span-1">0{i + 1}</span>
+                <span className="eyebrow opacity-60 lg:col-span-1">0{i + 1}</span>
                 <div className="lg:col-span-5">
                   <h2 className="font-display text-3xl tracking-tight sm:text-4xl">{a.title}</h2>
                   <p className="mt-4 leading-7 text-muted">{a.issues}</p>

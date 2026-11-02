@@ -36,7 +36,7 @@ export default function APropos() {
         <div aria-hidden="true" className="absolute -left-32 top-1/3 h-[30rem] w-[30rem] rounded-full bg-accent/20 blur-[120px]" />
         <div className="relative mx-auto grid max-w-7xl items-end gap-12 px-6 pb-20 pt-20 lg:grid-cols-12 lg:px-8 lg:pb-28 lg:pt-28">
           <div className="lg:col-span-7">
-            <p className="eyebrow rise text-accent" style={step(0)}>
+            <p className="eyebrow rise opacity-60" style={step(0)}>
               À propos
             </p>
             <h1 className="rise mt-6 font-display text-5xl leading-[1] tracking-[-0.02em] sm:text-7xl" style={step(1)}>
@@ -58,7 +58,8 @@ export default function APropos() {
                 sizes="(min-width:1024px) 40vw, 100vw"
                 className="object-cover object-[45%_30%]"
               />
-              <figcaption className="eyebrow absolute bottom-6 left-6 text-paper/80">Philippe Beaudoin · M. ADM</figcaption>
+              <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/80 to-transparent" />
+              <figcaption className="eyebrow absolute bottom-6 left-6 text-paper/90">Philippe Beaudoin · M. ADM</figcaption>
             </figure>
           </div>
         </div>
@@ -67,17 +68,16 @@ export default function APropos() {
       {/* ═══ TROIS UNIVERS ═══ */}
       <section className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
         <AnimatedSection>
-          <p className="eyebrow text-accent">Ce qui me distingue</p>
+          <p className="eyebrow opacity-60">Ce qui me distingue</p>
           <h2 className="mt-6 max-w-4xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
-            La rencontre de <em className="italic text-accent">trois univers</em>.
+            La rencontre de <em className="italic">trois univers</em>.
           </h2>
         </AnimatedSection>
-        <div className="mt-16 grid gap-px overflow-hidden rounded-[2rem] border border-ink/10 bg-ink/10 lg:grid-cols-3">
+        <div className="mt-10 sm:mt-16 grid gap-px overflow-hidden rounded-[2rem] border border-ink/10 bg-ink/10 lg:grid-cols-3">
           {worlds.map((w, i) => (
             <AnimatedSection key={w.title} delay={i * 120} className="h-full">
               <div className="flex h-full flex-col bg-paper p-8 lg:p-10">
-                <span className="font-display text-7xl font-light text-accent">0{i + 1}</span>
-                <h3 className="mt-10 font-display text-3xl tracking-tight">{w.title}</h3>
+                <h3 className="font-display text-3xl tracking-tight">{w.title}</h3>
                 <p className="mt-4 leading-7 text-muted">{w.text}</p>
               </div>
             </AnimatedSection>
@@ -102,9 +102,9 @@ export default function APropos() {
           </AnimatedSection>
           <div className="lg:col-span-7">
             <AnimatedSection>
-              <p className="eyebrow text-accent">Parcours</p>
+              <p className="eyebrow opacity-60">Parcours</p>
               <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">
-                Une crédibilité bâtie <em className="italic text-ochre">sur le terrain</em>.
+                Une crédibilité bâtie sur le terrain.
               </h2>
               <div className="mt-10 space-y-6 text-lg leading-8 text-paper/75">
                 <p>
@@ -126,21 +126,21 @@ export default function APropos() {
                 <p className="font-display text-5xl tracking-tight">
                   <Counter to={1000} suffix="+" />
                 </p>
-                <p className="eyebrow mt-2 text-paper/50">Interventions</p>
+                <p className="eyebrow mt-2 text-paper/65">Interventions</p>
               </div>
               <div>
                 <p className="font-display text-5xl tracking-tight">
                   <Counter to={15} duration={1200} suffix="+" />
                 </p>
-                <p className="eyebrow mt-2 text-paper/50">Années d&apos;expérience</p>
+                <p className="eyebrow mt-2 text-paper/65">Années d&apos;expérience</p>
               </div>
               <div>
                 <p className="font-display text-5xl tracking-tight">UdeS</p>
-                <p className="eyebrow mt-2 text-paper/50">Chargé de cours</p>
+                <p className="eyebrow mt-2 text-paper/65">Chargé de cours</p>
               </div>
               <div>
                 <p className="font-display text-5xl tracking-tight">MBTI</p>
-                <p className="eyebrow mt-2 text-paper/50">et NOVA certifié</p>
+                <p className="eyebrow mt-2 text-paper/65">et NOVA certifié</p>
               </div>
             </div>
           </div>
@@ -151,9 +151,9 @@ export default function APropos() {
       <section className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
         <div className="grid gap-16 lg:grid-cols-12">
           <AnimatedSection className="lg:col-span-5">
-            <p className="eyebrow text-accent">Mon approche</p>
+            <p className="eyebrow opacity-60">Mon approche</p>
             <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">
-              Rendre visible ce qui est <em className="italic">invisible</em>.
+              Rendre visible ce qui est invisible.
             </h2>
             <p className="mt-6 leading-7 text-muted">
               Styles de personnalité, réflexes de communication, attentes qui diffèrent d&apos;une personne à l&apos;autre :
@@ -165,7 +165,7 @@ export default function APropos() {
             {principles.map((p, i) => (
               <AnimatedSection key={p.title} delay={i * 100}>
                 <li className="grid gap-3 border-b border-ink/15 py-8 sm:grid-cols-12 sm:gap-6">
-                  <span className="eyebrow text-accent sm:col-span-1">0{i + 1}</span>
+                  <span className="eyebrow opacity-60 sm:col-span-1">0{i + 1}</span>
                   <h3 className="font-display text-2xl tracking-tight sm:col-span-4">{p.title}</h3>
                   <p className="leading-7 text-muted sm:col-span-7">{p.text}</p>
                 </li>
@@ -176,7 +176,7 @@ export default function APropos() {
       </section>
 
       {/* ═══ BANDEAU PHOTO ═══ */}
-      <section aria-label="En atelier" className="pb-28 lg:pb-36">
+      <section aria-label="En atelier" className="pb-20 sm:pb-28 lg:pb-36">
         <figure className="relative mx-auto h-[60vh] min-h-[380px] max-w-[1600px] overflow-hidden lg:mx-8 lg:rounded-[2.5rem]">
           <Image
             src="/images/hero/philippe-salle-diapo.jpg"
@@ -189,7 +189,7 @@ export default function APropos() {
           <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/20 to-transparent" />
           <figcaption className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-6 pb-12 text-paper lg:px-8 lg:pb-16">
             <p className="max-w-3xl font-display text-3xl leading-[1.1] tracking-tight sm:text-5xl">
-              Mon objectif : que chaque personne reparte avec <em className="italic text-accent">quelque chose</em>.
+              Mon objectif : que chaque personne reparte avec <em className="italic">quelque chose</em>.
             </p>
           </figcaption>
         </figure>

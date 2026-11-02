@@ -169,7 +169,7 @@ export default function Conferences() {
               href={`#${slug(bloc.tag)}`}
               className="shrink-0 rounded-full border border-ink/15 px-4 py-2 text-sm transition hover:border-accent hover:bg-accent hover:text-white"
             >
-              <span className="eyebrow mr-2 text-[0.65rem] text-accent">0{i + 1}</span>
+              <span className="eyebrow mr-2 opacity-50">0{i + 1}</span>
               {bloc.tag}
             </a>
           ))}
@@ -183,12 +183,12 @@ export default function Conferences() {
             <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 lg:grid-cols-12 lg:gap-16 lg:px-8 lg:py-32">
               <AnimatedSection className="lg:col-span-5">
                 <div className="lg:sticky lg:top-44">
-                  <span className="font-display text-7xl font-light text-accent">0{bi + 1}</span>
-                  <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">{bloc.tag}</h2>
+                  <span className="eyebrow opacity-60">Thème 0{bi + 1}</span>
+                  <h2 className="mt-4 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">{bloc.tag}</h2>
                   <p className="mt-6 leading-7 text-muted">{bloc.intro}</p>
                   {bloc.differentiator && (
                     <p className="mt-6 border-l-2 border-accent pl-5 text-sm leading-6">
-                      <span className="eyebrow block text-accent">Angle distinctif</span>
+                      <span className="eyebrow block opacity-60">Angle distinctif</span>
                       Le croisement IA × personnalités × générations est un angle que peu de conférenciers proposent.
                     </p>
                   )}
@@ -204,7 +204,7 @@ export default function Conferences() {
                       <p className="mt-4 leading-7">{conf.impact}</p>
                       <ul className="mt-6 flex flex-wrap gap-2">
                         {conf.benefits.map((b) => (
-                          <li key={b} className="eyebrow rounded-full border border-ink/15 px-3 py-1.5 text-[0.65rem] text-muted">
+                          <li key={b} className="eyebrow rounded-full border border-ink/15 px-3 py-1.5 text-[0.72rem] text-muted">
                             {b}
                           </li>
                         ))}
@@ -231,7 +231,7 @@ export default function Conferences() {
               <div aria-hidden="true" className="absolute -right-40 top-0 h-[36rem] w-[36rem] rounded-full bg-accent/20 blur-[120px]" />
               <div className="relative mx-auto max-w-7xl px-6 py-24 lg:px-8 lg:py-32">
                 <AnimatedSection>
-                  <p className="eyebrow text-accent">Un avant-goût</p>
+                  <p className="eyebrow opacity-60">Un avant-goût</p>
                   <h2 className="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
                     Quatre préférences. <em className="italic text-paper/70">Seize façons</em> de voir le travail.
                   </h2>
@@ -243,7 +243,7 @@ export default function Conferences() {
                 <div className="mt-16">
                   <TypeExplorer />
                 </div>
-                <p className="mt-14 text-sm text-paper/40">
+                <p className="mt-14 text-sm text-paper/60">
                   Aperçu simplifié, inspiré des préférences de type psychologique. Ce n&apos;est pas un test : en atelier, on
                   va beaucoup plus loin.
                 </p>
@@ -257,9 +257,9 @@ export default function Conferences() {
       <section className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
         <div className="grid items-end gap-10 lg:grid-cols-12">
           <AnimatedSection className="lg:col-span-7">
-            <p className="eyebrow text-accent">Formats</p>
+            <p className="eyebrow opacity-60">Formats</p>
             <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">
-              De 60 à 150 minutes, en salle ou <em className="italic">en ligne</em>.
+              De 60 à 150 minutes, en salle ou en ligne.
             </h2>
             <p className="mt-6 max-w-xl leading-7 text-muted">
               Grand auditoire de congrès ou petit groupe de gestionnaires : la durée, le format et le niveau

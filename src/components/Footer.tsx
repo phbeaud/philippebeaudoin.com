@@ -22,7 +22,7 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-3">
-            <p className="eyebrow text-paper/40">Navigation</p>
+            <p className="eyebrow text-paper/60">Navigation</p>
             <ul className="mt-5 space-y-3">
               {nav.map((item) => (
                 <li key={item.href}>
@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-3">
-            <p className="eyebrow text-paper/40">Coordonnées</p>
+            <p className="eyebrow text-paper/60">Coordonnées</p>
             <ul className="mt-5 space-y-3 text-paper/80">
               <li>
                 <a href="tel:8193498334" className="transition hover:text-accent">
@@ -52,12 +52,12 @@ export default function Footer() {
                   LinkedIn ↗
                 </a>
               </li>
-              <li className="text-paper/50">Sherbrooke, QC, Canada</li>
+              <li className="text-paper/65">Sherbrooke, QC, Canada</li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-20 flex flex-wrap justify-between gap-4 border-t border-paper/10 pt-6 text-xs text-paper/40">
+        <div className="mt-20 flex flex-wrap justify-between gap-4 border-t border-paper/10 pt-6 text-xs text-paper/60">
           <p>&copy; {new Date().getFullYear()} Philippe Beaudoin. Tous droits réservés.</p>
           <p className="eyebrow">Mieux comprendre les humains</p>
         </div>

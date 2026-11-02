@@ -6,9 +6,9 @@ export default function Formulas() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
       <AnimatedSection>
-        <p className="eyebrow text-accent">Des formules adaptées à vos besoins</p>
+        <p className="eyebrow opacity-60">Des formules adaptées à vos besoins</p>
         <h2 className="mt-6 max-w-4xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
-          Une formule adaptée à votre <em className="italic text-accent">événement</em> et à vos objectifs.
+          Une formule adaptée à votre événement et à vos objectifs.
         </h2>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
           Inspirer un grand auditoire, développer les compétences d&apos;une équipe ou organiser une activité à distance :
@@ -16,7 +16,7 @@ export default function Formulas() {
         </p>
       </AnimatedSection>
 
-      <div className="mt-16 grid gap-6 md:grid-cols-2">
+      <div className="mt-10 sm:mt-16 grid gap-6 md:grid-cols-2">
         {formulas.map((f, i) => (
           <AnimatedSection key={f.title} delay={(i % 2) * 120} className="h-full">
             <article
@@ -26,13 +26,13 @@ export default function Formulas() {
             >
               {f.featured && <div aria-hidden="true" className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/30 blur-[90px]" />}
               <h3 className="relative font-display text-3xl tracking-tight">{f.title}</h3>
-              <p className={`relative mt-2 font-display text-xl italic ${f.featured ? "text-accent" : "text-accent"}`}>{f.tagline}</p>
+              <p className={`relative mt-2 font-display text-xl italic ${f.featured ? "text-paper/70" : "text-muted"}`}>{f.tagline}</p>
               <p className={`relative mt-6 flex-1 leading-7 ${f.featured ? "text-paper/70" : "text-muted"}`}>{f.text}</p>
               <ul className={`relative mt-8 flex flex-wrap gap-2 border-t pt-6 ${f.featured ? "border-paper/15" : "border-ink/10"}`}>
                 {f.format.map((item) => (
                   <li
                     key={item}
-                    className={`eyebrow rounded-full border px-3 py-1.5 text-[0.65rem] ${f.featured ? "border-paper/25 text-paper/80" : "border-ink/15 text-muted"}`}
+                    className={`eyebrow rounded-full border px-3 py-1.5 text-[0.72rem] ${f.featured ? "border-paper/25 text-paper/80" : "border-ink/15 text-muted"}`}
                   >
                     {item}
                   </li>

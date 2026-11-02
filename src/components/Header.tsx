@@ -43,7 +43,7 @@ export default function Header() {
             <span className="font-display text-2xl tracking-tight">
               Philippe Beaudoin<span className="text-accent">.</span>
             </span>
-            <span className={`eyebrow hidden lg:inline ${overHero ? "text-paper/50" : "text-muted"}`}>Conférencier</span>
+            <span className={`eyebrow hidden lg:inline ${overHero ? "text-paper/75" : "text-ink/60"}`}>Conférencier</span>
           </Link>
 
           <nav className="hidden items-center gap-8 md:flex">
@@ -101,7 +101,7 @@ export default function Header() {
             </svg>
           </button>
         </div>
-        <nav className="mt-16 flex flex-col gap-2">
+        <nav className="mt-10 sm:mt-16 flex flex-col gap-2">
           {[{ href: "/", label: "Accueil" }, ...nav, { href: "/contact", label: "Contact" }].map((item, i) => (
             <Link
               key={item.href}
