@@ -1,7 +1,18 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-inter);
+  --font-sans: var(--ff-body);
+  --font-display: var(--ff-display);
+  --font-mono: var(--ff-mono);
+
+  --color-paper: #f4efe6;
+  --color-paper-deep: #ebe4d6;
+  --color-ink: #16130f;
+  --color-muted: #6b645a;
+  --color-accent: #e8552b;
+  --color-accent-deep: #c9431d;
+  --color-navy: #1f2a44;
+  --color-ochre: #d9a441;
 }
 
 html {
@@ -12,14 +23,93 @@ body {
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
 }
 
-/* Selection color */
 ::selection {
-  background-color: #1e293b;
+  background-color: var(--color-accent);
   color: white;
 }
 
-/* Hero slow zoom */
+/* Étiquettes éditoriales (mono, majuscules) */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Grain papier très léger */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Texte en contour */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px currentColor;
+}
+
+/* Bandeau défilant */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Mot qui change dans le titre */
+@keyframes word-in {
+  from { transform: translateY(0.6em); opacity: 0; filter: blur(6px); }
+  to   { transform: translateY(0); opacity: 1; filter: blur(0); }
+}
+.word-in {
+  animation: word-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Entrée du hero */
+@keyframes rise {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.rise {
+  animation: rise 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 120ms + 150ms);
+}
+
+/* Parallaxe légère au défilement, là où le navigateur la supporte */
+@supports (animation-timeline: view()) {
+  @keyframes parallax {
+    from { transform: scale(1.15) translateY(-5%); }
+    to   { transform: scale(1.15) translateY(5%); }
+  }
+  .parallax-img {
+    animation: parallax linear both;
+    animation-timeline: view();
+  }
+}
+
 @keyframes hero-zoom {
   from { transform: scale(1.08); }
   to   { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .parallax-img,
+  .word-in,
+  .rise {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
 }

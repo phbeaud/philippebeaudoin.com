@@ -1,16 +1,29 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const inter = Inter({
-  variable: "--font-inter",
+const display = Fraunces({
+  variable: "--ff-display",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT"],
+});
+
+const body = Inter_Tight({
+  variable: "--ff-body",
   subsets: ["latin"],
 });
 
+const mono = JetBrains_Mono({
+  variable: "--ff-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+});
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://philippebeaudoin.com"),
+  metadataBase: new URL("https://www.philippebeaudoin.com"),
   title: {
     default: "Philippe Beaudoin — Conférencier en personnalités, générations, leadership et communication",
     template: "%s | Philippe Beaudoin",
@@ -24,7 +37,6 @@ export const metadata: Metadata = {
     "intelligence émotionnelle",
     "leadership",
     "générations",
-    "personnalités",
     "MBTI",
     "communication",
     "pitch",
@@ -37,7 +49,7 @@ export const metadata: Metadata = {
     title: "Philippe Beaudoin — Conférencier en personnalités, générations, leadership et communication",
     description:
       "J'aide les organisations à mieux comprendre les humains pour mieux travailler ensemble. Personnalités, générations, leadership et communication.",
-    url: "https://philippebeaudoin.com",
+    url: "https://www.philippebeaudoin.com",
     siteName: "Philippe Beaudoin",
     locale: "fr_CA",
     type: "website",
@@ -57,7 +69,37 @@ export const metadata: Metadata = {
       "Conférences et formations sur les personnalités, les générations, le leadership et la communication.",
     images: ["/images/hero/philippe-conference.jpg"],
   },
+  alternates: { canonical: "/" },
   robots: { index: true, follow: true },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://www.philippebeaudoin.com/#philippe",
+      name: "Philippe Beaudoin",
+      jobTitle: "Conférencier et formateur",
+      url: "https://www.philippebeaudoin.com",
+      image: "https://www.philippebeaudoin.com/images/hero/philippe-portrait.jpg",
+      telephone: "+1-819-349-8334",
+      address: { "@type": "PostalAddress", addressLocality: "Sherbrooke", addressRegion: "QC", addressCountry: "CA" },
+      sameAs: ["https://www.linkedin.com/in/philippe-beaudoin-2721991b/"],
+      knowsAbout: ["Personnalités", "Générations au travail", "Leadership", "Communication", "Intelligence émotionnelle", "Art du pitch"],
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://www.philippebeaudoin.com/#service",
+      name: "Philippe Beaudoin — Conférences et formations",
+      url: "https://www.philippebeaudoin.com",
+      image: "https://www.philippebeaudoin.com/images/hero/philippe-conference.jpg",
+      telephone: "+1-819-349-8334",
+      founder: { "@id": "https://www.philippebeaudoin.com/#philippe" },
+      areaServed: [{ "@type": "AdministrativeArea", name: "Québec" }, { "@type": "Country", name: "Canada" }],
+      address: { "@type": "PostalAddress", addressLocality: "Sherbrooke", addressRegion: "QC", addressCountry: "CA" },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -66,8 +108,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${inter.variable} scroll-smooth`}>
-      <body className="min-h-screen bg-white font-sans antialiased">
+    <html lang="fr" className={`${display.variable} ${body.variable} ${mono.variable} scroll-smooth`}>
+      <body className="min-h-screen bg-paper font-sans text-ink antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+        />
         <Header />
         {children}
         <Footer />

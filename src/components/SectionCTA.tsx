@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 export default function SectionCTA({
   title = "Prêt à transformer vos équipes ?",
@@ -17,33 +16,31 @@ export default function SectionCTA({
   secondaryHref?: string;
 }) {
   return (
-    <section className="relative overflow-hidden">
-      <Image
-        src="/images/stock/conference-audience.jpg"
-        alt=""
-        fill
-        className="object-cover"
-        aria-hidden="true"
-      />
-      <div className="absolute inset-0 bg-slate-950/90" />
-      <div className="relative mx-auto max-w-7xl px-6 py-20 text-center lg:px-8 lg:py-24">
-        <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-300">{description}</p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            href={primaryHref}
-            className="rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-slate-100"
-          >
-            {primaryLabel}
-          </Link>
-          {secondaryLabel && secondaryHref && (
+    <section className="grain relative overflow-hidden bg-accent text-white">
+      <div aria-hidden="true" className="absolute -bottom-40 -left-20 h-[30rem] w-[30rem] rounded-full bg-ochre/40 blur-[120px]" />
+      <div className="relative mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
+        <h2 className="max-w-5xl font-display text-5xl leading-[0.98] tracking-[-0.02em] sm:text-7xl lg:text-8xl">{title}</h2>
+        <div className="mt-12 flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+          <p className="max-w-xl text-lg leading-8 text-white/85">{description}</p>
+          <div className="flex flex-wrap items-center gap-4">
             <Link
-              href={secondaryHref}
-              className="rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+              href={primaryHref}
+              className="group inline-flex items-center gap-3 rounded-full bg-ink px-8 py-4 text-sm font-semibold text-paper transition hover:bg-navy"
             >
-              {secondaryLabel}
+              {primaryLabel}
+              <span aria-hidden="true" className="transition group-hover:translate-x-1">
+                →
+              </span>
             </Link>
-          )}
+            {secondaryLabel && secondaryHref && (
+              <Link
+                href={secondaryHref}
+                className="rounded-full border border-white/40 px-8 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                {secondaryLabel}
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </section>

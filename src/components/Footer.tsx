@@ -1,28 +1,32 @@
 import Link from "next/link";
 
+const nav = [
+  { href: "/conferences", label: "Conférences" },
+  { href: "/formations-sur-mesure", label: "Formations sur mesure" },
+  { href: "/formations", label: "Formations" },
+  { href: "/clienteles", label: "Clientèles" },
+  { href: "/a-propos", label: "À propos" },
+  { href: "/contact", label: "Contact" },
+];
+
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-white">
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        <div className="grid gap-8 md:grid-cols-3">
-          <div>
-            <p className="text-base font-semibold text-slate-900">Philippe Beaudoin</p>
-            <p className="mt-2 max-w-xs text-sm leading-6 text-slate-500">
-              Conférencier et formateur spécialisé dans les transformations humaines à l&apos;ère de l&apos;intelligence artificielle.
+    <footer className="bg-ink text-paper">
+      <div className="mx-auto max-w-7xl px-6 pb-10 pt-20 lg:px-8">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-6">
+            <p className="font-display text-4xl tracking-tight sm:text-5xl">Philippe Beaudoin</p>
+            <p className="mt-4 max-w-sm leading-7 text-paper/60">
+              Conférencier et formateur. Personnalités, générations, leadership et communication.
             </p>
           </div>
 
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.15em] text-slate-400">Navigation</p>
-            <ul className="mt-4 space-y-2">
-              {[
-                { href: "/conferences", label: "Conférences" },
-                { href: "/formations", label: "Formations" },
-                { href: "/a-propos", label: "À propos" },
-                { href: "/contact", label: "Contact" },
-              ].map((item) => (
+          <div className="md:col-span-3">
+            <p className="eyebrow text-paper/40">Navigation</p>
+            <ul className="mt-5 space-y-3">
+              {nav.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-slate-600 transition hover:text-slate-900">
+                  <Link href={item.href} className="text-paper/80 transition hover:text-accent">
                     {item.label}
                   </Link>
                 </li>
@@ -30,29 +34,32 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.15em] text-slate-400">Coordonnées</p>
-            <ul className="mt-4 space-y-2 text-sm text-slate-600">
+          <div className="md:col-span-3">
+            <p className="eyebrow text-paper/40">Coordonnées</p>
+            <ul className="mt-5 space-y-3 text-paper/80">
               <li>
-                <a href="tel:8193498334" className="transition hover:text-slate-900">819.349.8334</a>
+                <a href="tel:8193498334" className="transition hover:text-accent">
+                  819.349.8334
+                </a>
               </li>
               <li>
                 <a
                   href="https://www.linkedin.com/in/philippe-beaudoin-2721991b/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition hover:text-slate-900"
+                  className="transition hover:text-accent"
                 >
-                  LinkedIn
+                  LinkedIn ↗
                 </a>
               </li>
-              <li className="text-slate-500">Sherbrooke, QC, Canada</li>
+              <li className="text-paper/50">Sherbrooke, QC, Canada</li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-400">
-          &copy; {new Date().getFullYear()} Philippe Beaudoin. Tous droits réservés.
+        <div className="mt-20 flex flex-wrap justify-between gap-4 border-t border-paper/10 pt-6 text-xs text-paper/40">
+          <p>&copy; {new Date().getFullYear()} Philippe Beaudoin. Tous droits réservés.</p>
+          <p className="eyebrow">Mieux comprendre les humains</p>
         </div>
       </div>
     </footer>

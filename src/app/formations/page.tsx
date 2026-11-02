@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import AnimatedSection from "@/components/AnimatedSection";
 import SectionCTA from "@/components/SectionCTA";
+import Formulas from "@/components/Formulas";
 
 export const metadata: Metadata = {
   title: "Formations en entreprise — personnalités, leadership, communication, générations",
   description:
     "Formations sur mesure en entreprise : personnalités, générations, leadership, communication, intelligence émotionnelle et art du pitch. Approche interactive et orientée résultats.",
+  alternates: { canonical: "/formations" },
 };
 
 const themes = [
@@ -42,32 +44,14 @@ const themes = [
   },
 ];
 
-const formats = [
-  {
-    title: "Formation en entreprise",
-    description: "Interventions sur site, adaptées à votre secteur et à vos enjeux spécifiques.",
-    details: ["Demi-journée ou journée complète", "Groupes de 10 à 100 participants", "Contenu personnalisé"],
-  },
-  {
-    title: "Formation en ligne",
-    description: "Sessions à distance interactives avec les mêmes standards de qualité et d'engagement.",
-    details: ["Sessions de 90 min à 3 heures", "Plateforme flexible", "Exercices pratiques intégrés"],
-  },
-  {
-    title: "Formation de formateurs",
-    description: "Transmettre les compétences à vos formateurs internes pour démultiplier l'impact.",
-    details: ["Programme structuré", "Outils et guides fournis", "Suivi post-formation"],
-  },
-];
-
 export default function Formations() {
   return (
     <>
       {/* ═══ HERO ═══ */}
       <section className="relative overflow-hidden">
         <Image
-          src="/images/stock/team-collaboration.jpg"
-          alt="Formation en équipe"
+          src="/images/hero/philippe-atelier.webp"
+          alt="Philippe Beaudoin anime un atelier avec un groupe de participants"
           fill
           priority
           className="object-cover"
@@ -153,36 +137,7 @@ export default function Formations() {
       </section>
 
       {/* ═══ FORMATS ═══ */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <AnimatedSection>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Formats</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-              Trois formats pour répondre à vos besoins
-            </h2>
-          </AnimatedSection>
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {formats.map((format, i) => (
-              <AnimatedSection key={format.title} delay={i * 150}>
-                <div className="flex h-full flex-col rounded-3xl border border-slate-200 p-8 shadow-sm">
-                  <h3 className="text-xl font-semibold text-slate-900">{format.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{format.description}</p>
-                  <ul className="mt-6 flex-1 space-y-3">
-                    {format.details.map((d) => (
-                      <li key={d} className="flex items-start gap-3 text-sm text-slate-700">
-                        <svg className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                        </svg>
-                        {d}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Formulas />
 
       <SectionCTA
         title="Construire une formation sur mesure"

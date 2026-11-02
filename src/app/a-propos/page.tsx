@@ -1,220 +1,203 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import AnimatedSection from "@/components/AnimatedSection";
+import Counter from "@/components/Counter";
 import SectionCTA from "@/components/SectionCTA";
+import { worlds } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "À propos — Philippe Beaudoin, conférencier et formateur",
+  title: "À propos — Philippe Beaudoin, conférencier, formateur et entrepreneur",
   description:
-    "Spécialiste des dynamiques humaines en organisation. Plus de 1000 conférences livrées sur les personnalités, les générations, le leadership et la communication.",
+    "Conférencier, formateur, chargé de cours à l'Université de Sherbrooke et entrepreneur. Plus de 1 000 conférences et formations sur le leadership, la communication et les dynamiques humaines.",
+  alternates: { canonical: "/a-propos" },
 };
 
+const principles = [
+  {
+    title: "Ancré dans la réalité terrain",
+    text: "Chaque intervention part de situations vécues dans des organisations réelles : privées, publiques, en santé, en éducation.",
+  },
+  {
+    title: "Une lecture intégrée",
+    text: "Personnalités, générations, communication et leadership s'influencent mutuellement. Je les relie dans une même intervention cohérente.",
+  },
+  {
+    title: "Des retombées concrètes",
+    text: "L'objectif n'est pas d'impressionner : c'est que vos équipes repartent avec des réflexes nouveaux et des outils qu'elles réutilisent.",
+  },
+];
+
 export default function APropos() {
+  const step = (i: number) => ({ "--i": i }) as React.CSSProperties;
   return (
     <>
       {/* ═══ HERO ═══ */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-12">
-            <div className="lg:col-span-7">
-              <AnimatedSection>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">À propos</p>
-                <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-                  J&apos;aide les organisations à mieux comprendre les dynamiques humaines qui influencent la collaboration
-                </h1>
-              </AnimatedSection>
-            </div>
-            <div className="lg:col-span-5">
-              <AnimatedSection variant="slideRight">
-                <div className="overflow-hidden rounded-3xl shadow-xl">
-                  <Image
-                    src="/images/hero/philippe-portrait.jpg"
-                    alt="Philippe Beaudoin"
-                    width={800}
-                    height={534}
-                    priority
-                    className="h-auto w-full object-cover"
-                  />
-                </div>
-              </AnimatedSection>
+      <section className="grain relative overflow-hidden bg-ink text-paper">
+        <div aria-hidden="true" className="absolute -left-32 top-1/3 h-[30rem] w-[30rem] rounded-full bg-accent/20 blur-[120px]" />
+        <div className="relative mx-auto grid max-w-7xl items-end gap-12 px-6 pb-20 pt-20 lg:grid-cols-12 lg:px-8 lg:pb-28 lg:pt-28">
+          <div className="lg:col-span-7">
+            <p className="eyebrow rise text-accent" style={step(0)}>
+              À propos
+            </p>
+            <h1 className="rise mt-6 font-display text-5xl leading-[1] tracking-[-0.02em] sm:text-7xl" style={step(1)}>
+              Conférencier, formateur et <em className="italic text-accent">entrepreneur</em>.
+            </h1>
+            <p className="rise mt-8 max-w-xl text-lg leading-8 text-paper/70" style={step(2)}>
+              J&apos;aide les organisations à faire progresser leurs gens : mieux communiquer, mieux diriger, mieux
+              collaborer. Avec la rigueur d&apos;un enseignant et la réalité d&apos;un gestionnaire.
+            </p>
+          </div>
+          <div className="rise lg:col-span-5" style={step(3)}>
+            <figure className="relative aspect-[4/5] overflow-hidden rounded-[2rem]">
+              <Image
+                src="/images/hero/philippe-scene.webp"
+                alt="Philippe Beaudoin en conférence devant un auditoire"
+                fill
+                priority
+                sizes="(min-width:1024px) 40vw, 100vw"
+                className="object-cover object-[52%_15%]"
+              />
+              <figcaption className="eyebrow absolute bottom-6 left-6 text-paper/80">Philippe Beaudoin · M. ADM</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ TROIS UNIVERS ═══ */}
+      <section className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
+        <AnimatedSection>
+          <p className="eyebrow text-accent">Ce qui me distingue</p>
+          <h2 className="mt-6 max-w-4xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
+            La rencontre de <em className="italic text-accent">trois univers</em>.
+          </h2>
+        </AnimatedSection>
+        <div className="mt-16 grid gap-px overflow-hidden rounded-[2rem] border border-ink/10 bg-ink/10 lg:grid-cols-3">
+          {worlds.map((w, i) => (
+            <AnimatedSection key={w.title} delay={i * 120} className="h-full">
+              <div className="flex h-full flex-col bg-paper p-8 lg:p-10">
+                <span className="font-display text-7xl font-light text-accent">0{i + 1}</span>
+                <h3 className="mt-10 font-display text-3xl tracking-tight">{w.title}</h3>
+                <p className="mt-4 leading-7 text-muted">{w.text}</p>
+              </div>
+            </AnimatedSection>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ PARCOURS ═══ */}
+      <section className="grain relative bg-navy text-paper">
+        <div className="mx-auto grid max-w-7xl gap-16 px-6 py-28 lg:grid-cols-12 lg:px-8 lg:py-36">
+          <AnimatedSection className="lg:col-span-5">
+            <figure className="relative aspect-[4/3] overflow-hidden rounded-[2rem] lg:aspect-[4/5]">
+              <Image
+                src="/images/hero/philippe-scene-sourire.webp"
+                alt="Philippe Beaudoin en conférence, souriant face au public"
+                fill
+                sizes="(min-width:1024px) 40vw, 100vw"
+                className="object-cover object-[45%_25%]"
+              />
+            </figure>
+          </AnimatedSection>
+          <div className="lg:col-span-7">
+            <AnimatedSection>
+              <p className="eyebrow text-accent">Parcours</p>
+              <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">
+                Une crédibilité bâtie <em className="italic text-ochre">sur le terrain</em>.
+              </h2>
+              <div className="mt-10 space-y-6 text-lg leading-8 text-paper/75">
+                <p>
+                  Détenteur d&apos;une maîtrise en management public de l&apos;Université de Sherbrooke, je suis chargé de
+                  cours à l&apos;École de gestion et consultant-formateur en entreprise depuis plus de 15 ans.
+                </p>
+                <p>
+                  Entrepreneur à la tête de plusieurs entreprises, dont Neobex, je connais les réalités des organisations de
+                  l&apos;intérieur, pas seulement depuis la scène.
+                </p>
+                <p>
+                  Formateur MBTI et NOVA certifié, j&apos;ancre mes interventions dans des outils reconnus pour comprendre
+                  les profils humains avec rigueur.
+                </p>
+              </div>
+            </AnimatedSection>
+            <div className="mt-14 grid grid-cols-2 gap-8 border-t border-paper/15 pt-10 sm:grid-cols-4">
+              <div>
+                <p className="font-display text-5xl tracking-tight">
+                  <Counter to={1000} suffix="+" />
+                </p>
+                <p className="eyebrow mt-2 text-paper/50">Interventions</p>
+              </div>
+              <div>
+                <p className="font-display text-5xl tracking-tight">
+                  <Counter to={15} duration={1200} suffix="+" />
+                </p>
+                <p className="eyebrow mt-2 text-paper/50">Années d&apos;expérience</p>
+              </div>
+              <div>
+                <p className="font-display text-5xl tracking-tight">UdeS</p>
+                <p className="eyebrow mt-2 text-paper/50">Chargé de cours</p>
+              </div>
+              <div>
+                <p className="font-display text-5xl tracking-tight">MBTI</p>
+                <p className="eyebrow mt-2 text-paper/50">et NOVA certifié</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══ 1. LA RÉALITÉ ═══ */}
-      <section className="bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <AnimatedSection>
-            <div className="grid gap-12 lg:grid-cols-2">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
-                <Image src="/images/stock/workplace-generations.jpg" alt="Dynamiques d'équipe" fill className="object-cover" />
-              </div>
-              <div className="flex flex-col justify-center">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Ce que j&apos;observe</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-tight">
-                  Les organisations ne manquent pas de talent. Elles manquent de compréhension mutuelle.
-                </h2>
-                <p className="mt-5 text-lg leading-8 text-slate-600">
-                  Des personnalités qui s&apos;affrontent au lieu de se compléter. Des générations qui ne se comprennent pas. Des leaders qui gèrent des tâches mais peinent à mobiliser des humains. Des messages qui passent mais qui ne créent pas d&apos;adhésion.
-                </p>
-                <p className="mt-4 text-lg leading-8 text-slate-600">
-                  Ces dynamiques ne sont pas visibles sur un organigramme. Mais elles déterminent si une équipe fonctionne ou s&apos;enlise.
-                </p>
-              </div>
-            </div>
+      {/* ═══ APPROCHE ═══ */}
+      <section className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
+        <div className="grid gap-16 lg:grid-cols-12">
+          <AnimatedSection className="lg:col-span-5">
+            <p className="eyebrow text-accent">Mon approche</p>
+            <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">
+              Rendre visible ce qui est <em className="italic">invisible</em>.
+            </h2>
+            <p className="mt-6 leading-7 text-muted">
+              Styles de personnalité, réflexes de communication, attentes qui diffèrent d&apos;une personne à l&apos;autre :
+              ces dynamiques ne figurent sur aucun organigramme, mais elles déterminent si une équipe avance ou
+              s&apos;enlise.
+            </p>
           </AnimatedSection>
-        </div>
-      </section>
-
-      {/* ═══ 2. MON APPROCHE ═══ */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <AnimatedSection>
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600">Mon approche</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Décoder les différences humaines pour créer de la synergie
-              </h2>
-              <p className="mt-5 text-lg leading-8 text-slate-600">
-                Mon travail consiste à rendre visible ce qui est habituellement invisible : les styles de personnalité, les écarts générationnels, les réflexes de communication, les blocages relationnels. Quand ces réalités sont comprises, les équipes passent du friction à la fluidité.
-              </p>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* ═══ 3. POSITIONNEMENT ═══ */}
-      <section className="bg-slate-950 text-white">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <AnimatedSection>
-            <div className="grid items-center gap-12 lg:grid-cols-2">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">Ce qui me distingue</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                  Je ne parle pas de dynamiques humaines en théorie. Je les traduis en outils concrets pour vos équipes.
-                </h2>
-                <p className="mt-5 text-lg leading-8 text-slate-300">
-                  Ma force, c&apos;est de croiser plusieurs grilles de lecture — personnalités, générations, intelligence émotionnelle, communication, leadership — dans une même intervention cohérente et applicable.
-                </p>
-                <p className="mt-4 text-lg leading-8 text-slate-300">
-                  Je ne donne pas une conférence sur les personnalités le lundi et une sur le leadership le mardi. Je montre comment ces dimensions s&apos;influencent mutuellement dans la réalité quotidienne de vos équipes.
-                </p>
-              </div>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
-                <Image src="/images/hero/philippe-fl1.jpg" alt="Philippe Beaudoin en action" fill className="object-cover" />
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* ═══ 4. DIFFÉRENCIATION ═══ */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <AnimatedSection>
-            <div className="mx-auto max-w-3xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Ma différence</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Pas un consultant générique. Un lecteur de dynamiques humaines.
-              </h2>
-            </div>
-          </AnimatedSection>
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {[
-              {
-                title: "Ancré dans la réalité terrain",
-                text: "Chaque intervention part de situations vécues dans des organisations réelles — privées, publiques, en santé, en éducation. Pas de théorie déconnectée.",
-              },
-              {
-                title: "Une lecture intégrée",
-                text: "Je relie personnalités, générations, communication et leadership dans une même grille. C'est à cette intersection que se jouent les vraies dynamiques d'équipe.",
-              },
-              {
-                title: "Des résultats concrets",
-                text: "L'objectif n'est pas d'impressionner — c'est que vos équipes repartent avec des réflexes nouveaux, un langage commun et une meilleure capacité à travailler ensemble.",
-              },
-            ].map((item, i) => (
-              <AnimatedSection key={item.title} delay={i * 100}>
-                <div className="rounded-3xl border border-slate-200 p-8">
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
-                </div>
+          <ol className="border-t border-ink/15 lg:col-span-7">
+            {principles.map((p, i) => (
+              <AnimatedSection key={p.title} delay={i * 100}>
+                <li className="grid gap-3 border-b border-ink/15 py-8 sm:grid-cols-12 sm:gap-6">
+                  <span className="eyebrow text-accent sm:col-span-1">0{i + 1}</span>
+                  <h3 className="font-display text-2xl tracking-tight sm:col-span-4">{p.title}</h3>
+                  <p className="leading-7 text-muted sm:col-span-7">{p.text}</p>
+                </li>
               </AnimatedSection>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
-      {/* ═══ 5. CRÉDIBILITÉ ═══ */}
-      <section className="bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <AnimatedSection>
-            <div className="grid gap-12 lg:grid-cols-2">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Parcours</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-tight">Crédibilité bâtie sur le terrain</h2>
-                <div className="mt-8 space-y-6 text-base leading-7 text-slate-600">
-                  <p>
-                    Détenteur d&apos;une maîtrise en management public de l&apos;Université de Sherbrooke, je suis chargé de cours à l&apos;École de gestion et consultant-formateur en entreprise depuis plus de 15 ans.
-                  </p>
-                  <p>
-                    Entrepreneur en série à la tête de plusieurs entreprises dont Neobex, je comprends les réalités opérationnelles des organisations de l&apos;intérieur — pas seulement depuis l&apos;estrade.
-                  </p>
-                  <p>
-                    Formateur MBTI et NOVA certifié, j&apos;utilise des outils psychométriques reconnus pour ancrer mes interventions dans une compréhension rigoureuse et mesurable des profils humains.
-                  </p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { big: "1 000+", label: "conférences livrées" },
-                  { big: "M. Sc.", label: "management public, UdeS" },
-                  { big: "MBTI & NOVA", label: "formateur certifié" },
-                  { big: "15+ ans", label: "d'expérience terrain" },
-                ].map((stat) => (
-                  <div key={stat.big} className="flex flex-col justify-center rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-                    <p className="text-2xl font-semibold text-slate-900">{stat.big}</p>
-                    <p className="mt-1 text-xs text-slate-500">{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* ═══ 6. IMPACT ═══ */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <AnimatedSection>
-            <div className="relative overflow-hidden rounded-3xl">
-              <Image
-                src="/images/hero/philippe-fl2.jpg"
-                alt="Philippe Beaudoin avec son audience"
-                width={1200}
-                height={900}
-                className="h-80 w-full object-cover lg:h-96"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-slate-950/70">
-                <div className="max-w-2xl px-8 text-center">
-                  <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                    Mon objectif : que vos équipes se comprennent mieux et travaillent mieux ensemble
-                  </h2>
-                  <p className="mt-4 text-lg text-slate-300">
-                    Chaque intervention est une occasion de créer un déclic concret et durable.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
+      {/* ═══ BANDEAU PHOTO ═══ */}
+      <section aria-label="En atelier" className="pb-28 lg:pb-36">
+        <figure className="relative mx-auto h-[60vh] min-h-[380px] max-w-[1600px] overflow-hidden lg:mx-8 lg:rounded-[2.5rem]">
+          <Image
+            src="/images/hero/philippe-atelier.webp"
+            alt="Philippe Beaudoin anime un atelier avec un groupe de participants"
+            fill
+            sizes="100vw"
+            className="parallax-img object-cover object-[55%_30%]"
+          />
+          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/20 to-transparent" />
+          <figcaption className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-6 pb-12 text-paper lg:px-8 lg:pb-16">
+            <p className="max-w-3xl font-display text-3xl leading-[1.1] tracking-tight sm:text-5xl">
+              Mon objectif : que chaque personne reparte avec <em className="italic text-accent">quelque chose</em>.
+            </p>
+          </figcaption>
+        </figure>
       </section>
 
       <SectionCTA
-        title="Discutons de votre réalité"
-        description="Je peux adapter chaque intervention à votre contexte, vos équipes et vos objectifs."
-        primaryLabel="Planifier un échange"
+        title="Discutons de votre réalité."
+        description="Je peux adapter chaque intervention à votre contexte, à vos équipes et à vos objectifs."
+        primaryLabel="Demander une proposition"
+        secondaryLabel="Voir les conférences"
+        secondaryHref="/conferences"
       />
     </>
   );

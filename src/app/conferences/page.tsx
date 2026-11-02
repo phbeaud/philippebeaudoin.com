@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Link from "next/link";
 import AnimatedSection from "@/components/AnimatedSection";
+import PageHero from "@/components/PageHero";
 import SectionCTA from "@/components/SectionCTA";
+import TypeExplorer from "@/components/TypeExplorer";
 
 export const metadata: Metadata = {
-  title: "Conférences en entreprise — personnalités, générations, leadership, communication",
+  title: "Conférences — leadership, communication, générations, IA",
   description:
-    "Conférences sur les personnalités, les générations, le leadership, la communication, l'art du pitch et l'IA en contexte humain. Interventions adaptées à votre réalité organisationnelle.",
+    "Conférences sur le leadership, la communication, l'art du pitch, l'intelligence émotionnelle, les générations et l'intelligence artificielle. Pour congrès, colloques et événements d'entreprise.",
+  alternates: { canonical: "/conferences" },
 };
 
 const blocs = [
   {
     tag: "Personnalités et intelligence émotionnelle",
-    color: "bg-violet-500",
     intro:
       "Dans chaque équipe, des personnes fonctionnent différemment — dans leur façon de penser, de communiquer, de réagir au stress et de collaborer. Quand ces différences ne sont pas comprises, elles créent des malentendus, des frustrations et des tensions silencieuses. Ces conférences donnent les clés pour décoder les profils humains et adapter sa communication.",
     conferences: [
@@ -29,11 +31,9 @@ const blocs = [
         benefits: ["Gestion des émotions en situation", "Climat d'équipe amélioré", "Relations professionnelles plus fluides"],
       },
     ],
-    image: "/images/stock/team-discussion.jpg",
   },
   {
     tag: "Générations et synergie d'équipe",
-    color: "bg-blue-500",
     intro:
       "Quatre générations cohabitent aujourd'hui dans les organisations. Elles n'ont pas les mêmes attentes, les mêmes réflexes ni les mêmes façons de collaborer. Quand ces écarts ne sont pas compris, ils deviennent des sources de friction. Quand ils sont décodés, ils deviennent des leviers de complémentarité.",
     conferences: [
@@ -50,11 +50,9 @@ const blocs = [
         benefits: ["Langage commun d'équipe", "Complémentarité activée", "Performance collective accrue"],
       },
     ],
-    image: "/images/stock/workplace-generations.jpg",
   },
   {
     tag: "Leadership et mobilisation",
-    color: "bg-emerald-500",
     intro:
       "Être leader aujourd'hui, c'est mobiliser des équipes composées de profils variés — des personnalités différentes, des générations différentes, des attentes différentes. Les vieux modèles de gestion ne suffisent plus. Il faut un leadership plus relationnel, plus lucide, plus adapté.",
     conferences: [
@@ -68,14 +66,12 @@ const blocs = [
         title: "Mobiliser dans l'incertitude et le changement",
         problem: "Les organisations vivent des transformations continues — nouvelles technologies, restructurations, nouvelles réalités de travail. Les leaders doivent accompagner leurs équipes sans toujours avoir toutes les réponses. La résistance s'installe quand les gens ne se sentent pas compris.",
         impact: "Les participants apprennent à communiquer le changement de manière humaine, à identifier les profils qui résistent et pourquoi, et à créer les conditions pour que l'adoption se fasse naturellement.",
-        benefits: ["Communication du changement", "Réduction de la résistance", "Adoption accélérée"],
+        benefits: ["Communication du changement", "Réduction de la résistance", "Adoption facilitée"],
       },
     ],
-    image: "/images/stock/leadership-meeting.jpg",
   },
   {
     tag: "Communication et art du pitch",
-    color: "bg-amber-500",
     intro:
       "Convaincre, mobiliser, vendre une idée — tout repose sur la capacité à structurer un message clair et à le livrer avec impact. Que ce soit pour un pitch de vente, une présentation stratégique ou une mobilisation d'équipe, la communication est un levier sous-utilisé.",
     conferences: [
@@ -92,11 +88,9 @@ const blocs = [
         benefits: ["Influence positive", "Engagement des équipes", "Leadership par la communication"],
       },
     ],
-    image: "/images/stock/presentation.jpg",
   },
   {
     tag: "Formation en ligne et pédagogie",
-    color: "bg-teal-500",
     intro:
       "Former à distance est devenu incontournable, mais la plupart des formations en ligne échouent à maintenir l'attention et à créer un vrai transfert d'apprentissage. Ces conférences partagent les meilleures pratiques pour concevoir et animer des formations qui marquent.",
     conferences: [
@@ -110,131 +104,170 @@ const blocs = [
         title: "Concevoir des formations qui créent de l'impact",
         problem: "Trop de formations sont construites autour du contenu plutôt qu'autour de l'apprenant. Résultat : les participants consomment de l'information mais ne changent pas leurs pratiques. Le transfert n'a pas lieu.",
         impact: "Les participants apprennent à concevoir des formations centrées sur l'expérience apprenant, avec des activités d'apprentissage actif, des moments de pratique et une structure qui favorise le transfert concret.",
-        benefits: ["Approche centrée apprenant", "Apprentissage actif", "Transfert concret garanti"],
+        benefits: ["Approche centrée apprenant", "Apprentissage actif", "Transfert vers la pratique"],
       },
     ],
-    image: "/images/stock/online-training.jpg",
   },
   {
-    tag: "IA à travers le prisme humain",
-    color: "bg-slate-500",
+    tag: "Quand l'IA rencontre les générations",
     intro:
       "L'intelligence artificielle transforme le travail — mais pas de la même manière pour tout le monde. Un analytique et un créatif ne vivent pas l'IA pareil. Un baby-boomer et un millénial n'ont pas les mêmes réflexes d'adoption. Cette conférence croise IA, personnalités et générations dans une lecture unique.",
     conferences: [
       {
         title: "Comment les personnalités et les générations vivent l'IA",
-        problem: "Les organisations déploient l'IA en pensant que l'adoption est uniforme. Or, chaque profil de personnalité et chaque génération perçoit, adopte et utilise l'IA de manière radicalement différente. Ignorer ces différences, c'est créer de la résistance.",
+        problem: "Les organisations déploient l'IA en pensant que l'adoption est uniforme. Or, chaque profil de personnalité et chaque génération perçoit, adopte et utilise l'IA de manière différente. Ignorer ces différences, c'est créer de la résistance.",
         impact: "Les participants comprennent comment les différents profils humains réagissent à l'IA, pourquoi certains résistent et d'autres foncent, et comment adapter la communication et l'accompagnement pour accélérer l'adoption en respectant les personnes.",
         benefits: ["Adoption différenciée de l'IA", "Stratégie par profil", "Moins de résistance, plus d'engagement"],
       },
     ],
-    image: "/images/stock/ai-technology.jpg",
     differentiator: true,
   },
 ];
 
+const slug = (s: string) =>
+  s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
 export default function Conferences() {
   return (
     <>
-      {/* ═══ HERO ═══ */}
-      <section className="bg-slate-950 text-white">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
-          <AnimatedSection>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">Conférences</p>
-            <h1 className="mt-3 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
-              Des conférences qui changent la façon dont vos équipes se comprennent et collaborent
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              Chaque intervention est conçue pour créer un déclic concret : mieux se connaître, mieux communiquer, mieux travailler ensemble. Adaptée à votre secteur et à votre réalité.
-            </p>
-          </AnimatedSection>
+      <PageHero
+        eyebrow="Conférences"
+        title={
+          <>
+            Des conférences qui <em className="italic text-accent">inspirent</em>, et qui donnent le goût d&apos;agir.
+          </>
+        }
+        intro="Pour vos congrès, colloques et rencontres d'équipe. Chaque conférence s'adapte à votre secteur, à votre auditoire et au message que vous voulez laisser."
+      />
+
+      {/* ═══ INDEX DES THÈMES ═══ */}
+      <nav aria-label="Thèmes" className="sticky top-[73px] z-30 border-b border-ink/10 bg-paper/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-6 py-4 lg:px-8 [scrollbar-width:none]">
+          {blocs.map((bloc, i) => (
+            <a
+              key={bloc.tag}
+              href={`#${slug(bloc.tag)}`}
+              className="shrink-0 rounded-full border border-ink/15 px-4 py-2 text-sm transition hover:border-accent hover:bg-accent hover:text-white"
+            >
+              <span className="eyebrow mr-2 text-[0.65rem] text-accent">0{i + 1}</span>
+              {bloc.tag}
+            </a>
+          ))}
         </div>
-      </section>
+      </nav>
 
-      {/* ═══ BLOCS DE CONFÉRENCES ═══ */}
+      {/* ═══ THÈMES ET CONFÉRENCES ═══ */}
       {blocs.map((bloc, bi) => (
-        <section key={bloc.tag} className={bi % 2 === 0 ? "bg-white" : "bg-slate-50"}>
-          <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-            <AnimatedSection>
-              <div className="grid items-start gap-12 lg:grid-cols-12">
-                {/* Image */}
-                <div className={`relative aspect-[4/3] overflow-hidden rounded-3xl lg:col-span-5 ${bi % 2 !== 0 ? "lg:order-2" : ""}`}>
-                  <Image src={bloc.image} alt={bloc.tag} fill className="object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                  <div className="absolute bottom-6 left-6">
-                    <span className={`inline-block rounded-full ${bloc.color} px-4 py-1.5 text-xs font-semibold text-white`}>
-                      {bloc.tag}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="lg:col-span-7">
-                  <h2 className="text-3xl font-semibold tracking-tight">{bloc.tag}</h2>
-                  <p className="mt-4 text-base leading-7 text-slate-600">{bloc.intro}</p>
-
+        <div key={bloc.tag}>
+          <section id={slug(bloc.tag)} className="scroll-mt-40 border-b border-ink/10">
+            <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 lg:grid-cols-12 lg:gap-16 lg:px-8 lg:py-32">
+              <AnimatedSection className="lg:col-span-5">
+                <div className="lg:sticky lg:top-44">
+                  <span className="font-display text-7xl font-light text-accent">0{bi + 1}</span>
+                  <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">{bloc.tag}</h2>
+                  <p className="mt-6 leading-7 text-muted">{bloc.intro}</p>
                   {bloc.differentiator && (
-                    <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5">
-                      <p className="text-sm font-semibold text-amber-700">Angle unique</p>
-                      <p className="mt-1 text-sm leading-6 text-amber-900">
-                        Le croisement IA &times; personnalités &times; générations est un angle que peu de conférenciers proposent. C&apos;est là que se jouent les vrais enjeux d&apos;adoption.
-                      </p>
-                    </div>
+                    <p className="mt-6 border-l-2 border-accent pl-5 text-sm leading-6">
+                      <span className="eyebrow block text-accent">Angle distinctif</span>
+                      Le croisement IA × personnalités × générations est un angle que peu de conférenciers proposent.
+                    </p>
                   )}
-
-                  <div className="mt-8 space-y-6">
-                    {bloc.conferences.map((conf) => (
-                      <div key={conf.title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                        <h3 className="text-lg font-semibold text-slate-900">{conf.title}</h3>
-                        <p className="mt-3 text-sm leading-6 text-slate-500">{conf.problem}</p>
-                        <p className="mt-3 text-sm font-medium leading-6 text-slate-700">{conf.impact}</p>
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {conf.benefits.map((b) => (
-                            <span key={b} className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600">
-                              {b}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
                 </div>
+              </AnimatedSection>
+
+              <div className="space-y-6 lg:col-span-7">
+                {bloc.conferences.map((conf, ci) => (
+                  <AnimatedSection key={conf.title} delay={ci * 120}>
+                    <article className="group rounded-[2rem] border border-ink/10 bg-paper-deep/50 p-8 transition duration-500 hover:-translate-y-1 hover:bg-white hover:shadow-[0_24px_70px_-30px_rgba(22,19,15,0.35)] lg:p-10">
+                      <h3 className="font-display text-3xl tracking-tight">{conf.title}</h3>
+                      <p className="mt-5 leading-7 text-muted">{conf.problem}</p>
+                      <p className="mt-4 leading-7">{conf.impact}</p>
+                      <ul className="mt-6 flex flex-wrap gap-2">
+                        {conf.benefits.map((b) => (
+                          <li key={b} className="eyebrow rounded-full border border-ink/15 px-3 py-1.5 text-[0.65rem] text-muted">
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                      <Link
+                        href="/contact"
+                        className="mt-8 inline-flex items-center gap-2 text-sm font-semibold transition hover:text-accent"
+                      >
+                        Demander une proposition
+                        <span aria-hidden="true" className="transition group-hover:translate-x-1">
+                          →
+                        </span>
+                      </Link>
+                    </article>
+                  </AnimatedSection>
+                ))}
               </div>
-            </AnimatedSection>
-          </div>
-        </section>
+            </div>
+          </section>
+
+          {/* L'explorateur suit le thème des personnalités, qu'il illustre */}
+          {bi === 0 && (
+            <section className="grain relative overflow-hidden bg-ink text-paper">
+              <div aria-hidden="true" className="absolute -right-40 top-0 h-[36rem] w-[36rem] rounded-full bg-accent/20 blur-[120px]" />
+              <div className="relative mx-auto max-w-7xl px-6 py-24 lg:px-8 lg:py-32">
+                <AnimatedSection>
+                  <p className="eyebrow text-accent">Un avant-goût</p>
+                  <h2 className="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
+                    Quatre préférences. <em className="italic text-paper/70">Seize façons</em> de voir le travail.
+                  </h2>
+                  <p className="mt-6 max-w-xl text-lg leading-8 text-paper/65">
+                    Choisissez vos préférences et voyez comment on devrait vous parler. Maintenant, imaginez chaque personne
+                    de votre équipe avec sa propre combinaison.
+                  </p>
+                </AnimatedSection>
+                <div className="mt-16">
+                  <TypeExplorer />
+                </div>
+                <p className="mt-14 text-sm text-paper/40">
+                  Aperçu simplifié, inspiré des préférences de type psychologique. Ce n&apos;est pas un test : en atelier, on
+                  va beaucoup plus loin.
+                </p>
+              </div>
+            </section>
+          )}
+        </div>
       ))}
 
-      {/* ═══ FORMAT ═══ */}
-      <section className="border-y border-slate-200 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-          <AnimatedSection>
-            <div className="text-center">
-              <h2 className="text-2xl font-semibold tracking-tight">Format flexible</h2>
-              <p className="mt-3 text-slate-600">Chaque conférence peut être adaptée à votre contexte et à vos objectifs.</p>
-            </div>
-            <div className="mt-10 grid gap-6 sm:grid-cols-3">
-              {[
-                { label: "60 à 90 min", desc: "Conférence classique" },
-                { label: "Demi-journée", desc: "Atelier interactif" },
-                { label: "Sur mesure", desc: "Contenu adapté à vos enjeux" },
-              ].map((f) => (
-                <div key={f.label} className="rounded-2xl border border-slate-200 p-6 text-center">
-                  <p className="text-xl font-semibold text-slate-900">{f.label}</p>
-                  <p className="mt-1 text-sm text-slate-500">{f.desc}</p>
-                </div>
-              ))}
-            </div>
+      {/* ═══ FORMATS ═══ */}
+      <section className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
+        <div className="grid items-end gap-10 lg:grid-cols-12">
+          <AnimatedSection className="lg:col-span-7">
+            <p className="eyebrow text-accent">Formats</p>
+            <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">
+              De 60 à 150 minutes, en salle ou <em className="italic">en ligne</em>.
+            </h2>
+            <p className="mt-6 max-w-xl leading-7 text-muted">
+              Grand auditoire de congrès ou petit groupe de gestionnaires : la durée, le format et le niveau
+              d&apos;interaction s&apos;ajustent à votre événement.
+            </p>
           </AnimatedSection>
+          <div className="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
+            <Link href="/formations" className="rounded-full border border-ink/20 px-6 py-3.5 text-sm font-semibold transition hover:border-ink">
+              Voir les formules
+            </Link>
+            <Link href="/formations-sur-mesure" className="rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-paper transition hover:bg-navy">
+              Une conférence sur mesure
+            </Link>
+          </div>
         </div>
       </section>
 
       <SectionCTA
-        title="Planifier une conférence adaptée à vos enjeux"
-        description="Discutons de votre réalité et construisons ensemble une intervention qui fait une vraie différence dans vos équipes."
-        primaryLabel="Réserver une conférence"
-        secondaryLabel="Construire une formation"
-        secondaryHref="/formations"
+        title="Planifions votre conférence."
+        description="Parlez-moi de votre événement, de votre auditoire et du message à transmettre. Je vous propose la conférence et la formule adaptées."
+        primaryLabel="Demander une proposition"
+        secondaryLabel="Formations sur mesure"
+        secondaryHref="/formations-sur-mesure"
       />
     </>
   );
