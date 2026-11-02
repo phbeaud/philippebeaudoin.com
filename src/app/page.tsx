@@ -7,7 +7,7 @@ import Counter from "@/components/Counter";
 import Marquee from "@/components/Marquee";
 import Testimonials from "@/components/Testimonials";
 import { clientLogos } from "@/lib/clients";
-import { featuredTalks, offers, worlds } from "@/lib/content";
+import { featuredTalks, offers } from "@/lib/content";
 
 const step = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
@@ -187,53 +187,58 @@ export default function Accueil() {
 
       </section>
 
-      {/* ═══ POURQUOI PHILIPPE ═══ */}
-      <section className="grain relative bg-ink text-paper">
-        <div className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8 lg:py-36">
-          <div className="grid gap-16 lg:grid-cols-12">
-            <AnimatedSection className="lg:col-span-5">
-              <figure className="relative aspect-[4/3] overflow-hidden rounded-[2rem] lg:aspect-[4/5]">
-                <Image src="/images/hero/philippe-micro-costume.jpg" alt="Philippe Beaudoin au micro, souriant face au public" fill quality={90} sizes="(min-width:1024px) 40vw, 100vw" className="object-cover object-[48%_30%]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
-                <figcaption className="eyebrow absolute bottom-6 left-6 text-paper/80">Philippe Beaudoin · M. ADM</figcaption>
-              </figure>
+      {/* ═══ POURQUOI PHILIPPE : GRANDE PHOTO, PEU DE TEXTE ═══ */}
+      <section className="grain relative overflow-hidden bg-ink text-paper">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 sm:py-28 lg:grid-cols-12 lg:gap-16 lg:px-8 lg:py-32">
+          <AnimatedSection className="lg:col-span-7">
+            <figure className="relative aspect-[4/3] overflow-hidden rounded-[2rem]">
+              <Image
+                src="/images/hero/philippe-micro-costume.jpg"
+                alt="Philippe Beaudoin au micro, souriant face au public"
+                fill
+                quality={90}
+                sizes="(min-width:1024px) 58vw, 100vw"
+                className="object-cover object-[48%_30%] transition duration-700 hover:scale-105"
+              />
+            </figure>
+          </AnimatedSection>
+          <div className="lg:col-span-5">
+            <AnimatedSection>
+              <p className="eyebrow opacity-60">Pourquoi Philippe Beaudoin</p>
+              <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">
+                Infirmier, gestionnaire, entrepreneur, <em className="italic text-paper/70">enseignant</em>.
+              </h2>
+              <p className="mt-6 text-lg leading-8 text-paper/70">
+                Un parcours vécu de l&apos;intérieur, qui rend chaque intervention concrète et crédible.
+              </p>
             </AnimatedSection>
-            <div className="lg:col-span-7">
-              <AnimatedSection>
-                <p className="eyebrow opacity-60">Pourquoi Philippe Beaudoin</p>
-                <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
-                  La rencontre de <em className="italic text-paper/70">trois univers</em>.
-                </h2>
-              </AnimatedSection>
-              <div className="mt-12 space-y-10">
-                {worlds.map((w, i) => (
-                  <AnimatedSection key={w.title} delay={i * 120}>
-                    <div className="grid gap-3 border-t border-paper/15 pt-8 xl:grid-cols-12 xl:gap-6">
-                      <p className="font-display text-3xl tracking-tight xl:col-span-4">{w.title}</p>
-                      <p className="leading-7 text-paper/70 xl:col-span-8">{w.text}</p>
-                    </div>
-                  </AnimatedSection>
-                ))}
+            <div className="mt-10 flex flex-wrap gap-x-10 gap-y-6 border-t border-paper/15 pt-8">
+              <div>
+                <p className="font-display text-4xl tracking-tight sm:text-5xl">
+                  <Counter to={1000} suffix="+" />
+                </p>
+                <p className="eyebrow mt-2 text-paper/65">Interventions</p>
               </div>
-              <div className="mt-14 grid grid-cols-2 gap-8 border-t border-paper/15 pt-10 sm:grid-cols-3">
-                <div>
-                  <p className="font-display text-5xl tracking-tight">
-                    <Counter to={1000} suffix="+" />
-                  </p>
-                  <p className="eyebrow mt-2 text-paper/65">Conférences et formations</p>
-                </div>
-                <div>
-                  <p className="font-display text-5xl tracking-tight">
-                    <Counter to={15} duration={1200} suffix="+" />
-                  </p>
-                  <p className="eyebrow mt-2 text-paper/65">Années d&apos;expérience</p>
-                </div>
-                <div>
-                  <p className="font-display text-5xl tracking-tight">MBTI</p>
-                  <p className="eyebrow mt-2 text-paper/65">et NOVA certifié</p>
-                </div>
+              <div>
+                <p className="font-display text-4xl tracking-tight sm:text-5xl">
+                  <Counter to={15} duration={1200} suffix="+" />
+                </p>
+                <p className="eyebrow mt-2 text-paper/65">Années</p>
+              </div>
+              <div>
+                <p className="font-display text-4xl tracking-tight sm:text-5xl">UdeS</p>
+                <p className="eyebrow mt-2 text-paper/65">Chargé de cours</p>
               </div>
             </div>
+            <Link
+              href="/a-propos"
+              className="group mt-10 inline-flex items-center gap-3 rounded-full border border-paper/30 px-6 py-3.5 text-sm font-semibold transition hover:border-accent hover:bg-accent"
+            >
+              Découvrir mon parcours
+              <span aria-hidden="true" className="transition group-hover:translate-x-1">
+                →
+              </span>
+            </Link>
           </div>
         </div>
       </section>

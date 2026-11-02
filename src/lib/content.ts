@@ -126,18 +126,3 @@ export const audiences: { title: string; issues: string; icon: IconName }[] = [
     issues: "Garder bénévoles et employés mobilisés, partager le leadership et tenir le cap malgré les ressources limitées.",
   },
 ];
-
-export const worlds = [
-  {
-    title: "L'entreprise",
-    text: "Ancien gestionnaire en santé et au privé, directeur général de Neobex depuis six ans : je connais les enjeux commerciaux, la gestion d'équipes et la réalité des dirigeants.",
-  },
-  {
-    title: "L'enseignement",
-    text: "Chargé de cours à l'École de gestion de l'Université de Sherbrooke, je sais structurer les apprentissages, vulgariser des concepts et développer des compétences.",
-  },
-  {
-    title: "La conférence",
-    text: "Plus de 1 000 conférences et formations : capter l'attention, provoquer la réflexion et mobiliser un auditoire, c'est mon quotidien.",
-  },
-];

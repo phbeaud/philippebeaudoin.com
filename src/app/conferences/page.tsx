@@ -104,25 +104,6 @@ const blocs = [
     ],
     differentiator: true,
   },
-  {
-    tag: "Formation en ligne et pédagogie",
-    intro:
-      "Former à distance est devenu incontournable, mais la plupart des formations en ligne échouent à maintenir l'attention et à créer un vrai transfert d'apprentissage. Ces conférences partagent les meilleures pratiques pour concevoir et animer des formations qui marquent.",
-    conferences: [
-      {
-        title: "Former efficacement en ligne",
-        problem: "Les caméras fermées, l'attention fragmentée, les participants qui décrochent après 15 minutes — la formation en ligne est un défi que peu de formateurs maîtrisent. Les méthodes en présentiel ne se transposent pas telles quelles.",
-        impact: "Les participants repartent avec des techniques concrètes pour concevoir des formations à distance qui captent l'attention, qui engagent les participants et qui produisent un apprentissage durable et applicable.",
-        benefits: ["Engagement à distance", "Design pédagogique moderne", "Participation active"],
-      },
-      {
-        title: "Concevoir des formations qui créent de l'impact",
-        problem: "Trop de formations sont construites autour du contenu plutôt qu'autour de l'apprenant. Résultat : les participants consomment de l'information mais ne changent pas leurs pratiques. Le transfert n'a pas lieu.",
-        impact: "Les participants apprennent à concevoir des formations centrées sur l'expérience apprenant, avec des activités d'apprentissage actif, des moments de pratique et une structure qui favorise le transfert concret.",
-        benefits: ["Approche centrée apprenant", "Apprentissage actif", "Transfert vers la pratique"],
-      },
-    ],
-  },
 ];
 
 const featured: { title: string; pitch: string; audience: string; theme: string; icon: IconName }[] = [
@@ -234,31 +215,54 @@ export default function Conferences() {
               </AnimatedSection>
 
               <div className="space-y-6 lg:col-span-7">
-                {bloc.conferences.map((conf, ci) => (
-                  <AnimatedSection key={conf.title} delay={ci * 120}>
-                    <article className="group rounded-[2rem] border border-ink/10 bg-paper-deep/50 p-8 transition duration-500 hover:-translate-y-1 hover:bg-white hover:shadow-[0_24px_70px_-30px_rgba(22,19,15,0.35)] lg:p-10">
-                      <h3 className="font-display text-3xl tracking-tight">{conf.title}</h3>
-                      <p className="mt-5 leading-7 text-muted">{conf.problem}</p>
-                      <p className="mt-4 leading-7">{conf.impact}</p>
-                      <ul className="mt-6 flex flex-wrap gap-2">
-                        {conf.benefits.map((b) => (
-                          <li key={b} className="eyebrow rounded-full border border-ink/15 px-3 py-1.5 text-[0.72rem] text-muted">
-                            {b}
-                          </li>
-                        ))}
-                      </ul>
-                      <Link
-                        href={`/contact?sujet=${encodeURIComponent(conf.title)}`}
-                        className="mt-8 inline-flex items-center gap-2 text-sm font-semibold transition hover:text-accent"
+                {bloc.conferences.map((conf, ci) => {
+                  // La première conférence de chaque thème est mise en avant sur fond sombre pour rompre la répétition
+                  const dark = ci === 0;
+                  return (
+                    <AnimatedSection key={conf.title} delay={ci * 120}>
+                      <article
+                        className={`group rounded-[2rem] p-8 transition duration-500 hover:-translate-y-1 lg:p-10 ${
+                          dark
+                            ? "grain relative overflow-hidden bg-ink text-paper hover:shadow-[0_30px_80px_-30px_rgba(22,19,15,0.6)]"
+                            : "border border-ink/10 bg-paper-deep/50 hover:bg-white hover:shadow-[0_24px_70px_-30px_rgba(22,19,15,0.35)]"
+                        }`}
                       >
-                        Demander une proposition
-                        <span aria-hidden="true" className="transition group-hover:translate-x-1">
-                          →
-                        </span>
-                      </Link>
-                    </article>
-                  </AnimatedSection>
-                ))}
+                        <h3 className="relative font-display text-3xl leading-tight tracking-tight sm:text-4xl">{conf.title}</h3>
+                        <p className={`relative mt-5 text-lg leading-8 ${dark ? "text-paper/80" : ""}`}>{conf.impact}</p>
+                        <ul className="relative mt-6 flex flex-wrap gap-2">
+                          {conf.benefits.map((b) => (
+                            <li
+                              key={b}
+                              className={`eyebrow rounded-full border px-3 py-1.5 text-[0.72rem] ${
+                                dark ? "border-paper/25 text-paper/75" : "border-ink/15 text-muted"
+                              }`}
+                            >
+                              {b}
+                            </li>
+                          ))}
+                        </ul>
+                        <details className={`group/d relative mt-6 border-t pt-5 ${dark ? "border-paper/15" : "border-ink/10"}`}>
+                          <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-medium [&::-webkit-details-marker]:hidden">
+                            <span aria-hidden="true" className="inline-block transition group-open/d:rotate-45">+</span>
+                            Le constat de départ
+                          </summary>
+                          <p className={`mt-3 leading-7 ${dark ? "text-paper/70" : "text-muted"}`}>{conf.problem}</p>
+                        </details>
+                        <Link
+                          href={`/contact?sujet=${encodeURIComponent(conf.title)}`}
+                          className={`relative mt-8 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition ${
+                            dark ? "bg-accent text-white hover:bg-accent-deep" : "border border-ink/20 hover:border-accent hover:text-accent"
+                          }`}
+                        >
+                          Demander une proposition
+                          <span aria-hidden="true" className="transition group-hover:translate-x-1">
+                            →
+                          </span>
+                        </Link>
+                      </article>
+                    </AnimatedSection>
+                  );
+                })}
               </div>
             </div>
           </section>
