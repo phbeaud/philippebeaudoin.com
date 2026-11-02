@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import AnimatedSection from "@/components/AnimatedSection";
 import PageHero from "@/components/PageHero";
 import SectionCTA from "@/components/SectionCTA";
@@ -47,21 +46,12 @@ export default function FormationsSurMesure() {
           </>
         }
         intro="Je ne vends pas seulement du contenu : je conçois des expériences d'apprentissage pour aider votre organisation à régler un problème humain ou organisationnel bien réel."
+        image={{
+          src: "/images/hero/philippe-atelier.webp",
+          alt: "Philippe Beaudoin anime un atelier avec un groupe de participants",
+          position: "object-[55%_30%]",
+        }}
       />
-
-      <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-8">
-        <figure className="relative aspect-[16/9] overflow-hidden rounded-[2rem] sm:aspect-[21/9]">
-          <Image
-            src="/images/hero/philippe-atelier.webp"
-            alt="Philippe Beaudoin anime un atelier avec un groupe de participants"
-            fill
-            priority
-            quality={90}
-            sizes="(min-width:1280px) 1216px, 100vw"
-            className="object-cover object-[55%_30%]"
-          />
-        </figure>
-      </div>
 
       {/* ═══ TROIS TYPES DE MANDATS ═══ */}
       <section className="mx-auto max-w-7xl px-6 pb-20 pt-16 sm:pb-28 sm:pt-20 lg:px-8">
@@ -91,7 +81,7 @@ export default function FormationsSurMesure() {
 
       {/* ═══ DÉMARCHE ═══ */}
       <section className="grain relative bg-ink text-paper">
-        <div className="mx-auto max-w-7xl px-6 py-28 lg:px-8">
+        <div className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8">
           <AnimatedSection>
             <p className="eyebrow opacity-60">La démarche</p>
             <h2 className="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">

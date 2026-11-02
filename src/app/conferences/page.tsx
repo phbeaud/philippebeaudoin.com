@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import AnimatedSection from "@/components/AnimatedSection";
 import PageHero from "@/components/PageHero";
@@ -144,24 +143,15 @@ export default function Conferences() {
           </>
         }
         intro="Pour vos congrès, colloques et rencontres d'équipe. Chaque conférence s'adapte à votre secteur, à votre auditoire et au message que vous voulez laisser."
+        image={{
+          src: "/images/hero/philippe-micro-ecran.jpg",
+          alt: "Philippe Beaudoin en conférence, micro à la main",
+          position: "object-[38%_30%]",
+        }}
       />
 
-      <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-8">
-        <figure className="relative aspect-[16/9] overflow-hidden rounded-[2rem] sm:aspect-[21/9]">
-          <Image
-            src="/images/hero/philippe-micro-ecran.jpg"
-            alt="Philippe Beaudoin en conférence, micro à la main"
-            fill
-            priority
-            quality={90}
-            sizes="(min-width:1280px) 1216px, 100vw"
-            className="object-cover object-[40%_30%]"
-          />
-        </figure>
-      </div>
-
       {/* ═══ INDEX DES THÈMES ═══ */}
-      <nav aria-label="Thèmes" className="sticky top-[73px] z-30 mt-16 border-y border-ink/10 bg-paper/90 backdrop-blur-md">
+      <nav aria-label="Thèmes" className="sticky top-[73px] z-30 border-b border-ink/10 bg-paper/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-6 py-4 lg:px-8 [scrollbar-width:none]">
           {blocs.map((bloc, i) => (
             <a
@@ -229,7 +219,7 @@ export default function Conferences() {
           {bi === 0 && (
             <section className="grain relative overflow-hidden bg-ink text-paper">
               <div aria-hidden="true" className="absolute -right-40 top-0 h-[36rem] w-[36rem] rounded-full bg-accent/20 blur-[120px]" />
-              <div className="relative mx-auto max-w-7xl px-6 py-24 lg:px-8 lg:py-32">
+              <div className="relative mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32">
                 <AnimatedSection>
                   <p className="eyebrow opacity-60">Un avant-goût</p>
                   <h2 className="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
@@ -270,7 +260,7 @@ export default function Conferences() {
             <Link href="/formations" className="rounded-full border border-ink/20 px-6 py-3.5 text-sm font-semibold transition hover:border-ink">
               Voir les formules
             </Link>
-            <Link href="/formations-sur-mesure" className="rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-paper transition hover:bg-navy">
+            <Link href="/formations-sur-mesure" className="rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-paper transition hover:bg-ink/85">
               Une conférence sur mesure
             </Link>
           </div>

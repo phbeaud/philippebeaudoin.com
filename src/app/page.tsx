@@ -78,7 +78,7 @@ export default function Accueil() {
       </section>
 
       {/* ═══ TROIS FAÇONS DE COLLABORER ═══ */}
-      <section className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
+      <section className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8 lg:py-36">
         <AnimatedSection>
           <p className="eyebrow opacity-60">Trois façons de collaborer</p>
           <h2 className="mt-6 max-w-4xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
@@ -117,7 +117,7 @@ export default function Accueil() {
 
       {/* ═══ CONFÉRENCES POPULAIRES ═══ */}
       <section className="grain relative bg-ink text-paper">
-        <div className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
+        <div className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8 lg:py-36">
           <AnimatedSection className="flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="eyebrow opacity-60">Conférences populaires</p>
@@ -187,13 +187,13 @@ export default function Accueil() {
       </section>
 
       {/* ═══ POURQUOI PHILIPPE ═══ */}
-      <section className="grain relative bg-navy text-paper">
-        <div className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
+      <section className="grain relative bg-ink text-paper">
+        <div className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8 lg:py-36">
           <div className="grid gap-16 lg:grid-cols-12">
             <AnimatedSection className="lg:col-span-5">
               <figure className="relative aspect-[4/3] overflow-hidden rounded-[2rem] lg:aspect-[4/5]">
                 <Image src="/images/hero/philippe-micro-costume.jpg" alt="Philippe Beaudoin au micro, souriant face au public" fill quality={90} sizes="(min-width:1024px) 40vw, 100vw" className="object-cover object-[48%_30%]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
                 <figcaption className="eyebrow absolute bottom-6 left-6 text-paper/80">Philippe Beaudoin · M. ADM</figcaption>
               </figure>
             </AnimatedSection>

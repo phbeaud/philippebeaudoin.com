@@ -4,7 +4,7 @@ import { formulas, pricingNote } from "@/lib/content";
 
 export default function Formulas() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
+    <section className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8 lg:py-36">
       <AnimatedSection>
         <p className="eyebrow opacity-60">Des formules adaptées à vos besoins</p>
         <h2 className="mt-6 max-w-4xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">

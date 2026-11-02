@@ -66,7 +66,7 @@ export default function APropos() {
       </section>
 
       {/* ═══ TROIS UNIVERS ═══ */}
-      <section className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
+      <section className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8 lg:py-36">
         <AnimatedSection>
           <p className="eyebrow opacity-60">Ce qui me distingue</p>
           <h2 className="mt-6 max-w-4xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
@@ -86,8 +86,8 @@ export default function APropos() {
       </section>
 
       {/* ═══ PARCOURS ═══ */}
-      <section className="grain relative bg-navy text-paper">
-        <div className="mx-auto grid max-w-7xl gap-16 px-6 py-28 lg:grid-cols-12 lg:px-8 lg:py-36">
+      <section className="grain relative bg-ink text-paper">
+        <div className="mx-auto grid max-w-7xl gap-16 px-6 py-20 sm:py-28 lg:grid-cols-12 lg:px-8 lg:py-36">
           <AnimatedSection className="lg:col-span-5">
             <figure className="relative aspect-[4/3] overflow-hidden rounded-[2rem] lg:aspect-[4/5]">
               <Image
@@ -148,7 +148,7 @@ export default function APropos() {
       </section>
 
       {/* ═══ APPROCHE ═══ */}
-      <section className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
+      <section className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8 lg:py-36">
         <div className="grid gap-16 lg:grid-cols-12">
           <AnimatedSection className="lg:col-span-5">
             <p className="eyebrow opacity-60">Mon approche</p>

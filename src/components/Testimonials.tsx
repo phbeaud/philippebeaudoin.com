@@ -9,7 +9,7 @@ export default function Testimonials() {
 
   return (
     <section aria-label="Témoignages" className="bg-paper-deep">
-      <div className="mx-auto max-w-7xl px-6 py-28 lg:px-8 lg:py-36">
+      <div className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8 lg:py-36">
         <AnimatedSection className="mx-auto max-w-5xl text-center">
           <p className="eyebrow opacity-60">Ce qu&apos;ils en disent</p>
           <span aria-hidden="true" className="mt-10 block font-display text-[8rem] leading-[0.5] text-accent">
