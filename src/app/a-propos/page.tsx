@@ -13,20 +13,31 @@ export const metadata: Metadata = {
   alternates: { canonical: "/a-propos" },
 };
 
+// Parcours dans l'ordre où il s'est construit
 const path: { title: string; text: string; icon: IconName }[] = [
   {
-    title: "L'entrepreneur",
-    text: "À la tête de plusieurs entreprises, dont Neobex, je connais les défis de gestion, de mobilisation et de développement des organisations, vus de l'intérieur.",
-    icon: "entreprise",
+    title: "Infirmier diplômé",
+    text: "Mon premier métier : l'écoute, le travail d'équipe et les décisions prises sous pression.",
+    icon: "sante",
   },
   {
-    title: "L'enseignant universitaire",
-    text: "Chargé de cours à l'École de gestion de l'Université de Sherbrooke, je sais structurer les connaissances, vulgariser et faire progresser les participants.",
+    title: "Gestionnaire",
+    text: "Dans le milieu de la santé, puis dans des organisations privées : mobiliser des équipes au quotidien.",
+    icon: "boussole",
+  },
+  {
+    title: "Formation en gestion",
+    text: "Baccalauréat en administration, profil marketing, puis maîtrise en management à l'Université de Sherbrooke.",
     icon: "education",
   },
   {
-    title: "Le conférencier-formateur",
-    text: "Plus de 1 000 conférences et formations animées devant des publics variés : congrès, équipes de gestion, milieux de la santé et de l'éducation.",
+    title: "Entrepreneur",
+    text: "Directeur général de Neobex depuis six ans : croissance, ventes, équipe et décisions d'affaires, vues de l'intérieur.",
+    icon: "entreprise",
+  },
+  {
+    title: "Enseignant et conférencier",
+    text: "Chargé de cours à l'École de gestion de l'UdeS et plus de 1 000 conférences et formations animées.",
     icon: "micro",
   },
 ];
@@ -82,8 +93,11 @@ export default function APropos() {
               Comprendre l&apos;humain. Développer le leadership. Faire évoluer les organisations.
             </p>
             <p className="rise mt-6 max-w-xl text-lg leading-8 text-paper/70" style={step(3)}>
-              Bonjour, je suis Philippe. Depuis plus de 15 ans, ce qui m&apos;anime, c&apos;est le plaisir de communiquer, de
-              provoquer la réflexion et de voir les gens progresser.
+              Bonjour, je suis Philippe. Ancien infirmier devenu gestionnaire, puis entrepreneur, je suis passionné de
+              communication et de formation. Ce qui m&apos;anime : provoquer la réflexion et voir les gens progresser.
+            </p>
+            <p className="rise eyebrow mt-8 opacity-60" style={step(4)}>
+              Marié · Père de trois enfants · Sherbrooke
             </p>
           </div>
           <div className="rise lg:col-span-5" style={step(4)}>
@@ -113,26 +127,33 @@ export default function APropos() {
               Une expérience qui dépasse la <em className="italic">théorie</em>.
             </h2>
             <p className="mt-6 text-lg leading-8 text-muted">
-              Entrepreneur, enseignant universitaire et conférencier, j&apos;évolue depuis plus de 15 ans à la rencontre du
-              management, de la communication et des relations humaines. Cette diversité nourrit une approche concrète,
-              accessible et ancrée dans la réalité des organisations.
+              Du chevet des patients à la direction d&apos;une entreprise, en passant par la gestion et l&apos;enseignement
+              universitaire : un parcours à la rencontre du soin, du management et de la communication. C&apos;est ce qui
+              nourrit une approche concrète, accessible et ancrée dans la réalité des organisations.
             </p>
           </AnimatedSection>
-          <div className="grid gap-4 lg:col-span-7">
+          <ol className="relative lg:col-span-7">
+            {/* Fil de la ligne du temps */}
+            <span aria-hidden="true" className="absolute bottom-8 left-8 top-8 w-px bg-gradient-to-b from-ink/30 via-ink/15 to-accent" />
             {path.map((p, i) => (
-              <AnimatedSection key={p.title} delay={i * 120}>
-                <div className="group flex gap-6 rounded-[2rem] border border-ink/10 bg-paper-deep/60 p-7 transition duration-500 hover:-translate-y-1 hover:bg-white hover:shadow-[0_24px_70px_-30px_rgba(22,19,15,0.35)]">
-                  <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-ink text-paper transition duration-500 group-hover:rotate-[-6deg] group-hover:bg-accent">
+              <AnimatedSection key={p.title} delay={i * 110}>
+                <li className="group relative flex gap-6 pb-10 last:pb-0">
+                  <span
+                    className={`relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl transition duration-500 group-hover:rotate-[-6deg] group-hover:scale-110 ${
+                      i === path.length - 1 ? "bg-accent text-white" : "bg-ink text-paper group-hover:bg-accent"
+                    }`}
+                  >
                     <Icon name={p.icon} className="h-8 w-8" />
                   </span>
-                  <div>
-                    <h3 className="font-display text-2xl tracking-tight sm:text-3xl">{p.title}</h3>
-                    <p className="mt-2 leading-7 text-muted">{p.text}</p>
+                  <div className="pt-2">
+                    <p className="eyebrow opacity-50">Étape {i + 1}</p>
+                    <h3 className="mt-1 font-display text-2xl tracking-tight sm:text-3xl">{p.title}</h3>
+                    <p className="mt-2 max-w-xl leading-7 text-muted">{p.text}</p>
                   </div>
-                </div>
+                </li>
               </AnimatedSection>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
@@ -142,12 +163,12 @@ export default function APropos() {
           <AnimatedSection className="lg:col-span-5">
             <figure className="relative aspect-[4/3] overflow-hidden rounded-[2rem] lg:aspect-[4/5]">
               <Image
-                src="/images/hero/philippe-scene-debout.jpg"
-                alt="Philippe Beaudoin sur scène, en pleine explication"
+                src="/images/hero/philippe-scene-sourire.webp"
+                alt="Philippe Beaudoin en conférence, souriant face au public"
                 fill
                 quality={90}
                 sizes="(min-width:1024px) 40vw, 100vw"
-                className="object-cover object-[50%_60%]"
+                className="object-cover object-[48%_25%]"
               />
             </figure>
           </AnimatedSection>
@@ -169,11 +190,11 @@ export default function APropos() {
                 <p className="font-display text-6xl tracking-tight">
                   <Counter to={15} duration={1200} suffix="+" />
                 </p>
-                <p className="mt-3 text-paper/70">années d&apos;expérience en entreprise et en enseignement</p>
+                <p className="mt-3 text-paper/70">années en gestion, en entreprise et en enseignement</p>
               </div>
               <div className="border-t border-paper/15 pt-6">
                 <p className="font-display text-4xl tracking-tight sm:text-5xl">M. ADM</p>
-                <p className="mt-3 text-paper/70">maîtrise en management public, Université de Sherbrooke</p>
+                <p className="mt-3 text-paper/70">maîtrise en management, Université de Sherbrooke</p>
               </div>
               <div className="border-t border-paper/15 pt-6">
                 <p className="font-display text-4xl tracking-tight sm:text-5xl">MBTI · NOVA</p>

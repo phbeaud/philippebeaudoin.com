@@ -130,7 +130,7 @@ export const audiences: { title: string; issues: string; icon: IconName }[] = [
 export const worlds = [
   {
     title: "L'entreprise",
-    text: "Entrepreneur et consultant-formateur depuis plus de 15 ans, je connais les enjeux commerciaux, la gestion d'équipes, la prise de décision et la réalité des dirigeants.",
+    text: "Ancien gestionnaire en santé et au privé, directeur général de Neobex depuis six ans : je connais les enjeux commerciaux, la gestion d'équipes et la réalité des dirigeants.",
   },
   {
     title: "L'enseignement",

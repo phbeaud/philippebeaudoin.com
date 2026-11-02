@@ -31,7 +31,7 @@ const tiles: Tile[] = [
   { title: "Éducation et enseignement supérieur", span: "lg:col-span-2", tone: "paper" },
   { title: "Santé et ordres professionnels", span: "lg:col-span-2", tone: "paper" },
   { title: "OBNL et organisations à mission", span: "lg:col-span-2", tone: "paper" },
-  { title: "Associations et congrès", span: "lg:col-span-6", tone: "photo", photo: "/images/hero/philippe-salle-public.jpg", pos: "object-[50%_45%]" },
+  { title: "Associations et congrès", span: "lg:col-span-6", tone: "photo", photo: "/images/hero/philippe-scene-pleine.webp", pos: "object-[55%_40%]" },
 ];
 
 export default function Clienteles() {
