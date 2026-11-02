@@ -88,8 +88,8 @@ body {
 /* Parallaxe légère au défilement, là où le navigateur la supporte */
 @supports (animation-timeline: view()) {
   @keyframes parallax {
-    from { transform: scale(1.15) translateY(-5%); }
-    to   { transform: scale(1.15) translateY(5%); }
+    from { transform: scale(1.06) translateY(-2.5%); }
+    to   { transform: scale(1.06) translateY(2.5%); }
   }
   .parallax-img {
     animation: parallax linear both;

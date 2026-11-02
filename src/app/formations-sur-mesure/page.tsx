@@ -56,6 +56,7 @@ export default function FormationsSurMesure() {
             alt="Philippe Beaudoin anime un atelier avec un groupe de participants"
             fill
             priority
+            quality={90}
             sizes="(min-width:1280px) 1216px, 100vw"
             className="object-cover object-[55%_30%]"
           />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import AnimatedSection from "@/components/AnimatedSection";
 import PageHero from "@/components/PageHero";
@@ -145,8 +146,22 @@ export default function Conferences() {
         intro="Pour vos congrès, colloques et rencontres d'équipe. Chaque conférence s'adapte à votre secteur, à votre auditoire et au message que vous voulez laisser."
       />
 
+      <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-8">
+        <figure className="relative aspect-[16/9] overflow-hidden rounded-[2rem] sm:aspect-[21/9]">
+          <Image
+            src="/images/hero/philippe-micro-ecran.jpg"
+            alt="Philippe Beaudoin en conférence, micro à la main"
+            fill
+            priority
+            quality={90}
+            sizes="(min-width:1280px) 1216px, 100vw"
+            className="object-cover object-[40%_30%]"
+          />
+        </figure>
+      </div>
+
       {/* ═══ INDEX DES THÈMES ═══ */}
-      <nav aria-label="Thèmes" className="sticky top-[73px] z-30 border-b border-ink/10 bg-paper/90 backdrop-blur-md">
+      <nav aria-label="Thèmes" className="sticky top-[73px] z-30 mt-16 border-y border-ink/10 bg-paper/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-6 py-4 lg:px-8 [scrollbar-width:none]">
           {blocs.map((bloc, i) => (
             <a

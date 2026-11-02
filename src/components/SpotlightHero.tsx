@@ -72,6 +72,7 @@ export default function SpotlightHero({ children }: { children: React.ReactNode 
         alt=""
         fill
         priority
+        quality={90}
         sizes="100vw"
         className="object-cover object-[22%_center] opacity-45 grayscale"
         style={{ animation: "hero-zoom 18s ease-out both" }}
@@ -81,6 +82,7 @@ export default function SpotlightHero({ children }: { children: React.ReactNode 
         alt="Philippe Beaudoin sur scène, sous les projecteurs"
         fill
         priority
+        quality={90}
         sizes="100vw"
         className="object-cover object-[22%_center]"
         style={{ animation: "hero-zoom 18s ease-out both", maskImage: mask, WebkitMaskImage: mask }}

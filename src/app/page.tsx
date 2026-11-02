@@ -5,6 +5,7 @@ import SectionCTA from "@/components/SectionCTA";
 import SpotlightHero from "@/components/SpotlightHero";
 import Counter from "@/components/Counter";
 import Marquee from "@/components/Marquee";
+import Testimonials from "@/components/Testimonials";
 import { clientLogos } from "@/lib/clients";
 import { featuredTalks, offers, worlds } from "@/lib/content";
 
@@ -166,11 +167,12 @@ export default function Accueil() {
       <section aria-label="En action" className="py-28 lg:py-36">
         <figure className="relative mx-auto h-[70vh] min-h-[420px] max-w-[1600px] overflow-hidden lg:mx-8 lg:rounded-[2.5rem]">
           <Image
-            src="/images/hero/philippe-grand-public.webp"
-            alt="Philippe Beaudoin sur scène devant une salle comble"
+            src="/images/hero/philippe-salle-public.jpg"
+            alt="Philippe Beaudoin en conférence devant une salle remplie de participants"
             fill
+            quality={90}
             sizes="100vw"
-            className="parallax-img object-cover object-[55%_center]"
+            className="parallax-img object-cover object-[50%_45%]"
           />
           <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/20 to-transparent" />
           <figcaption className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-6 pb-12 text-paper lg:px-8 lg:pb-16">
@@ -189,7 +191,7 @@ export default function Accueil() {
           <div className="grid gap-16 lg:grid-cols-12">
             <AnimatedSection className="lg:col-span-5">
               <figure className="relative aspect-[4/3] overflow-hidden rounded-[2rem] lg:aspect-[4/5]">
-                <Image src="/images/hero/philippe-scene.webp" alt="Philippe Beaudoin en conférence devant un auditoire" fill sizes="(min-width:1024px) 40vw, 100vw" className="object-cover object-[52%_15%]" />
+                <Image src="/images/hero/philippe-micro-costume.jpg" alt="Philippe Beaudoin au micro, souriant face au public" fill quality={90} sizes="(min-width:1024px) 40vw, 100vw" className="object-cover object-[48%_30%]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent" />
                 <figcaption className="eyebrow absolute bottom-6 left-6 text-paper/80">Philippe Beaudoin · M. ADM</figcaption>
               </figure>
@@ -234,21 +236,8 @@ export default function Accueil() {
         </div>
       </section>
 
-      {/* ═══ TÉMOIGNAGE ═══ */}
-      <section aria-label="Témoignage">
-        <div className="mx-auto max-w-5xl px-6 py-24 text-center lg:px-8 lg:py-32">
-          <AnimatedSection>
-            <span aria-hidden="true" className="block font-display text-[8rem] leading-[0.5] text-accent">
-              “
-            </span>
-            <blockquote className="mt-6 font-display text-3xl italic leading-[1.25] tracking-tight sm:text-5xl">
-              Il y a longtemps que je n&apos;avais pas assisté à une conférence aussi intéressante. Dès le lendemain,
-              j&apos;étais en mesure de me repositionner avec les différentes générations de mon équipe.
-            </blockquote>
-            <p className="eyebrow mt-10 text-muted">Cadre — CIUSSS Saguenay–Lac-Saint-Jean</p>
-          </AnimatedSection>
-        </div>
-      </section>
+      {/* ═══ TÉMOIGNAGES ═══ */}
+      <Testimonials />
 
       {/* ═══ CTA FINAL ═══ */}
       <SectionCTA

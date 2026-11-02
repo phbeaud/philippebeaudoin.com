@@ -50,12 +50,13 @@ export default function APropos() {
           <div className="rise lg:col-span-5" style={step(3)}>
             <figure className="relative aspect-[4/5] overflow-hidden rounded-[2rem]">
               <Image
-                src="/images/hero/philippe-scene.webp"
-                alt="Philippe Beaudoin en conférence devant un auditoire"
+                src="/images/hero/philippe-scene-notes.jpg"
+                alt="Philippe Beaudoin sur scène, souriant en consultant ses notes"
+                quality={90}
                 fill
                 priority
                 sizes="(min-width:1024px) 40vw, 100vw"
-                className="object-cover object-[52%_15%]"
+                className="object-cover object-[45%_30%]"
               />
               <figcaption className="eyebrow absolute bottom-6 left-6 text-paper/80">Philippe Beaudoin · M. ADM</figcaption>
             </figure>
@@ -90,11 +91,12 @@ export default function APropos() {
           <AnimatedSection className="lg:col-span-5">
             <figure className="relative aspect-[4/3] overflow-hidden rounded-[2rem] lg:aspect-[4/5]">
               <Image
-                src="/images/hero/philippe-scene-sourire.webp"
-                alt="Philippe Beaudoin en conférence, souriant face au public"
+                src="/images/hero/philippe-scene-debout.jpg"
+                alt="Philippe Beaudoin sur scène, en pleine explication"
+                quality={90}
                 fill
                 sizes="(min-width:1024px) 40vw, 100vw"
-                className="object-cover object-[45%_25%]"
+                className="object-cover object-[50%_60%]"
               />
             </figure>
           </AnimatedSection>
@@ -177,11 +179,12 @@ export default function APropos() {
       <section aria-label="En atelier" className="pb-28 lg:pb-36">
         <figure className="relative mx-auto h-[60vh] min-h-[380px] max-w-[1600px] overflow-hidden lg:mx-8 lg:rounded-[2.5rem]">
           <Image
-            src="/images/hero/philippe-atelier.webp"
-            alt="Philippe Beaudoin anime un atelier avec un groupe de participants"
+            src="/images/hero/philippe-salle-diapo.jpg"
+            alt="Philippe Beaudoin présente devant un auditoire, sa présentation projetée sur grand écran"
             fill
+            quality={90}
             sizes="100vw"
-            className="parallax-img object-cover object-[55%_30%]"
+            className="parallax-img object-cover object-[55%_55%]"
           />
           <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/20 to-transparent" />
           <figcaption className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-6 pb-12 text-paper lg:px-8 lg:pb-16">
