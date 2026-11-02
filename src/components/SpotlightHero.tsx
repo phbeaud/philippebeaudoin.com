@@ -15,7 +15,7 @@ export default function SpotlightHero({ children }: { children: React.ReactNode 
     // Position de repos : sur le visage de Philippe dans la photo.
     const rest = () => {
       const r = el.getBoundingClientRect();
-      return r.width < 640 ? { x: r.width * 0.42, y: r.height * 0.26 } : { x: r.width * 0.29, y: r.height * 0.32 };
+      return r.width < 1024 ? { x: r.width * 0.42, y: r.height * 0.26 } : { x: r.width * 0.29, y: r.height * 0.32 };
     };
     let target = rest();
     const pos = { ...target };

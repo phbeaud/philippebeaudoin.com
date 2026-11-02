@@ -40,13 +40,13 @@ export default function Header() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
           <Link href="/" className="group flex items-baseline gap-3">
-            <span className="font-display text-2xl tracking-tight">
+            <span className="whitespace-nowrap font-display text-2xl tracking-tight">
               Philippe Beaudoin<span className="text-accent">.</span>
             </span>
             <span className={`eyebrow hidden lg:inline ${overHero ? "text-paper/75" : "text-ink/60"}`}>Conférencier</span>
           </Link>
 
-          <nav className="hidden items-center gap-8 md:flex">
+          <nav className="hidden items-center gap-8 lg:flex">
             {nav.map((item) => {
               const active = pathname === item.href;
               return (
@@ -73,7 +73,7 @@ export default function Header() {
             </Link>
             <button
               onClick={() => setOpen(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-full transition hover:bg-current/10 md:hidden"
+              className="flex h-10 w-10 items-center justify-center rounded-full transition hover:bg-current/10 lg:hidden"
               aria-label="Ouvrir le menu"
               aria-expanded={open}
             >
@@ -87,7 +87,7 @@ export default function Header() {
 
       {/* Menu mobile plein écran */}
       <div
-        className={`fixed inset-0 z-[60] flex flex-col bg-ink px-6 py-5 text-paper transition-all duration-500 md:hidden ${
+        className={`fixed inset-0 z-[60] flex flex-col bg-ink px-6 py-5 text-paper transition-all duration-500 lg:hidden ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >

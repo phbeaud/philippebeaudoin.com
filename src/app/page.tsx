@@ -16,7 +16,7 @@ export default function Accueil() {
     <>
       {/* ═══ HERO : SCÈNE ═══ */}
       <SpotlightHero>
-        <div className="mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-6 pb-12 pt-[48svh] sm:pt-32 lg:justify-center lg:px-8 lg:pb-20">
+        <div className="mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-6 pb-12 pt-[48svh] lg:justify-center lg:pt-32 lg:px-8 lg:pb-20">
           <div className="lg:ml-auto lg:w-[60%]">
             <p className="eyebrow rise text-paper/70" style={step(0)}>
               Conférencier · Formateur · Sherbrooke
