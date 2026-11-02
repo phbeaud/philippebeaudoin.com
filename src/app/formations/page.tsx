@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import AnimatedSection from "@/components/AnimatedSection";
-import SectionCTA from "@/components/SectionCTA";
 import Formulas from "@/components/Formulas";
+import Icon, { type IconName } from "@/components/Icon";
+import PageHero from "@/components/PageHero";
+import SectionCTA from "@/components/SectionCTA";
 
 export const metadata: Metadata = {
   title: "Formations en entreprise — personnalités, leadership, communication, générations",
@@ -11,138 +12,154 @@ export const metadata: Metadata = {
   alternates: { canonical: "/formations" },
 };
 
-const themes = [
+const approach: { title: string; text: string; icon: IconName }[] = [
+  {
+    title: "Basée sur des cas réels",
+    text: "Pas de théorie abstraite. Chaque contenu part de situations vécues par vos équipes.",
+    icon: "cible",
+  },
+  {
+    title: "Interactive et engageante",
+    text: "Exercices pratiques, discussions guidées, mises en situation : les participants sont acteurs de leur apprentissage.",
+    icon: "echange",
+  },
+  {
+    title: "Applicable dès le lendemain",
+    text: "Chacun repart avec des outils, des réflexes et des actions concrètes à mettre en place au quotidien.",
+    icon: "action",
+  },
+];
+
+const themes: { title: string; text: string; icon: IconName }[] = [
   {
     title: "Personnalités et intelligence émotionnelle",
-    description: "Mieux se connaître et mieux comprendre les autres pour réduire les tensions, adapter sa communication et créer de vraies collaborations. MBTI, Nova et intelligence relationnelle.",
-    image: "/images/stock/team-discussion.jpg",
+    text: "Mieux se connaître et comprendre les autres pour réduire les tensions et adapter sa communication. MBTI et NOVA.",
+    icon: "personnalites",
   },
   {
     title: "Générations et synergie d'équipe",
-    description: "Comprendre les attentes et les réflexes de chaque génération pour transformer les écarts en complémentarités et créer des équipes plus fluides.",
-    image: "/images/stock/workplace-generations.jpg",
+    text: "Comprendre les attentes de chacun pour transformer les écarts en complémentarités.",
+    icon: "generations",
   },
   {
     title: "Leadership et mobilisation",
-    description: "Développer un leadership plus humain, plus relationnel et plus adapté aux profils variés de vos équipes. Mobiliser dans la complexité.",
-    image: "/images/stock/leadership-meeting.jpg",
+    text: "Un leadership plus humain, plus relationnel et adapté aux profils variés de vos équipes.",
+    icon: "leadership",
   },
   {
     title: "Communication et art du pitch",
-    description: "Structurer ses messages, convaincre avec impact et créer de l'adhésion. Du pitch de vente au pitch de mobilisation interne.",
-    image: "/images/stock/presentation.jpg",
+    text: "Structurer ses messages, convaincre avec impact et créer de l'adhésion.",
+    icon: "communication",
   },
   {
     title: "Formation en ligne et pédagogie",
-    description: "Concevoir et animer des formations à distance qui captent l'attention, qui engagent et qui créent de l'apprentissage durable.",
-    image: "/images/stock/online-training.jpg",
+    text: "Concevoir et animer des formations à distance qui captent l'attention et qui durent.",
+    icon: "virtuel",
   },
   {
     title: "IA et dynamiques humaines",
-    description: "Comprendre comment différentes personnalités et générations réagissent à l'intelligence artificielle. Adapter l'accompagnement au profil humain.",
-    image: "/images/stock/ai-technology.jpg",
+    text: "Accompagner l'arrivée de l'intelligence artificielle en tenant compte de chaque profil.",
+    icon: "ia",
   },
 ];
 
 export default function Formations() {
   return (
     <>
-      {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden">
-        <Image
-          src="/images/hero/philippe-atelier.webp"
-          alt="Philippe Beaudoin anime un atelier avec un groupe de participants"
-          fill
-          priority
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/75 to-slate-950/50" />
-        <div className="relative mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
-          <AnimatedSection>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-300">Formations</p>
-            <h1 className="mt-3 max-w-3xl text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-              Des formations concrètes, interactives et orientées résultats
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              Chaque formation est bâtie sur des cas réels, conçue pour être interactive et pensée pour une application immédiate dans votre quotidien professionnel.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Formations"
+        title={
+          <>
+            Des formations qui font <em className="italic text-accent">progresser</em>.
+          </>
+        }
+        intro="Concrètes, interactives et pensées pour être appliquées dès le lendemain dans votre quotidien professionnel."
+        image={{
+          src: "/images/hero/philippe-atelier.webp",
+          alt: "Philippe Beaudoin anime un atelier avec un groupe de participants",
+          position: "object-[55%_30%]",
+        }}
+      />
 
-      {/* ═══ APPROCHE ═══ */}
-      <section className="border-b border-slate-200 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-          <AnimatedSection>
-            <div className="text-center">
-              <h2 className="text-2xl font-semibold tracking-tight">Mon approche pédagogique</h2>
-            </div>
-            <div className="mt-10 grid gap-6 sm:grid-cols-3">
-              {[
-                {
-                  title: "Basée sur des cas réels",
-                  text: "Pas de théorie abstraite. Chaque contenu part de situations vécues par vos équipes.",
-                },
-                {
-                  title: "Interactive et engageante",
-                  text: "Exercices pratiques, discussions guidées, mises en situation. Les participants sont acteurs de leur apprentissage.",
-                },
-                {
-                  title: "Applicable immédiatement",
-                  text: "Chaque participant repart avec des outils, des réflexes et des actions concrètes à mettre en place dès le lendemain.",
-                },
-              ].map((item, i) => (
-                <AnimatedSection key={item.title} delay={i * 100}>
-                  <div className="rounded-2xl border border-slate-200 p-6">
-                    <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
+      {/* ═══ APPROCHE : PARCOURS EN TROIS TEMPS ═══ */}
+      <section className="grain relative overflow-hidden bg-ink text-paper">
+        <div aria-hidden="true" className="absolute -left-40 bottom-0 h-[30rem] w-[30rem] rounded-full bg-accent/15 blur-[120px]" />
+        <div className="relative mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8 lg:py-32">
+          <AnimatedSection className="mx-auto max-w-3xl text-center">
+            <p className="eyebrow opacity-60">Mon approche pédagogique</p>
+            <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
+              Comprendre, vivre, <em className="italic">appliquer</em>.
+            </h2>
           </AnimatedSection>
+
+          <ol className="relative mt-20 grid gap-16 md:grid-cols-3 md:gap-8">
+            {/* Fil qui relie les trois étapes */}
+            <span
+              aria-hidden="true"
+              className="absolute left-[16.66%] right-[16.66%] top-16 hidden border-t-2 border-dashed border-paper/35 md:block"
+            />
+            {approach.map((step, i) => (
+              <AnimatedSection key={step.title} delay={i * 180}>
+                <li className="group relative flex flex-col items-center text-center">
+                  <div className="relative flex h-32 w-32 items-center justify-center">
+                    <span aria-hidden="true" className="spin-slow absolute inset-0 rounded-full border-2 border-dashed border-accent/50" />
+                    <span className="relative flex h-24 w-24 items-center justify-center rounded-full bg-paper text-ink shadow-[0_0_60px_-10px_rgba(232,85,43,0.6)] transition duration-500 group-hover:scale-110 group-hover:bg-accent group-hover:text-white">
+                      <Icon name={step.icon} className="h-10 w-10" />
+                    </span>
+                    <span className="absolute -right-1 -top-1 flex h-9 w-9 items-center justify-center rounded-full bg-accent font-display text-sm text-white">
+                      {i + 1}
+                    </span>
+                  </div>
+                  <h3 className="mt-8 font-display text-2xl tracking-tight sm:text-3xl">{step.title}</h3>
+                  <p className="mt-3 max-w-xs leading-7 text-paper/70">{step.text}</p>
+                </li>
+              </AnimatedSection>
+            ))}
+          </ol>
         </div>
       </section>
 
       {/* ═══ THÈMES ═══ */}
-      <section className="bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <AnimatedSection>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Thèmes de formation</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-              Des sujets adaptés aux réalités d&apos;aujourd&apos;hui
-            </h2>
-          </AnimatedSection>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {themes.map((theme, i) => (
-              <AnimatedSection key={theme.title} delay={i * 100}>
-                <div className="group h-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={theme.image}
-                      alt={theme.title}
-                      fill
-                      className="object-cover transition duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-lg font-semibold text-slate-900">{theme.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{theme.description}</p>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
+      <section className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8 lg:py-36">
+        <AnimatedSection>
+          <p className="eyebrow opacity-60">Thèmes de formation</p>
+          <h2 className="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
+            Six thèmes, adaptés à votre réalité.
+          </h2>
+        </AnimatedSection>
+        <div className="mt-10 grid gap-4 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
+          {themes.map((t, i) => (
+            <AnimatedSection key={t.title} delay={(i % 3) * 100} className="h-full">
+              <article className="group relative isolate flex h-full min-h-[19rem] flex-col overflow-hidden rounded-[2rem] border border-ink/10 bg-paper-deep/60 p-8 transition-colors duration-500 hover:text-paper">
+                <span aria-hidden="true" className="absolute inset-0 -z-10 origin-bottom scale-y-0 bg-ink transition-transform duration-500 ease-out group-hover:scale-y-100" />
+                <span
+                  aria-hidden="true"
+                  className="text-outline pointer-events-none absolute -bottom-6 -right-2 font-display text-[9rem] leading-none text-ink/20 transition-colors duration-500 group-hover:text-paper/20"
+                >
+                  0{i + 1}
+                </span>
+                <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-paper text-ink transition duration-500 group-hover:rotate-[-6deg] group-hover:bg-accent group-hover:text-white">
+                  <Icon name={t.icon} className="h-8 w-8" />
+                </span>
+                <h3 className="mt-10 max-w-[16rem] font-display text-2xl leading-tight tracking-tight">{t.title}</h3>
+                <p className="mt-3 max-w-[18rem] text-sm leading-6 text-muted transition-colors duration-500 group-hover:text-paper/70">
+                  {t.text}
+                </p>
+              </article>
+            </AnimatedSection>
+          ))}
         </div>
       </section>
 
-      {/* ═══ FORMATS ═══ */}
+      {/* ═══ FORMULES ═══ */}
       <Formulas />
 
       <SectionCTA
-        title="Construire une formation sur mesure"
-        description="Discutons de vos objectifs et créons ensemble un programme adapté à votre réalité."
-        primaryLabel="Construire une formation"
+        title="Construisons votre formation."
+        description="Parlez-moi de vos objectifs et de vos participants : je vous propose un programme adapté à votre réalité."
+        primaryLabel="Demander une proposition"
+        secondaryLabel="Formations sur mesure"
+        secondaryHref="/formations-sur-mesure"
       />
     </>
   );

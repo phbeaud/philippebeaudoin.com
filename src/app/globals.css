@@ -96,6 +96,14 @@ body {
   }
 }
 
+/* Anneau pointillé qui tourne lentement autour d'un picto */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.spin-slow {
+  animation: spin-slow 28s linear infinite;
+}
+
 @keyframes hero-zoom {
   from { transform: scale(1.08); }
   to   { transform: scale(1); }
@@ -104,6 +112,7 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .marquee-track,
   .parallax-img,
+  .spin-slow,
   .word-in,
   .rise {
     animation: none !important;

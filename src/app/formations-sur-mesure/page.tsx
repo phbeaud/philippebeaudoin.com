@@ -47,9 +47,9 @@ export default function FormationsSurMesure() {
         }
         intro="Je ne vends pas seulement du contenu : je conçois des expériences d'apprentissage pour aider votre organisation à régler un problème humain ou organisationnel bien réel."
         image={{
-          src: "/images/hero/philippe-atelier.webp",
-          alt: "Philippe Beaudoin anime un atelier avec un groupe de participants",
-          position: "object-[55%_30%]",
+          src: "/images/hero/philippe-salle-diapo.jpg",
+          alt: "Philippe Beaudoin présente devant un auditoire, sa présentation projetée sur grand écran",
+          position: "object-[58%_60%]",
         }}
       />
 

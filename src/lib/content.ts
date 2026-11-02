@@ -94,29 +94,35 @@ export const featuredTalks = [
   },
 ];
 
-export const audiences = [
+export const audiences: { title: string; issues: string; icon: IconName }[] = [
   {
     title: "Entreprises et PME",
+    icon: "entreprise",
     issues: "Leadership, mobilisation, communication, vente et collaboration.",
   },
   {
     title: "Gestionnaires et dirigeants",
+    icon: "boussole",
     issues: "Influence, prise de décision, gestion des équipes et changement.",
   },
   {
     title: "Éducation et enseignement supérieur",
+    icon: "education",
     issues: "Générations, IA, pédagogie, communication et compétences humaines.",
   },
   {
     title: "Santé et ordres professionnels",
+    icon: "sante",
     issues: "Communication, leadership, présentations et collaboration interprofessionnelle.",
   },
   {
     title: "Associations et congrès",
+    icon: "micro",
     issues: "Conférences mobilisatrices pour vos événements professionnels.",
   },
   {
     title: "OBNL et organisations à mission",
+    icon: "mission",
     issues: "Mobilisation, leadership, collaboration et résilience.",
   },
 ];
