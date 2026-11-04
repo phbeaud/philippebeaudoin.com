@@ -8,15 +8,32 @@ export function generateStaticParams() {
   return allSlugs().map((profil) => ({ profil }));
 }
 
+// Google tronque vers 160 caractères : on garde les phrases entières qui tiennent, puis l'appel au test
+const CTA = "Fais le test gratuit.";
+function metaDescription(text: string, max = 158) {
+  const budget = max - CTA.length - 1;
+  let out = "";
+  for (const s of text.match(/[^.!?]+[.!?]+/g) ?? [text]) {
+    if ((out + s).trim().length > budget) break;
+    out += s;
+  }
+  out = out.trim();
+  if (!out) out = text.slice(0, budget - 1).replace(/\s+\S*$/, "") + "…";
+  const long = "Et toi? Fais le test gratuit de Philippe Beaudoin.";
+  return out.length + long.length < max ? `${out} ${long}` : `${out} ${CTA}`;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ profil: string }> }): Promise<Metadata> {
   const { profil } = await params;
   const p = profileFromSlug(profil);
   if (!p) return {};
   const S1 = styleOf(p.t1);
-  const title = `${p.title} : ${S1.name}${p.t2 ? ` à tendance ${styleOf(p.t2).name.toLowerCase()}` : ""}`;
+  const title = p.t2
+    ? `${p.title} : ${S1.name} à tendance ${styleOf(p.t2).name.toLowerCase()}`
+    : `${p.title} · profil ${S1.disc} (${S1.discTerm})`;
   return {
     title,
-    description: `${p.text} Découvre ton propre style de communication avec le test gratuit de Philippe Beaudoin.`,
+    description: metaDescription(p.text),
     alternates: { canonical: `/test-styles/resultat/${p.slug}` },
     openGraph: { title: `Mon style de communication : ${p.title}`, description: p.text, type: "website" },
   };
