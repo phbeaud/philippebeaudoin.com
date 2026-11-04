@@ -289,6 +289,15 @@ export default function Conferences() {
                   Aperçu simplifié, inspiré des préférences de type psychologique. Ce n&apos;est pas un test : en atelier, on
                   va beaucoup plus loin.
                 </p>
+                <Link
+                  href="/test-styles"
+                  className="group mt-8 inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-accent-deep"
+                >
+                  Faire le test complet des styles de communication
+                  <span aria-hidden="true" className="transition group-hover:translate-x-1">
+                    →
+                  </span>
+                </Link>
               </div>
             </section>
           )}

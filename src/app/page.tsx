@@ -165,6 +165,35 @@ export default function Accueil() {
         </div>
       </section>
 
+      {/* ═══ TEST GRATUIT ═══ */}
+      <section aria-label="Test gratuit" className="mx-auto max-w-7xl px-6 pt-20 sm:pt-28 lg:px-8">
+        <Link
+          href="/test-styles"
+          className="group grain relative flex flex-col gap-8 overflow-hidden rounded-[2rem] bg-ink p-8 text-paper transition duration-500 hover:-translate-y-1 sm:p-12 lg:flex-row lg:items-center lg:justify-between"
+        >
+          <div aria-hidden="true" className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/30 blur-[90px]" />
+          <div className="relative flex items-center gap-6">
+            <span aria-hidden="true" className="grid h-20 w-20 shrink-0 grid-cols-2 gap-1 overflow-hidden rounded-2xl transition duration-500 group-hover:rotate-[-6deg]">
+              <span className="bg-[#2fb39f]" />
+              <span className="bg-[#f6c63b]" />
+              <span className="bg-[#4c8dff]" />
+              <span className="bg-[#f0434f]" />
+            </span>
+            <div>
+              <p className="eyebrow opacity-60">Test gratuit · 8 minutes</p>
+              <p className="mt-2 font-display text-3xl leading-tight tracking-tight sm:text-4xl">Quel est ton style de communication?</p>
+              <p className="mt-2 text-paper/70">Ton profil DISC, ta carte perceptuelle et ton rapport PDF, gratuitement.</p>
+            </div>
+          </div>
+          <span className="relative inline-flex items-center gap-3 self-start rounded-full bg-accent px-7 py-4 text-sm font-semibold text-white transition group-hover:bg-accent-deep lg:self-center">
+            Faire le test
+            <span aria-hidden="true" className="transition group-hover:translate-x-1">
+              →
+            </span>
+          </span>
+        </Link>
+      </section>
+
       {/* ═══ SUR SCÈNE COMME EN ATELIER ═══ */}
       <section aria-label="En action" className="py-20 sm:py-28 lg:py-36">
         <figure className="relative mx-auto h-[70vh] min-h-[420px] max-w-[1600px] overflow-hidden lg:mx-8 lg:rounded-[2.5rem]">

@@ -10,6 +10,7 @@ const nav = [
   { href: "/formations", label: "Formations" },
   { href: "/clienteles", label: "Clientèles" },
   { href: "/a-propos", label: "À propos" },
+  { href: "/test-styles", label: "Test gratuit" },
 ];
 
 export default function Header() {
@@ -43,10 +44,10 @@ export default function Header() {
             <span className="whitespace-nowrap font-display text-2xl tracking-tight">
               Philippe Beaudoin<span className="text-accent">.</span>
             </span>
-            <span className={`eyebrow hidden lg:inline ${overHero ? "text-paper/75" : "text-ink/60"}`}>Conférencier</span>
+            <span className={`eyebrow hidden xl:inline ${overHero ? "text-paper/75" : "text-ink/60"}`}>Conférencier</span>
           </Link>
 
-          <nav className="hidden items-center gap-8 lg:flex">
+          <nav className="hidden items-center gap-6 lg:flex xl:gap-8">
             {nav.map((item) => {
               const active = pathname === item.href;
               return (

@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/formations-sur-mesure", priority: 0.9 },
     { path: "/formations", priority: 0.8 },
     { path: "/clienteles", priority: 0.8 },
+    { path: "/test-styles", priority: 0.8 },
     { path: "/a-propos", priority: 0.7 },
     { path: "/contact", priority: 0.8 },
   ].map(({ path, priority }) => ({
