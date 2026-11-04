@@ -67,38 +67,40 @@ export const STY = {
 };
 export const ORDER = ['C', 'D', 'S', 'I'];
 
-// Partie 1 : 12 groupes de qualificatifs (un mot par style, ordre varié)
+// Partie 1 : 12 groupes de qualificatifs (un mot par style, ordre varié).
+// Règles de rédaction : chaque mot ne désigne qu'un seul style (pas de mot partagé entre deux styles),
+// les quatre mots d'un groupe sont aussi valorisants les uns que les autres, et aucun ne reprend le nom d'un style.
 export const QUAL = [
-  [['Précis', 'C'], ['Fonceur', 'D'], ['Chaleureux', 'I'], ['Conciliant', 'S']],
-  [['Rapide', 'D'], ['Attentionné', 'S'], ['Organisé', 'C'], ['Inventif', 'I']],
-  [['Expressif', 'I'], ['Franc', 'D'], ['Posé', 'S'], ['Rigoureux', 'C']],
-  [['Fiable', 'S'], ['Persuasif', 'I'], ['Ambitieux', 'D'], ['Prudent', 'C']],
-  [['Objectif', 'C'], ['Coopératif', 'S'], ['Tenace', 'D'], ['Inspirant', 'I']],
-  [['Animé', 'I'], ['Structuré', 'C'], ['Autonome', 'D'], ['À l’écoute', 'S']],
-  [['Pragmatique', 'D'], ['Curieux', 'I'], ['Minutieux', 'C'], ['Rassurant', 'S']],
-  [['Calme', 'S'], ['Résolu', 'D'], ['Factuel', 'C'], ['Charismatique', 'I']],
-  [['Ouvert', 'I'], ['Fidèle', 'S'], ['Exact', 'C'], ['Compétitif', 'D']],
-  [['Perfectionniste', 'C'], ['Accueillant', 'S'], ['Divertissant', 'I'], ['Décidé', 'D']],
-  [['Modeste', 'S'], ['Imaginatif', 'I'], ['Réservé', 'C'], ['Combatif', 'D']],
-  [['Ordonné', 'C'], ['Influent', 'I'], ['Paisible', 'S'], ['Meneur', 'D']],
+  [['Précis', 'C'], ['Fonceur', 'D'], ['Pétillant', 'I'], ['Conciliant', 'S']],
+  [['Décidé', 'D'], ['Attentionné', 'S'], ['Organisé', 'C'], ['Persuasif', 'I']],
+  [['Démonstratif', 'I'], ['Franc', 'D'], ['Bienveillant', 'S'], ['Rigoureux', 'C']],
+  [['Fidèle', 'S'], ['Inspirant', 'I'], ['Ambitieux', 'D'], ['Minutieux', 'C']],
+  [['Objectif', 'C'], ['Coopératif', 'S'], ['Tenace', 'D'], ['Charismatique', 'I']],
+  [['Animé', 'I'], ['Structuré', 'C'], ['Affirmé', 'D'], ['À l’écoute', 'S']],
+  [['Pragmatique', 'D'], ['Imaginatif', 'I'], ['Factuel', 'C'], ['Rassurant', 'S']],
+  [['Diplomate', 'S'], ['Résolu', 'D'], ['Rationnel', 'C'], ['Rayonnant', 'I']],
+  [['Expansif', 'I'], ['Dévoué', 'S'], ['Exact', 'C'], ['Compétitif', 'D']],
+  [['Consciencieux', 'C'], ['Accueillant', 'S'], ['Divertissant', 'I'], ['Meneur', 'D']],
+  [['Paisible', 'S'], ['Volubile', 'I'], ['Planificateur', 'C'], ['Ferme', 'D']],
+  [['Ordonné', 'C'], ['Enthousiasmant', 'I'], ['Généreux', 'S'], ['Assuré', 'D']],
 ];
 
 // Partie 2 : 18 situations du quotidien professionnel
 export const SIT = [
   ['Une réunion commence en retard, sans ordre du jour :', [['Je propose qu’on fixe l’objectif tout de suite et qu’on avance.', 'D'], ['Je demande ce qu’on doit décider avant d’aller plus loin.', 'C'], ['Je patiente et je m’assure que tout le monde est à l’aise.', 'S'], ['J’en profite pour lancer la discussion et détendre l’atmosphère.', 'I']]],
   ['On me confie un nouveau projet. Ma première réaction :', [['Je veux comprendre les exigences et les risques avant de commencer.', 'C'], ['Je m’emballe pour les possibilités et j’en parle autour de moi.', 'I'], ['Je fixe l’échéance et je répartis les tâches.', 'D'], ['Je me demande qui sera touché et comment l’équipe le vivra.', 'S']]],
-  ['Quand je reçois un long courriel :', [['Je cherche la demande principale et je réponds en deux lignes.', 'D'], ['Je le lis au complet, parfois deux fois, avant de répondre.', 'C'], ['Je le survole et je préfère appeler la personne.', 'I'], ['Je réponds avec soin, en remerciant d’abord la personne.', 'S']]],
+  ['Quand je reçois un long courriel :', [['Je cherche la demande principale et je réponds en deux lignes.', 'D'], ['Je le lis au complet, parfois deux fois, avant de répondre.', 'C'], ['Je le survole et je préfère appeler la personne.', 'I'], ['Je prends le temps de répondre sur un ton cordial et personnel.', 'S']]],
   ['Un collègue me contredit en pleine réunion :', [['Je maintiens ma position et j’explique pourquoi.', 'D'], ['Je cherche un terrain d’entente pour éviter que le ton monte.', 'S'], ['Je lui demande sur quoi il s’appuie et je compare les arguments.', 'C'], ['Je reformule mon idée autrement pour le rallier.', 'I']]],
-  ['Ce qui me rend le plus fier au travail :', [['Un travail sans erreur, bien documenté.', 'C'], ['Un objectif difficile atteint avant l’échéance.', 'D'], ['Avoir convaincu un groupe et senti l’enthousiasme monter.', 'I'], ['Avoir aidé quelqu’un à traverser une période difficile.', 'S']]],
+  ['Ce qui me rend le plus fier au travail :', [['Un travail sans erreur, bien documenté.', 'C'], ['Un objectif difficile atteint avant l’échéance.', 'D'], ['Avoir convaincu un groupe et senti l’enthousiasme monter.', 'I'], ['Une équipe soudée où chacun a trouvé sa place.', 'S']]],
   ['Un changement est annoncé sans préavis :', [['J’ai besoin de temps pour m’y faire et de savoir ce qui reste stable.', 'S'], ['Je veux savoir vite ce que ça change pour mes objectifs.', 'D'], ['Je vois surtout ce que ça ouvre comme possibilités.', 'I'], ['Je veux connaître les raisons et le plan détaillé.', 'C']]],
   ['Dans un groupe de travail, je prends naturellement le rôle de :', [['Celui qui tranche et fait avancer.', 'D'], ['Celui qui anime et propose des idées.', 'I'], ['Celui qui facilite et garde l’équipe unie.', 'S'], ['Celui qui vérifie et pose les bonnes questions.', 'C']]],
   ['Quand je dois apprendre quelque chose de nouveau :', [['Je lis la documentation et je procède étape par étape.', 'C'], ['J’apprends en discutant et en essayant.', 'I'], ['J’aime qu’on me montre et qu’on m’accompagne au début.', 'S'], ['Je vais à l’essentiel et j’apprends en faisant.', 'D']]],
   ['Un client mécontent m’appelle :', [['Je l’écoute jusqu’au bout et je reconnais sa frustration.', 'S'], ['Je cherche vite la solution qui réglera le problème.', 'D'], ['Je vérifie les faits avant de m’engager à quoi que ce soit.', 'C'], ['Je le rassure avec énergie et je crée un lien.', 'I']]],
   ['Mon espace de travail ressemble plutôt à :', [['Un espace ordonné où chaque chose a sa place.', 'C'], ['Un espace vivant, avec des photos, des notes et quelques piles.', 'I'], ['Un espace fonctionnel, avec seulement l’essentiel.', 'D'], ['Un espace confortable et accueillant.', 'S']]],
-  ['Une décision importante doit être prise vite :', [['Je décide et j’assume.', 'D'], ['Je demande un peu plus de temps pour valider les données.', 'C'], ['Je consulte les personnes concernées avant de me prononcer.', 'S'], ['Je me fie à mon instinct.', 'I']]],
+  ['Une décision importante doit être prise vite :', [['Je décide et j’assume.', 'D'], ['Je prends quelques minutes pour vérifier les chiffres clés.', 'C'], ['Je consulte les personnes concernées avant de me prononcer.', 'S'], ['Je me fie à mon instinct.', 'I']]],
   ['Ce qui m’épuise le plus :', [['La routine et le travail en solitaire.', 'I'], ['Les conflits et les tensions qui traînent.', 'S'], ['L’improvisation et les erreurs évitables.', 'C'], ['La lenteur et les discussions qui tournent en rond.', 'D']]],
   ['Quand je raconte une anecdote :', [['Je l’enjolive, je mime et je fais rire.', 'I'], ['Je donne les détails exacts, dans l’ordre.', 'C'], ['Je vais droit à la chute.', 'D'], ['Je parle surtout des gens et de ce qu’ils ont vécu.', 'S']]],
-  ['Ce que j’apprécie le plus chez un gestionnaire :', [['Qu’il soit humain et à l’écoute.', 'S'], ['Qu’il me laisse de l’autonomie et des défis.', 'D'], ['Qu’il soit clair, juste et cohérent.', 'C'], ['Qu’il soit inspirant et souligne mes réussites.', 'I']]],
+  ['Ce que j’apprécie le plus chez un gestionnaire :', [['Qu’il soit humain et à l’écoute.', 'S'], ['Qu’il me laisse de l’autonomie et des défis.', 'D'], ['Qu’il donne des attentes précises et des façons de faire claires.', 'C'], ['Qu’il soit inspirant et souligne mes réussites.', 'I']]],
   ['Le vendredi après-midi, j’ai tendance à :', [['Faire le point et préparer la semaine suivante.', 'C'], ['Organiser une activité ou aller saluer les collègues.', 'I'], ['Boucler un dernier dossier pour finir la semaine en force.', 'D'], ['Prendre des nouvelles et m’assurer que tout le monde va bien.', 'S']]],
   ['Un nouvel outil d’intelligence artificielle arrive dans l’équipe :', [['Je veux comprendre comment il fonctionne et ses limites avant de m’y fier.', 'C'], ['Je l’adopte tout de suite s’il me fait gagner du temps.', 'D'], ['J’attends de voir comment mes collègues l’utilisent.', 'S'], ['Je l’essaie avec enthousiasme et je partage mes trouvailles.', 'I']]],
   ['Quand je reçois une critique sur mon travail :', [['Je veux des exemples précis pour comprendre.', 'C'], ['Je veux savoir quoi changer, sans détour.', 'D'], ['Je la prends à cœur, même si je n’en montre rien.', 'S'], ['Je la vis mal sur le coup, puis je rebondis vite.', 'I']]],
@@ -138,3 +140,40 @@ export const FLEX = [
   'Je suis à l’aise avec des gens très différents de moi.',
 ];
 export const LIK = ['Pas du tout moi', 'Un peu', 'Moyennement', 'Beaucoup', 'Tout à fait moi'];
+
+// Profils combinés : le style secondaire colore la façon dont le style principal s'exprime.
+// Clé : style principal + style secondaire (ex. SC = Aimable à tendance analytique).
+export const BLENDS = {
+  CD: ['Le stratège rigoureux', 'Tu analyses à fond, mais tu veux que l’analyse débouche sur une décision. Ton côté directif rend ta rigueur plus tranchante : tu es exigeant sur la qualité et tu peux paraître intransigeant.'],
+  CS: ['Le spécialiste fiable', 'Précis et posé, tu travailles avec soin et loyauté. Ton côté aimable adoucit ta rigueur : tu corriges sans blesser, mais tu peux hésiter longtemps avant de bouger.'],
+  CI: ['L’analyste créatif', 'Une combinaison rare : tu explores les idées, puis tu les valides. Ton côté expressif rend ta rigueur plus vivante, avec un tiraillement possible entre précision et envie de nouveauté.'],
+  DC: ['Le décideur méthodique', 'Tu vas droit au but, mais pas à l’aveugle : tu veux les chiffres clés avant de trancher. Ton côté analytique rend ton efficacité redoutable; ta franchise peut sembler froide.'],
+  DI: ['Le leader entraînant', 'Tu fonces et tu entraînes les autres avec toi. Ton côté expressif ajoute énergie et conviction à tes décisions. Attention à la vitesse : tout le monde ne suit pas au même rythme.'],
+  DS: ['Le capitaine protecteur', 'Tu fixes le cap avec fermeté, mais tu veilles sur ton équipe. Ton côté aimable rend tes décisions plus humaines… quand tu prends le temps de les expliquer.'],
+  SC: ['Le soutien méthodique', 'Calme et structuré, tu es la personne sur qui on peut compter. Ton côté analytique rend ton aide rigoureuse et constante; l’improvisation et les changements rapides te coûtent cher.'],
+  SD: ['Le pilier discret', 'Bienveillant mais déterminé, tu tiens bon sans faire de bruit. Ton côté directif ressort quand une valeur importante est en jeu : ta douceur laisse alors place à une fermeté qui surprend.'],
+  SI: ['Le rassembleur chaleureux', 'Tu crées un climat où chacun se sent bien. Ton côté expressif rend ton écoute plus chaleureuse et visible; dire non et trancher restent tes défis.'],
+  IC: ['L’innovateur structuré', 'Tu débordes d’idées, mais tu sais les organiser. Ton côté analytique donne de la crédibilité à ton enthousiasme; tu peux t’épuiser à vouloir tout faire parfaitement.'],
+  ID: ['Le promoteur audacieux', 'Persuasif et rapide, tu vends une idée et tu la fais avancer. Ton côté directif rend ton enthousiasme plus affirmé; le suivi et la patience sont tes zones de vigilance.'],
+  IS: ['L’animateur bienveillant', 'Sociable et attentionné, tu inspires sans bousculer. Ton côté aimable rend ton influence plus douce; tu peux éviter les conversations difficiles pour préserver l’ambiance.'],
+};
+
+// Profil pur : style secondaire trop faible pour colorer le principal
+export const PURE = {
+  C: ['L’analyste pur', 'Ton style analytique domine nettement : rigueur, précision et réflexion avant tout.'],
+  D: ['Le directif pur', 'Ton style directif domine nettement : action, décision et résultats avant tout.'],
+  S: ['L’aimable pur', 'Ton style aimable domine nettement : harmonie, écoute et stabilité avant tout.'],
+  I: ['L’expressif pur', 'Ton style expressif domine nettement : énergie, idées et contact humain avant tout.'],
+};
+
+// Adresse des pages de partage : /test-styles/resultat/<principal>-<secondaire> (ou <principal> pour un profil pur)
+export const SLUG = { C: 'analytique', D: 'directif', S: 'aimable', I: 'expressif' };
+export const blendSlug = (t1, t2) => (t2 ? `${SLUG[t1]}-${SLUG[t2]}` : SLUG[t1]);
+export function parseBlendSlug(slug) {
+  const keys = Object.fromEntries(Object.entries(SLUG).map(([k, v]) => [v, k]));
+  const [a, b] = String(slug).split('-');
+  const t1 = keys[a];
+  const t2 = b ? keys[b] : null;
+  if (!t1 || (b && (!t2 || t2 === t1))) return null;
+  return { t1, t2 };
+}

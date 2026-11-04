@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { allSlugs } from "./test-styles/resultat/profiles";
 
 const BASE = "https://www.philippebeaudoin.com";
 
@@ -12,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/test-styles", priority: 0.8 },
     { path: "/a-propos", priority: 0.7 },
     { path: "/contact", priority: 0.8 },
+    ...allSlugs().map((slug) => ({ path: `/test-styles/resultat/${slug}`, priority: 0.5 })),
   ].map(({ path, priority }) => ({
     url: `${BASE}${path}`,
     lastModified: new Date(),

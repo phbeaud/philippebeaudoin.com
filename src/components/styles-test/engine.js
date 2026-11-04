@@ -1,6 +1,6 @@
 // Moteur du test des styles de communication : écrans rendus en HTML dans un conteneur, état sauvegardé localement.
 // Rien n'est envoyé à un serveur : les réponses restent dans le navigateur de la personne.
-import { STY, ORDER, QUAL, SIT, BACKUP, SEEN, PAIRS, FLEX, LIK } from './content.js';
+import { STY, ORDER, QUAL, SIT, BACKUP, SEEN, PAIRS, FLEX, LIK, BLENDS, PURE, blendSlug } from './content.js';
 
 const TOTAL = QUAL.length + SIT.length;
 const KEY = 'styles-com-v1';
@@ -14,15 +14,35 @@ const list = (a) => '<ul>' + a.map((x) => `<li>${esc(x)}</li>`).join('') + '</ul
 const disc = (k) => `${STY[k].disc} · ${STY[k].discTerm}`;
 const full = (k) => `${STY[k].name} (${STY[k].color}) · DISC ${disc(k)}`;
 
-const fresh = (name = '') => ({ screen: 'intro', i: 0, ans: Array(TOTAL).fill(null), adap: Array(QUAL.length).fill(null), flex: Array(FLEX.length).fill(null), name, tab: null, sec: 'profil', other: null, team: '' });
+const newSeed = () => Math.floor(Math.random() * 1e9);
+const fresh = (name = '') => ({ seed: newSeed(), screen: 'intro', i: 0, ans: Array(TOTAL).fill(null), adap: Array(QUAL.length).fill(null), flex: Array(FLEX.length).fill(null), name, tab: null, sec: 'profil', other: null, team: '' });
 
 function load() {
   try {
     const s = JSON.parse(localStorage.getItem(KEY));
-    return s && Array.isArray(s.ans) && s.ans.length === TOTAL && Array.isArray(s.adap) && Array.isArray(s.flex) ? s : null;
+    if (!(s && Array.isArray(s.ans) && s.ans.length === TOTAL && Array.isArray(s.adap) && Array.isArray(s.flex))) return null;
+    if (typeof s.seed !== 'number') s.seed = newSeed();
+    return s;
   } catch {
     return null;
   }
+}
+
+// Ordre d'affichage propre à chaque personne et à chaque question, stable d'une visite à l'autre
+function order(seed, k) {
+  let t = (seed + k * 2654435761) >>> 0;
+  const rnd = () => { t += 0x6d2b79f5; let r = Math.imul(t ^ (t >>> 15), 1 | t); r ^= r + Math.imul(r ^ (r >>> 7), 61 | r); return ((r ^ (r >>> 14)) >>> 0) / 4294967296; };
+  const a = [0, 1, 2, 3];
+  for (let i = 3; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+
+// Profil combiné : le style secondaire colore le principal, sauf s'il est trop faible
+function blend(s) {
+  const [t1, t2] = rank(s);
+  const pure = pctOf(s, t2) <= 15;
+  const [title, text] = pure ? PURE[t1] : BLENDS[t1 + t2];
+  return { t1, t2: pure ? null : t2, title, text, slug: blendSlug(t1, pure ? null : t2) };
 }
 
 // Scores et position sur la carte
@@ -73,10 +93,11 @@ function map({ me, work, halo, team = [], light = false, animate = true }) {
   return h + '</svg>';
 }
 
-export function mountStylesTest(root) {
+export function mountStylesTest(root, opts = {}) {
   let st = load() || fresh();
   let handlers = null;
   let lock = false;
+  let interacted = false;
 
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch { /* stockage indisponible : le test fonctionne quand même */ } };
   const scoreNat = () => scoreOf(st.ans, (k, a) => (k < QUAL.length ? QUAL[k][a][1] : SIT[k - QUAL.length][1][a][1]));
@@ -97,6 +118,11 @@ export function mountStylesTest(root) {
   function render() {
     save();
     ({ intro, q: question, pause, res: results, aq: adQuestion, fx: fxQuestion }[st.screen] || intro)();
+    if (interacted) {
+      const h = root.querySelector('h1, h2');
+      if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+    }
+    interacted = true;
   }
 
   function intro() {
@@ -135,8 +161,8 @@ export function mountStylesTest(root) {
     if (r) r.onclick = () => { st = fresh(st.name); render(); };
   }
 
-  function wordsUI(group, sel) {
-    return `<div class="words" role="radiogroup" aria-label="Qualificatifs">${group.map((w, j) => `<button class="word${sel === j ? ' sel' : ''}" role="radio" aria-checked="${sel === j}" data-j="${j}"><span class="k">${j + 1}</span><span class="w">${esc(w[0])}</span></button>`).join('')}</div>`;
+  function wordsUI(group, sel, k) {
+    return `<div class="words" role="radiogroup" aria-label="Qualificatifs">${order(st.seed, k).map((j, n) => `<button class="word${sel === j ? ' sel' : ''}" role="radio" aria-checked="${sel === j}" data-j="${j}"><span class="k">${n + 1}</span><span class="w">${esc(group[j][0])}</span></button>`).join('')}</div>`;
   }
   function navUI(hasNext, keys = '1 à 4') {
     return `<div class="nav"><button class="ghost" id="st-back">← Précédent</button><span class="hint">Clavier : touches ${keys}</span>${hasNext ? '<button class="ghost" id="st-next">Suivant →</button>' : '<span></span>'}</div>`;
@@ -164,11 +190,11 @@ export function mountStylesTest(root) {
     const of = part1 ? QUAL.length : SIT.length;
     let body;
     if (part1) {
-      body = `<div class="qhead"><p class="eyebrow">Partie 1 · Qualificatifs · ${n} / ${of}</p><h2 class="prompt">Spontanément, lequel te décrit le mieux<span class="dot">?</span></h2></div>${wordsUI(QUAL[k], st.ans[k])}`;
+      body = `<div class="qhead"><p class="eyebrow">Partie 1 · Qualificatifs · ${n} / ${of}</p><h2 class="prompt">Spontanément, lequel te décrit le mieux<span class="dot">?</span></h2></div>${wordsUI(QUAL[k], st.ans[k], k)}`;
     } else {
       const [p, o] = SIT[k - QUAL.length];
       body = `<div class="qhead"><p class="eyebrow">Partie 2 · Situations · ${n} / ${of}</p><h2 class="prompt">${esc(p)}</h2></div>
-      <div class="opts" role="radiogroup" aria-label="Réponses">${o.map((x, j) => `<button class="opt${st.ans[k] === j ? ' sel' : ''}" role="radio" aria-checked="${st.ans[k] === j}" data-j="${j}"><span class="l">${'abcd'[j]}</span><span>${esc(x[0])}</span></button>`).join('')}</div>`;
+      <div class="opts" role="radiogroup" aria-label="Réponses">${order(st.seed, k).map((j, n) => `<button class="opt${st.ans[k] === j ? ' sel' : ''}" role="radio" aria-checked="${st.ans[k] === j}" data-j="${j}"><span class="l">${'abcd'[n]}</span><span>${esc(o[j][0])}</span></button>`).join('')}</div>`;
     }
     root.innerHTML = `${top(`${k + 1} / ${TOTAL}`)}${progress(st.ans, k, QUAL.length)}<section class="stage">${body}${navUI(st.ans[k] != null)}</section>`;
     wire((j) => choose(st.ans, st.i, j, advance), back, advance);
@@ -206,7 +232,7 @@ export function mountStylesTest(root) {
     const k = st.i;
     root.innerHTML = `${top(`Au travail · ${k + 1} / ${QUAL.length}`)}${progress(st.adap, k)}<section class="stage">
       <div class="qhead"><p class="eyebrow">Module · Mon style au travail · ${k + 1} / ${QUAL.length}</p><h2 class="prompt">Au travail, ce qu’on attend de moi, c’est d’être plutôt…</h2></div>
-      ${wordsUI(QUAL[k], st.adap[k])}${navUI(st.adap[k] != null)}</section>`;
+      ${wordsUI(QUAL[k], st.adap[k], k + 100)}${navUI(st.adap[k] != null)}</section>`;
     const nxt = () => {
       if (st.i < QUAL.length - 1) { st.i++; return render(); }
       const f = st.adap.findIndex((a) => a == null);
@@ -247,6 +273,23 @@ export function mountStylesTest(root) {
     return `<div class="cmps">${rank(s).map((k) => `<div class="cmp"><span class="cl"><i style="background:var(${STY[k].v})"></i>${STY[k].name}<small>${disc(k)}</small></span>
       <div class="bars"><span class="bn" style="width:${pctOf(s, k)}%;background:var(${STY[k].v})"></span></div><span class="dl up">${pctOf(s, k)} %</span></div>`).join('')}</div>`;
   }
+  // Cohérence : corrélation entre les écarts à la moyenne (25 %) des mots et des situations.
+  // Des réponses données au hasard donnent deux profils plats et sans lien : l'indice reste bas.
+  function coherence() {
+    const a = scoreOf(st.ans.slice(0, QUAL.length), (k, j) => QUAL[k][j][1]);
+    const b = scoreOf(st.ans.slice(QUAL.length), (k, j) => SIT[k][1][j][1]);
+    const da = ORDER.map((k) => pctOf(a, k) - 25);
+    const db = ORDER.map((k) => pctOf(b, k) - 25);
+    const na = Math.hypot(...da);
+    const nb = Math.hypot(...db);
+    const ta = rank(a)[0];
+    const tb = rank(b)[0];
+    if (na < 8 || nb < 8) return ['À confirmer', 'Profil peu marqué', 'Tes réponses se répartissent presque également entre les quatre styles. Refais le test dans quelques jours en suivant ta première impression : ton style ressortira plus clairement.'];
+    const r = da.reduce((x, v, i) => x + v * db[i], 0) / (na * nb);
+    if (r >= 0.7) return ['Élevée', ta === tb ? `${STY[ta].name} dans les deux parties` : 'Mêmes tendances', 'Tes mots spontanés et tes réactions en situation racontent la même histoire : ton résultat est solide.'];
+    if (r >= 0.2) return ['Moyenne', 'Quelques nuances', ta === tb ? 'Ton style principal ressort dans les deux parties, avec des nuances selon le contexte.' : `Tes mots pointent plutôt vers ${STY[ta].name.toLowerCase()}, tes réactions vers ${STY[tb].name.toLowerCase()} : ton style varie selon la situation.`];
+    return ['À confirmer', 'Mots et réactions divergent', `Tes mots pointent vers ${STY[ta].name.toLowerCase()}, tes réactions vers ${STY[tb].name.toLowerCase()}. Refais le test dans quelques jours, en répondant plus spontanément, pour confirmer.`];
+  }
   function intensity(p) {
     const d = Math.hypot(p.x, p.y);
     if (d < 0.2) return 'Ton point est près du centre : ton style est peu marqué. Tu passes facilement d’un registre à l’autre, mais les autres peuvent avoir du mal à te lire.';
@@ -267,6 +310,8 @@ export function mountStylesTest(root) {
     const secs = [['profil', 'Mon profil'], ['travail', 'Naturel ou adapté'], ['autres', 'Avec les autres'], ['flex', 'Ma flexibilité'], ['equipe', 'Carte d’équipe']];
     const body = { profil: secProfil, travail: secTravail, autres: secAutres, flex: secFlex, equipe: secEquipe }[st.sec](s, t1);
     const p = pos(s);
+    const B = blend(s);
+    const coh = coherence();
     root.innerHTML = `${top('Ton profil')}<section class="res stage">
       <div class="hero">
         <p class="eyebrow">${st.name ? esc(st.name) + ', ton' : 'Ton'} style dominant</p>
@@ -274,22 +319,39 @@ export function mountStylesTest(root) {
         <div class="discline"><span class="chip" style="background:var(${P.v});color:${P.dark ? '#16130f' : '#fff'}">${P.disc}</span>DISC : <b>${P.discTerm}</b>${tie ? ` + <b>${STY[t2].discTerm}</b> (${STY[t2].disc})` : ` · secondaire : ${STY[t2].discTerm} (${STY[t2].disc})`}</div>
         <div class="sub">${tie ? 'Deux styles à égalité : tu passes de l’un à l’autre selon la situation.' : `${P.color}, avec une touche ${STY[t2].name.toLowerCase()} (${STY[t2].color.toLowerCase()}) en second.`}</div>
       </div>
+      <div class="blendbox" style="--b1:var(${STY[B.t1].v});--b2:var(${B.t2 ? STY[B.t2].v : STY[B.t1].v})">
+        <div class="blendchips"><span></span><span></span></div>
+        <div><p class="eyebrow" style="margin-bottom:6px">Ton profil combiné${B.t2 ? ` · ${STY[B.t1].disc}${STY[B.t2].disc}` : ''}</p><h3>${B.title}</h3><p style="margin:6px 0 0">${B.text}</p>
+        ${B.t2 ? `<p class="note" style="margin-top:8px">Ton style secondaire (${STY[B.t2].name}, ${STY[B.t2].discTerm}) influence la façon dont ton style principal s’exprime au quotidien.</p>` : ''}</div>
+      </div>
       <div class="mapgrid">
         <div class="mapbox">${map({ me: p, work: done(st.adap) ? pos(scoreAdap()) : null, halo: halo() })}</div>
         <div class="mapside">
           ${bars(s)}
           <p class="note">${intensity(p)}</p>
+          <p class="note">Ta position combine tes quatre styles : un style secondaire fort peut te placer près d’une frontière, voire dans le quadrant voisin de ton style principal.</p>
+          <div class="cohbox"><small>Cohérence de tes réponses</small><b>${coh[0]} <span>${coh[1]}</span></b><p class="note">${coh[2]}</p></div>
           <div class="legend">${done(st.adap) ? '<span>Cercle pointillé et flèche : ton style au travail.</span>' : '<span>Fais le module « Naturel ou adapté » pour voir ton style au travail sur la carte.</span>'}${done(st.flex) ? '<span>Halo : ta zone d’aisance, selon ta flexibilité.</span>' : ''}</div>
         </div>
       </div>
       <div class="actions">
         <button class="cta" id="st-pdf">Télécharger mon profil (PDF) ${arrow}</button>
+        <button class="ghost" id="st-share">Partager sur LinkedIn</button>
         <button class="ghost" id="st-copy">Copier mon résultat</button>
         <button class="ghost" id="st-edit">Revoir mes réponses</button>
         <button class="ghost" id="st-reset">Refaire le test</button>
         <span class="toast" id="st-toast" role="status"></span>
       </div>
+      <p class="note" style="margin-top:-28px">PDF : dans la fenêtre d’impression, choisis « Enregistrer en PDF ». Sur téléphone, le plus simple est de recevoir ton rapport par courriel.</p>
       <div id="st-confirm"></div>
+      ${opts.sendReport ? `<form class="mailbox" id="st-mail" novalidate>
+        <div><p class="eyebrow">Ton rapport par courriel</p><h3>Reçois ton profil complet dans ta boîte de réception.</h3></div>
+        <div class="mailrow"><input type="email" id="st-email" required autocomplete="email" placeholder="ton@courriel.com" aria-label="Ton courriel"><button class="cta" type="submit" id="st-send">M’envoyer mon rapport ${arrow}</button></div>
+        <label class="check"><input type="checkbox" id="st-consent" required> J’accepte que mon adresse et mon profil soient transmis à Philippe Beaudoin pour l’envoi de ce rapport.</label>
+        <label class="check"><input type="checkbox" id="st-news"> J’aimerais aussi recevoir, à l’occasion, des outils et des nouvelles de Philippe (facultatif).</label>
+        <input type="text" id="st-hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+        <p class="toast" id="st-mailmsg" role="status"></p>
+      </form>` : ''}
       <nav class="secnav" role="tablist" aria-label="Sections du profil">${secs.map(([id, l]) => `<button role="tab" aria-selected="${st.sec === id}" data-sec="${id}">${l}${id === 'travail' && done(st.adap) ? ' ✓' : ''}${id === 'flex' && done(st.flex) ? ' ✓' : ''}</button>`).join('')}</nav>
       <div id="st-secbody">${body}</div>
       <div class="offer cta-block">
@@ -299,7 +361,7 @@ export function mountStylesTest(root) {
       <p class="quote">« Aucun style n’est meilleur qu’un autre. La vraie force, c’est de savoir s’ajuster. »</p>
       <p class="ref">Outil de réflexion conçu par Philippe Beaudoin, inspiré du modèle DISC (William Marston) et des styles sociaux. Ce n’est ni un test psychométrique ni un diagnostic : nous utilisons tous les quatre styles, à des degrés divers.</p>
     </section>`;
-    wireResults(s, t1, t2, tie);
+    wireResults(s, t1, t2, tie, B);
   }
 
   function secProfil(s, t1) {
@@ -454,6 +516,7 @@ export function mountStylesTest(root) {
       <h1 style="color:${HEX[t1]}">${tie ? `${P.name} + ${STY[t2].name}` : P.name}</h1>
       <p class="r-disc">DISC : <b>${P.discTerm} (${P.disc})</b>${tie ? ` + <b>${STY[t2].discTerm} (${STY[t2].disc})</b>` : ` · secondaire : ${STY[t2].discTerm} (${STY[t2].disc})`}</p></div>
       <div class="r-brand">Philippe Beaudoin<br><span>${date}</span></div></div>
+      <div class="r-blend"><b>Profil combiné : ${blend(s).title}.</b> ${blend(s).text}</div>
       <div class="r-row"><div class="r-map">${map({ me: pos(s), work: done(st.adap) ? pos(scoreAdap()) : null, halo: halo(), light: true, animate: false })}</div>
       <div class="r-bars">${rank(s).map((k) => `<div class="r-bar"><span>${STY[k].name} <em>${disc(k)}</em></span><div><i style="width:${pctOf(s, k)}%;background:${HEX[k]}"></i></div><b>${pctOf(s, k)} %</b></div>`).join('')}
       <p class="r-note">${intensity(pos(s))}</p></div></div>
@@ -477,7 +540,7 @@ export function mountStylesTest(root) {
     window.print();
   }
 
-  function wireResults(s, t1, t2, tie) {
+  function wireResults(s, t1, t2, tie, B) {
     const goSec = () => root.querySelector('.secnav')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
     root.querySelectorAll('[data-sec]').forEach((b) => { b.onclick = () => { st.sec = b.dataset.sec; render(); goSec(); }; });
     root.querySelectorAll('[data-tab]').forEach((b) => { b.onclick = () => { st.tab = b.dataset.tab; st.sec = 'profil'; render(); goSec(); }; });
@@ -493,6 +556,34 @@ export function mountStylesTest(root) {
     const cc = root.querySelector('#st-copycode');
     if (cc) cc.onclick = () => copy(code(s), 'Code copié : envoie-le à ton équipe.');
     root.querySelector('#st-pdf').onclick = () => printReport(s, t1, t2, tie);
+    root.querySelector('#st-share').onclick = () => {
+      const url = `${window.location.origin}/test-styles/resultat/${B.slug}`;
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank', 'noopener,width=600,height=640');
+    };
+    const form = root.querySelector('#st-mail');
+    if (form) {
+      form.onsubmit = async (e) => {
+        e.preventDefault();
+        const msg = root.querySelector('#st-mailmsg');
+        const email = root.querySelector('#st-email').value.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Vérifie ton adresse courriel.'; return; }
+        if (!root.querySelector('#st-consent').checked) { msg.textContent = 'Coche la case de consentement pour recevoir ton rapport.'; return; }
+        const btn = root.querySelector('#st-send');
+        btn.disabled = true;
+        msg.textContent = 'Envoi en cours…';
+        try {
+          const r = await opts.sendReport({
+            email, name: st.name, news: root.querySelector('#st-news').checked, website: root.querySelector('#st-hp').value,
+            scores: s, adap: done(st.adap) ? scoreAdap() : null, flex: done(st.flex) ? flexScore() : null,
+          });
+          msg.textContent = r?.message || (r?.ok ? 'Rapport envoyé!' : 'L’envoi a échoué.');
+          if (!r?.ok) btn.disabled = false;
+        } catch {
+          msg.textContent = 'L’envoi a échoué. Réessaie dans un instant.';
+          btn.disabled = false;
+        }
+      };
+    }
     root.querySelector('#st-edit').onclick = () => { st.screen = 'q'; st.i = 0; render(); toTop(); };
     root.querySelector('#st-reset').onclick = () => {
       const c = root.querySelector('#st-confirm');
@@ -504,7 +595,7 @@ export function mountStylesTest(root) {
       let txt = `${st.name ? st.name + ' — ' : ''}Style de communication : ${tie ? STY[t1].name + ' + ' + STY[t2].name : full(t1)}\n` + rank(s).map((k) => `${STY[k].name} (DISC ${disc(k)}) : ${pctOf(s, k)} %`).join('\n');
       if (done(st.adap)) { const a = scoreAdap(); txt += '\nAu travail : ' + rank(a).map((k) => `${STY[k].name} ${pctOf(a, k)} %`).join(' · '); }
       if (done(st.flex)) txt += `\nFlexibilité : ${flexScore()}/30`;
-      txt += `\nCode : ${code(s)} · philippebeaudoin.com/test-styles`;
+      txt += `\nProfil combiné : ${B.title}\nCode : ${code(s)} · philippebeaudoin.com/test-styles`;
       copy(txt, 'Résultat copié.');
     };
   }
@@ -513,7 +604,8 @@ export function mountStylesTest(root) {
     if (!handlers || ['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
     const max = st.screen === 'fx' ? 5 : 4;
     const n = parseInt(e.key, 10);
-    if (n >= 1 && n <= max) handlers.pick(n - 1);
+    const shown = root.querySelectorAll('[data-j]');
+    if (n >= 1 && n <= max && shown[n - 1]) shown[n - 1].click();
     else if (e.key === 'ArrowLeft') handlers.back();
     else if (e.key === 'ArrowRight' && root.querySelector('#st-next')) handlers.next();
   };
