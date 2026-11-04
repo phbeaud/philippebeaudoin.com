@@ -1,5 +1,6 @@
 // Contenu des fiches PDF par conférence (recto : convaincre le comité ; verso : textes prêts pour le programme).
 // Pour ajouter une conférence : une entrée ici, un code QR dans fiches/qr/, puis `node fiches/build.mjs`.
+// `quote` est un vrai témoignage ou une phrase de Philippe ; `teaser: true` affiche le test gratuit à la place.
 
 export const speaker = {
   contact: { email: "phbeaudoin@outlook.com", phone: "819.349.8334", site: "philippebeaudoin.com" },
@@ -113,5 +114,161 @@ export const fiches = [
     },
     programDescription:
       "L'IA ne transforme pas le travail de la même façon pour tout le monde. Dans cette conférence interactive, Philippe Beaudoin croise personnalités et générations pour comprendre qui fonce, qui résiste et pourquoi, et repartir avec des pistes concrètes pour faire de l'IA un projet d'équipe plutôt qu'une source de fracture.",
+  },
+  {
+    slug: "mieux-se-connaitre",
+    contactSubject: "Mieux se connaître pour mieux collaborer (MBTI / Nova)",
+    theme: "Personnalités et intelligence émotionnelle",
+    title: "Mieux se connaître pour mieux collaborer",
+    subtitle: "Les styles de personnalité au service de l'équipe (MBTI / Nova)",
+    photo: "philippe-scene-sourire.webp",
+    photoPosition: "40% 30%",
+    problem:
+      "Beaucoup de conflits en équipe ne viennent pas d'un désaccord sur le fond, mais d'une incompatibilité de fonctionnement. Une personne analytique et une personne intuitive ne traitent pas l'information de la même façon, et ces frictions invisibles usent la collaboration.",
+    takeaways: [
+      "Découvrir leur propre style de personnalité et ce qu'il change dans leur façon de travailler.",
+      "Reconnaître le style des autres, sans étiqueter ni juger.",
+      "Comprendre d'où viennent les malentendus entre profils différents.",
+      "Repartir avec des réflexes concrets pour adapter leur communication au quotidien.",
+    ],
+    experience: [
+      ["En ouverture", "Chacun situe ses préférences, puis la salle voit en direct la répartition des profils du groupe."],
+      ["Au cœur", "Les profils en action : mises en situation tirées du quotidien de travail, avec humour."],
+      ["En clôture", "Un réflexe concret par profil, pour mieux travailler avec chacun dès le lendemain."],
+    ],
+    audience: "Équipes de travail, gestionnaires et comités de direction. Idéale pour une journée d'équipe ou un lac-à-l'épaule.",
+    teaser: true,
+    programDescription:
+      "Pourquoi certaines collaborations sont-elles naturelles et d'autres, épuisantes? Dans cette conférence interactive basée sur les préférences de personnalité (MBTI / Nova), Philippe Beaudoin aide chacun à découvrir son style, à comprendre celui des autres et à repartir avec des réflexes concrets pour réduire les malentendus.",
+  },
+  {
+    slug: "intelligence-emotionnelle",
+    contactSubject: "Intelligence émotionnelle en milieu de travail",
+    theme: "Personnalités et intelligence émotionnelle",
+    title: "L'intelligence émotionnelle au travail",
+    subtitle: "Lire les émotions, garder le cap, créer un climat sain",
+    photo: "philippe-scene-notes.jpg",
+    photoPosition: "50% 22%",
+    problem:
+      "Les émotions influencent chaque interaction professionnelle : les décisions, la collaboration, la gestion du stress. Pourtant, peu de gestionnaires et de professionnels sont outillés pour les reconnaître et les gérer efficacement, chez eux comme chez les autres.",
+    takeaways: [
+      "Reconnaître leurs propres réactions émotionnelles et ce qui les déclenche.",
+      "Lire les dynamiques émotionnelles d'une équipe ou d'une rencontre.",
+      "Garder leur calme et leur clarté dans les situations tendues.",
+      "Contribuer à un climat de travail plus sain et plus productif.",
+    ],
+    experience: [
+      ["En ouverture", "La salle nomme en direct les émotions les plus fréquentes au travail : le portrait du groupe apparaît à l'écran."],
+      ["Au cœur", "Des situations réelles décortiquées : ce qui se passe, ce qu'on ressent, ce qu'on peut faire autrement."],
+      ["En clôture", "Des outils simples pour gérer ses réactions et désamorcer les tensions."],
+    ],
+    audience: "Gestionnaires, professionnels et équipes qui vivent de la pression ou des relations exigeantes : santé, services, éducation.",
+    teaser: true,
+    programDescription:
+      "Les émotions sont partout au travail, qu'on les nomme ou non. Dans cette conférence interactive, Philippe Beaudoin aide à reconnaître ses réactions, à lire celles des autres et à garder le cap dans les moments tendus, pour bâtir des relations professionnelles plus fluides et un climat d'équipe plus sain.",
+  },
+  {
+    slug: "synergie-equipe",
+    contactSubject: "Synergie d'équipe : transformer les différences en force",
+    theme: "Générations et synergie d'équipe",
+    title: "Synergie d'équipe",
+    subtitle: "Transformer les différences en force",
+    photo: "philippe-scene-pleine.webp",
+    photoPosition: "55% 40%",
+    problem:
+      "Les équipes performantes ne sont pas celles où tout le monde pense pareil, mais celles qui savent utiliser leurs différences. Sans langage commun, les écarts de personnalités et de générations créent du bruit plutôt que de la valeur.",
+    takeaways: [
+      "Reconnaître les forces complémentaires présentes dans leur équipe.",
+      "Se doter d'un langage commun pour parler de leurs différences sans conflit.",
+      "Communiquer de façon adaptée à chaque profil.",
+      "Créer une dynamique où chacun contribue à sa pleine mesure.",
+    ],
+    experience: [
+      ["En ouverture", "La salle décrit en direct son équipe idéale : on part de ses mots, pas d'une théorie."],
+      ["Au cœur", "Personnalités et générations dans la même équipe : où sont les frictions, où sont les forces."],
+      ["En clôture", "Un engagement d'équipe concret, nommé ensemble avant de quitter la salle."],
+    ],
+    audience: "Équipes de travail, comités et organisations qui veulent renforcer la collaboration, notamment après une croissance ou une réorganisation.",
+    teaser: true,
+    programDescription:
+      "Une équipe performante ne pense pas pareil : elle sait se servir de ses différences. Dans cette conférence interactive, Philippe Beaudoin aide à reconnaître les forces complémentaires de chacun, à se donner un langage commun et à transformer les différences de personnalités et de générations en véritable avantage collectif.",
+  },
+  {
+    slug: "leader-en-etant-humain",
+    contactSubject: "Leader en étant humain",
+    theme: "Leadership et mobilisation",
+    title: "Leader en étant humain",
+    subtitle: "Mobiliser des personnes, pas seulement gérer des tâches",
+    photo: "philippe-salle-diapo.jpg",
+    photoPosition: "58% 40%",
+    problem:
+      "Beaucoup de gestionnaires sont promus pour leurs compétences techniques, pas pour leur capacité à comprendre les gens. Résultat : ils gèrent des tâches, mais peinent à mobiliser des humains. L'engagement baisse et le climat se détériore.",
+    takeaways: [
+      "Adopter une posture de leadership fondée sur la confiance et l'intelligence émotionnelle.",
+      "Communiquer avec empathie sans perdre en clarté ni en exigence.",
+      "Adapter leur façon de mobiliser au profil de chaque personne.",
+      "Renforcer la cohésion et l'engagement de leur équipe.",
+    ],
+    experience: [
+      ["En ouverture", "« Le meilleur patron que vous avez eu, que faisait-il? » Les réponses de la salle tracent le portrait du leader humain."],
+      ["Au cœur", "Ce qui mobilise chaque profil, illustré d'exemples vécus en gestion."],
+      ["En clôture", "Chacun choisit un geste de leadership à poser dès la semaine suivante."],
+    ],
+    audience: "Gestionnaires, nouveaux gestionnaires, chefs d'équipe et directions.",
+    teaser: true,
+    programDescription:
+      "On devient souvent gestionnaire pour ses compétences techniques, puis on découvre que le vrai défi, ce sont les gens. Dans cette conférence interactive, Philippe Beaudoin propose une posture de leadership humaine et lucide, et des réflexes concrets pour mobiliser chaque profil de son équipe.",
+  },
+  {
+    slug: "mobiliser-changement",
+    contactSubject: "Mobiliser dans l'incertitude et le changement",
+    theme: "Leadership et mobilisation",
+    title: "Mobiliser dans le changement",
+    subtitle: "Accompagner les équipes dans l'incertitude",
+    photo: "philippe-conference.jpg",
+    photoPosition: "28% 45%",
+    problem:
+      "Les organisations vivent des transformations continues : nouvelles technologies, restructurations, nouvelles réalités de travail. Les leaders doivent accompagner leurs équipes sans toujours avoir toutes les réponses, et la résistance s'installe quand les gens ne se sentent pas compris.",
+    takeaways: [
+      "Comprendre pourquoi les gens résistent au changement, et pourquoi pas tous de la même façon.",
+      "Reconnaître les profils qui embarquent vite et ceux qui ont besoin de temps.",
+      "Communiquer le changement de façon humaine, même dans l'incertitude.",
+      "Créer les conditions pour que l'adoption se fasse plus naturellement.",
+    ],
+    experience: [
+      ["En ouverture", "« Trois mots qui résument ce que vous ressentez quand vous entendez changement. » Le nuage de mots de la salle lance la discussion."],
+      ["Au cœur", "Les réactions au changement selon les profils, et ce dont chacun a besoin pour avancer."],
+      ["En clôture", "Un plan simple pour annoncer et accompagner le prochain changement dans votre équipe."],
+    ],
+    audience: "Gestionnaires, directions et équipes RH qui pilotent une transformation, une fusion ou un nouveau virage technologique.",
+    teaser: true,
+    programDescription:
+      "Le changement est devenu permanent, la résistance aussi. Dans cette conférence interactive, Philippe Beaudoin explique pourquoi chacun réagit différemment au changement et comment le communiquer de façon humaine, pour réduire la résistance et accompagner son équipe même quand on n'a pas toutes les réponses.",
+  },
+  {
+    slug: "mobiliser-influencer",
+    contactSubject: "Mobiliser et influencer par la communication",
+    theme: "Communication et art du pitch",
+    title: "Mobiliser et influencer",
+    subtitle: "Une communication qui donne envie d'agir",
+    photo: "philippe-scene-debout.jpg",
+    photoPosition: "50% 40%",
+    problem:
+      "Les leaders qui communiquent de façon générique perdent leur crédibilité et leur capacité d'influence. Les messages passent, mais ne mobilisent pas : les équipes entendent, mais ne bougent pas.",
+    takeaways: [
+      "Comprendre ce qui fait qu'un message mobilise au lieu de simplement informer.",
+      "Adapter leur message au style de leur interlocuteur pour gagner son adhésion.",
+      "Vendre un projet à l'interne, devant une équipe ou un comité de direction.",
+      "Gagner en crédibilité et en influence au quotidien.",
+    ],
+    experience: [
+      ["En ouverture", "Sondage en direct : « Qu'est-ce qui vous a déjà donné envie de suivre quelqu'un? »"],
+      ["Au cœur", "Un même message livré de façons différentes : la salle voit ce qui convainc et ce qui décroche."],
+      ["En clôture", "Chacun repart avec la structure de son prochain message à fort enjeu."],
+    ],
+    audience: "Leaders, gestionnaires, professionnels et porte-parole qui doivent rallier une équipe, un comité ou des partenaires.",
+    teaser: true,
+    programDescription:
+      "Informer ne suffit pas : il faut donner envie d'agir. Dans cette conférence interactive, Philippe Beaudoin montre comment adapter son message à son auditoire, gagner l'adhésion et vendre un projet à l'interne, pour une communication qui mobilise réellement une équipe, un comité ou des partenaires.",
   },
 ];

@@ -83,13 +83,13 @@ h2 { font-family: "Fraunces", serif; font-size: 14pt; letter-spacing: -.01em; ma
 .v-head h1 { font-size: 26pt; line-height: 1.05; margin-top: 6pt; }
 .v-head .eyebrow { color: var(--muted); }
 .v-intro { padding: 8pt .55in 0; font-size: 9pt; color: var(--muted); max-width: 6in; line-height: 1.45; }
-.copy { margin: 11pt .55in 0; background: #fffdf9; border: 1px solid rgba(22,19,15,.12); border-radius: 12pt; padding: 13pt 16pt; }
+.copy { margin: 9pt .55in 0; background: #fffdf9; border: 1px solid rgba(22,19,15,.12); border-radius: 12pt; padding: 13pt 16pt; }
 .copy .label { display: flex; justify-content: space-between; color: var(--muted); margin-bottom: 6pt; }
 .copy p { font-size: 9.4pt; line-height: 1.52; }
 .copy .ttl { font-family: "Fraunces", serif; font-size: 12pt; margin-bottom: 4pt; }
 .bio { display: grid; grid-template-columns: 1.15in 1fr; gap: 14pt; }
 .bio img { width: 1.15in; height: 1.15in; object-fit: cover; border-radius: 50%; }
-.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; margin: 11pt .55in 0; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; margin: 9pt .55in 0; }
 .cols .copy { margin: 0; }
 .cols ul { list-style: none; }
 .cols li { font-size: 8.8pt; line-height: 1.42; padding: 3.5pt 0 3.5pt 12pt; position: relative; }
@@ -132,7 +132,10 @@ function recto(f) {
       <p class="aud">${esc(f.audience)}</p>
     </aside>
   </div>
-  <blockquote class="quote"><p>« ${esc(f.quote.text)} »</p><span class="eyebrow">${esc(f.quote.by)}</span></blockquote>
+  ${f.quote
+    ? `<blockquote class="quote"><p>« ${esc(f.quote.text)} »</p><span class="eyebrow">${esc(f.quote.by)}</span></blockquote>`
+    : // Sans témoignage, on montre l'avant-goût gratuit : le test des styles de communication
+      `<div class="quote"><p>Un avant-goût, gratuit : le test des styles de communication. 8 minutes, une carte perceptuelle et un rapport PDF.</p><span class="eyebrow">philippebeaudoin.com/test-styles</span></div>`}
   <div class="stats">${speaker.stats.map((s) => `<div><b>${esc(s.value)}</b><span>${esc(s.label)}</span></div>`).join("")}</div>
   <div class="logos"><span class="eyebrow">Ils m'ont fait confiance</span>${logos
     .map(([src, h]) => `<img src="${asset(`images/clients/trimmed/${src}`)}" style="height:${h}px" alt="">`)

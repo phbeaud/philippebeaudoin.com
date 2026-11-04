@@ -21,12 +21,14 @@ const blocs = [
     conferences: [
       {
         title: "Mieux se connaître pour mieux collaborer (MBTI / Nova)",
+        fiche: "/fiches/philippe-beaudoin-mieux-se-connaitre.pdf",
         problem: "Beaucoup de conflits en équipe ne viennent pas d'un désaccord sur le fond, mais d'une incompatibilité de fonctionnement. Une personne analytique et une personne intuitive ne traitent pas l'information de la même manière — et cela crée des frictions invisibles.",
         impact: "Les participants découvrent leur style de personnalité, comprennent celui des autres et repartent avec des réflexes concrets pour adapter leur communication et réduire les malentendus au quotidien.",
         benefits: ["Connaissance de soi et des autres", "Communication adaptée au profil", "Moins de malentendus"],
       },
       {
         title: "Intelligence émotionnelle en milieu de travail",
+        fiche: "/fiches/philippe-beaudoin-intelligence-emotionnelle.pdf",
         problem: "Les émotions influencent chaque interaction professionnelle — les décisions, la collaboration, la gestion du stress. Pourtant, peu de gestionnaires et de professionnels sont outillés pour les reconnaître et les gérer efficacement.",
         impact: "Les participants développent leur capacité à lire les dynamiques émotionnelles dans une équipe, à gérer leurs propres réactions et à créer un climat de travail plus sain et plus productif.",
         benefits: ["Gestion des émotions en situation", "Climat d'équipe amélioré", "Relations professionnelles plus fluides"],
@@ -47,6 +49,7 @@ const blocs = [
       },
       {
         title: "Synergie d'équipe : transformer les différences en force",
+        fiche: "/fiches/philippe-beaudoin-synergie-equipe.pdf",
         problem: "Les équipes performantes ne sont pas celles où tout le monde pense pareil — ce sont celles qui savent utiliser leurs différences. Mais sans langage commun, les différences de personnalités et de générations créent du bruit plutôt que de la valeur.",
         impact: "Les participants apprennent à reconnaître les forces complémentaires dans leur équipe, à communiquer de manière adaptée et à créer une dynamique de collaboration où chacun contribue à sa pleine mesure.",
         benefits: ["Langage commun d'équipe", "Complémentarité activée", "Collaboration plus efficace"],
@@ -60,12 +63,14 @@ const blocs = [
     conferences: [
       {
         title: "Leader en étant humain",
+        fiche: "/fiches/philippe-beaudoin-leader-en-etant-humain.pdf",
         problem: "Beaucoup de gestionnaires sont promus pour leurs compétences techniques, pas pour leur capacité à comprendre les gens. Résultat : ils gèrent des tâches, mais peinent à mobiliser des humains. L'engagement baisse, le climat se détériore.",
         impact: "Les participants développent une posture de leadership fondée sur l'intelligence émotionnelle, la communication empathique et la confiance. Ils repartent avec des réflexes concrets pour mobiliser chaque profil de leur équipe.",
         benefits: ["Leadership plus relationnel", "Mobilisation adaptée aux profils", "Cohésion d'équipe renforcée"],
       },
       {
         title: "Mobiliser dans l'incertitude et le changement",
+        fiche: "/fiches/philippe-beaudoin-mobiliser-changement.pdf",
         problem: "Les organisations vivent des transformations continues — nouvelles technologies, restructurations, nouvelles réalités de travail. Les leaders doivent accompagner leurs équipes sans toujours avoir toutes les réponses. La résistance s'installe quand les gens ne se sentent pas compris.",
         impact: "Les participants apprennent à communiquer le changement de manière humaine, à identifier les profils qui résistent et pourquoi, et à créer les conditions pour que l'adoption se fasse naturellement.",
         benefits: ["Communication du changement", "Réduction de la résistance", "Adoption facilitée"],
@@ -86,6 +91,7 @@ const blocs = [
       },
       {
         title: "Mobiliser et influencer par la communication",
+        fiche: "/fiches/philippe-beaudoin-mobiliser-influencer.pdf",
         problem: "Les leaders qui communiquent de manière générique perdent leur crédibilité et leur capacité d'influence. Les messages passent mais ne mobilisent pas. Les équipes entendent mais ne bougent pas.",
         impact: "Les participants développent une communication qui inspire l'action — que ce soit pour vendre un projet en interne, mobiliser une équipe ou convaincre un comité de direction.",
         benefits: ["Influence positive", "Engagement des équipes", "Leadership par la communication"],
