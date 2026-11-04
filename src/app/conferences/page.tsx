@@ -40,6 +40,7 @@ const blocs = [
     conferences: [
       {
         title: "Le défi des générations en entreprise",
+        fiche: "/fiches/philippe-beaudoin-defi-des-generations.pdf",
         problem: "Baby-boomers, X, milléniaux, Z : chaque génération a grandi avec des repères différents sur le travail, la hiérarchie, la communication et la reconnaissance. Mal comprises, ces différences nourrissent des malentendus et des tensions de gestion.",
         impact: "Les participants font la part entre ce qui relève de la génération, de l'âge et de la personnalité, repèrent les points de friction dans leur équipe et repartent avec des stratégies concrètes pour une culture plus inclusive et plus mobilisatrice.",
         benefits: ["Un climat propice à la rétention", "Moins de frictions intergénérationnelles", "Collaboration renforcée"],
@@ -78,6 +79,7 @@ const blocs = [
     conferences: [
       {
         title: "L'art du pitch",
+        fiche: "/fiches/philippe-beaudoin-art-du-pitch.pdf",
         problem: "La plupart des professionnels ont de bonnes idées mais les communiquent mal. Ils perdent leur auditoire dans les premières secondes, structurent leurs messages de manière confuse et n'arrivent pas à créer l'urgence ou l'adhésion.",
         impact: "Les participants apprennent à capter l'attention dès les premières secondes, à structurer un message percutant, à illustrer avec des exemples qui marquent et à répondre aux objections avec aisance.",
         benefits: ["Structure de pitch éprouvée", "Capacité de persuasion", "Applicable dès la prochaine présentation"],
@@ -97,6 +99,7 @@ const blocs = [
     conferences: [
       {
         title: "Comment les personnalités et les générations vivent l'IA",
+        fiche: "/fiches/philippe-beaudoin-ia-et-generations.pdf",
         problem: "Les organisations déploient l'IA en pensant que l'adoption est uniforme. Or, les profils de personnalité et les générations perçoivent, adoptent et utilisent souvent l'IA de manières différentes. Ignorer ces différences, c'est créer de la résistance.",
         impact: "Les participants comprennent comment les différents profils humains réagissent à l'IA, pourquoi certains résistent et d'autres foncent, et comment adapter la communication et l'accompagnement pour accélérer l'adoption en respectant les personnes.",
         benefits: ["Adoption différenciée de l'IA", "Stratégie par profil", "Moins de résistance, plus d'engagement"],
@@ -248,17 +251,29 @@ export default function Conferences() {
                           </summary>
                           <p className={`mt-3 leading-7 ${dark ? "text-paper/70" : "text-muted"}`}>{conf.problem}</p>
                         </details>
-                        <Link
-                          href={`/contact?sujet=${encodeURIComponent(conf.title)}`}
-                          className={`relative mt-8 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition ${
-                            dark ? "bg-accent text-white hover:bg-accent-deep" : "border border-ink/20 hover:border-accent hover:text-accent"
-                          }`}
-                        >
-                          Demander une proposition
-                          <span aria-hidden="true" className="transition group-hover:translate-x-1">
-                            →
-                          </span>
-                        </Link>
+                        <div className="relative mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+                          <Link
+                            href={`/contact?sujet=${encodeURIComponent(conf.title)}`}
+                            className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition ${
+                              dark ? "bg-accent text-white hover:bg-accent-deep" : "border border-ink/20 hover:border-accent hover:text-accent"
+                            }`}
+                          >
+                            Demander une proposition
+                            <span aria-hidden="true" className="transition group-hover:translate-x-1">
+                              →
+                            </span>
+                          </Link>
+                          {/* Fiche recto-verso à transmettre au comité organisateur, générée par fiches/build.mjs */}
+                          {"fiche" in conf && (
+                            <a
+                              href={conf.fiche}
+                              download
+                              className={`text-sm font-medium underline underline-offset-4 transition hover:text-accent ${dark ? "text-paper/80" : "text-muted"}`}
+                            >
+                              Télécharger la fiche (PDF)
+                            </a>
+                          )}
+                        </div>
                       </article>
                     </AnimatedSection>
                   );
