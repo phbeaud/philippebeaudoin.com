@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HEX, allSlugs, profileFromSlug, styleOf } from "../profiles";
+import { IA } from "@/components/styles-test/content";
 
 // Page publique d'un profil, utilisée pour le partage sur LinkedIn : aucune donnée personnelle
 export function generateStaticParams() {
@@ -79,6 +80,17 @@ export default async function ProfilPage({ params }: { params: Promise<{ profil:
             </li>
           ))}
         </ul>
+
+        <div className="mt-12 border-l-2 pl-6" style={{ borderColor: HEX[p.t1] }}>
+          <p className="eyebrow opacity-60">Face à l&apos;IA · {IA[p.t1].title}</p>
+          <p className="mt-3 font-display text-2xl italic">« {IA[p.t1].question} »</p>
+          <p className="mt-3 max-w-2xl leading-7 text-paper/75">
+            {IA[p.t1].role} Ce qui l&apos;aide à adopter l&apos;IA : {IA[p.t1].aide.map((x: string) => x.toLowerCase()).join(", ")}.{" "}
+            <Link href="/conferences#quand-l-ia-rencontre-les-generations" className="underline underline-offset-4 hover:text-accent">
+              La conférence IA et générations
+            </Link>
+          </p>
+        </div>
 
         <div className="mt-14 flex flex-col gap-6 rounded-[2rem] border border-accent/60 bg-accent/10 p-8 sm:flex-row sm:items-center sm:justify-between">
           <div>

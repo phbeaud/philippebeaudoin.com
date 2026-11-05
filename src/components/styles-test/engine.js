@@ -1,6 +1,6 @@
 // Moteur du test des styles de communication : écrans rendus en HTML dans un conteneur, état sauvegardé localement.
 // Rien n'est envoyé à un serveur : les réponses restent dans le navigateur de la personne.
-import { STY, ORDER, QUAL, SIT, BACKUP, SEEN, PAIRS, FLEX, LIK, BLENDS, PURE, blendSlug } from './content.js';
+import { STY, ORDER, QUAL, SIT, BACKUP, SEEN, PAIRS, IA, FLEX, LIK, BLENDS, PURE, blendSlug } from './content.js';
 
 const TOTAL = QUAL.length + SIT.length;
 const KEY = 'styles-com-v1';
@@ -307,8 +307,8 @@ export function mountStylesTest(root, opts = {}) {
     if (!st.tab) st.tab = t1;
     if (!st.other) st.other = { C: 'I', I: 'C', D: 'S', S: 'D' }[t1];
     const P = STY[t1];
-    const secs = [['profil', 'Mon profil'], ['travail', 'Naturel ou adapté'], ['autres', 'Avec les autres'], ['flex', 'Ma flexibilité'], ['equipe', 'Carte d’équipe']];
-    const body = { profil: secProfil, travail: secTravail, autres: secAutres, flex: secFlex, equipe: secEquipe }[st.sec](s, t1);
+    const secs = [['profil', 'Mon profil'], ['travail', 'Naturel ou adapté'], ['autres', 'Avec les autres'], ['ia', 'Face à l’IA'], ['flex', 'Ma flexibilité'], ['equipe', 'Carte d’équipe']];
+    const body = { profil: secProfil, travail: secTravail, autres: secAutres, ia: secIA, flex: secFlex, equipe: secEquipe }[st.sec](s, t1);
     const p = pos(s);
     const B = blend(s);
     const coh = coherence();
@@ -457,6 +457,31 @@ export function mountStylesTest(root, opts = {}) {
     </div>`;
   }
 
+  // Face à l'IA : un style à la fois, le sien par défaut
+  function secIA(s, t1) {
+    const k = st.iaTab || t1;
+    const P = STY[k];
+    const A = IA[k];
+    const mine = k === t1;
+    return `<div class="profile" style="--pc:var(${P.v})">
+      <div class="ptitle"><p class="eyebrow">Face à l’intelligence artificielle</p><h2>${mine ? 'Toi' : (k === 'D' ? 'Le ' : 'L’') + P.name.toLowerCase()} et l’IA<span class="dot">.</span></h2>
+        <p class="lead" style="margin-top:6px">L’IA arrive dans toutes les équipes, mais chacun ne la vit pas de la même façon. Ton style influence ta première réaction, ce qui te freine et ce qui t’aide à l’adopter.</p></div>
+      <div class="tabs" role="tablist">${ORDER.map((x) => `<button class="tab" role="tab" aria-selected="${k === x}" data-iatab="${x}"><i style="background:var(${STY[x].v})"></i>${STY[x].name} · ${STY[x].disc}${x === t1 ? ' · toi' : ''}</button>`).join('')}</div>
+      <div class="backup"><b style="color:var(${P.v})">${A.title}.</b> ${mine ? 'Ta' : 'Sa'} première question : « ${A.question} »</div>
+      <div class="grid2">
+        <div class="block"><h4>Ce qui ${mine ? 't’' : 'l’'}attire</h4>${list(A.attire)}</div>
+        <div class="block no"><h4>Ce qui ${mine ? 'te' : 'le'} freine</h4>${list(A.freine)}</div>
+        <div class="block"><h4>Ce qui ${mine ? 't’' : 'l’'}aide à l’adopter</h4>${list(A.aide)}</div>
+        <div class="block no"><h4>${mine ? 'Ton' : 'Son'} piège</h4><p style="margin:0">${A.piege}</p></div>
+      </div>
+      <div class="grid2">
+        <div class="block"><h4>${mine ? 'Ton' : 'Son'} rôle dans l’équipe</h4><p style="margin:0">${A.role}</p></div>
+        <div class="block"><h4>Pour ${mine ? 'te' : 'le'} convaincre</h4><p class="serif-q">« ${A.convaincre} »</p></div>
+      </div>
+      <p class="note">Ton style n’explique pas tout : ta génération, ton métier et ton expérience colorent aussi ta relation à l’IA. C’est ce croisement qu’explore la conférence <a href="/conferences#quand-l-ia-rencontre-les-generations" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Quand l’IA rencontre les générations</a>.</p>
+    </div>`;
+  }
+
   function secFlex() {
     const head = `<div class="ptitle"><p class="eyebrow">La flexibilité</p><h2>Le style compte. La flexibilité compte plus<span class="dot">.</span></h2>
       <p class="lead" style="margin-top:6px">Aucun style n’est meilleur qu’un autre. Ce qui distingue les bons communicateurs, c’est leur capacité à ajuster leur façon de faire à la personne devant eux, sans renier qui ils sont.</p></div>`;
@@ -524,6 +549,7 @@ export function mountStylesTest(root, opts = {}) {
       <div class="r-grid"><div><h3>Forces</h3>${list(P.forces)}</div><div><h3>Angles morts</h3>${list(P.faibl)}</div>
       <div><h3>Ce qui te motive</h3>${list(P.motiv)}</div><div><h3>Sous stress : ${BACKUP[t1][0].toLowerCase()}</h3><p>${BACKUP[t1][1]}</p>${list(P.remedes)}</div></div>
       <h2>Pour bien communiquer avec chaque style</h2><div class="r-grid4">${ORDER.map((k) => `<div style="border-top:4px solid ${HEX[k]}"><h3>${STY[k].name} <em>${STY[k].disc}</em></h3><p>Explique d’abord <b>${STY[k].talk[0]}</b>, procède <b>${STY[k].talk[1]}</b>, sois <b>${STY[k].talk[2]}</b>.</p></div>`).join('')}</div>`;
+    h += `<h2>Face à l’IA : ${IA[t1].title.toLowerCase()}</h2><p>Ta première question : « ${IA[t1].question} » Ce qui t’aide à l’adopter : ${IA[t1].aide.map((x) => x.toLowerCase()).join(', ')}. Ton piège : ${IA[t1].piege.charAt(0).toLowerCase() + IA[t1].piege.slice(1)}</p>`;
     if (done(st.adap)) {
       const a = scoreAdap();
       h += `<h2>Naturel ou adapté</h2><p>Au travail : ${rank(a).map((k) => `${STY[k].name} (${STY[k].disc}) ${pctOf(a, k)} %`).join(' · ')}.</p>`;
@@ -544,6 +570,7 @@ export function mountStylesTest(root, opts = {}) {
     const goSec = () => root.querySelector('.secnav')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
     root.querySelectorAll('[data-sec]').forEach((b) => { b.onclick = () => { st.sec = b.dataset.sec; render(); goSec(); }; });
     root.querySelectorAll('[data-tab]').forEach((b) => { b.onclick = () => { st.tab = b.dataset.tab; st.sec = 'profil'; render(); goSec(); }; });
+    root.querySelectorAll('[data-iatab]').forEach((b) => { b.onclick = () => { st.iaTab = b.dataset.iatab; render(); goSec(); }; });
     root.querySelectorAll('[data-other]').forEach((b) => { b.onclick = () => { st.other = b.dataset.other; render(); goSec(); }; });
     const sa = root.querySelector('#st-startAd');
     if (sa) sa.onclick = () => { if (done(st.adap)) st.adap = Array(QUAL.length).fill(null); const f = st.adap.findIndex((a) => a == null); st.i = f < 0 ? 0 : f; st.screen = 'aq'; render(); toTop(); };

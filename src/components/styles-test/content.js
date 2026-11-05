@@ -116,6 +116,50 @@ export const BACKUP = {
 };
 export const SEEN = { C: 'froid, tatillon, jamais prêt à décider', D: 'pressé, autoritaire, peu à l’écoute', S: 'hésitant, trop accommodant, difficile à lire', I: 'dispersé, superficiel, peu fiable sur le suivi' };
 
+// Face à l'IA : comment chaque style vit l'arrivée de l'intelligence artificielle (lien avec la conférence IA et générations)
+export const IA = {
+  C: {
+    title: 'Le vérificateur',
+    question: 'Est-ce que c’est fiable?',
+    attire: ['Gagner du temps sur la recherche et l’analyse', 'Structurer et documenter le travail', 'Vérifier plus d’hypothèses, plus vite'],
+    freine: ['Les réponses inventées ou impossibles à vérifier', 'Le manque de transparence sur le fonctionnement', 'La confidentialité des données'],
+    piege: 'Tester sans fin avant d’adopter, ou rejeter l’outil à la première erreur.',
+    aide: ['Des règles d’usage claires', 'Des exemples vérifiés et leurs limites', 'Du temps pour tester sans pression'],
+    role: 'Garde-fou de la qualité : valider les résultats et définir les bonnes pratiques de l’équipe.',
+    convaincre: 'Voici ce que l’outil fait bien, ses limites, et comment on vérifie.',
+  },
+  D: {
+    title: 'Le pragmatique',
+    question: 'Combien de temps ça me sauve?',
+    attire: ['L’efficacité et les résultats rapides', 'L’avantage sur la concurrence', 'Décider avec plus d’information, plus vite'],
+    freine: ['Les outils qui ralentissent au début', 'Les longues formations', 'Les gadgets sans gain concret'],
+    piege: 'Imposer l’outil à l’équipe trop vite, ou se fier aux réponses sans les vérifier.',
+    aide: ['Un cas concret avec un gain mesurable', 'Un essai court sur un vrai dossier', 'Des objectifs clairs'],
+    role: 'Moteur : donner l’élan, trancher et fixer des objectifs d’adoption.',
+    convaincre: 'Sur ce dossier, on sauve tant d’heures dès le mois prochain.',
+  },
+  S: {
+    title: 'Le prudent',
+    question: 'Qu’est-ce que ça change pour l’équipe… et pour moi?',
+    attire: ['Se libérer des tâches répétitives', 'Avoir plus de temps pour les gens', 'Être mieux outillé pour aider les autres'],
+    freine: ['La peur d’être dépassé ou remplacé', 'Le changement imposé sans explication', 'La perte du contact humain'],
+    piege: 'Dire oui du bout des lèvres, puis rester à l’écart sans le dire.',
+    aide: ['Apprendre en petit groupe, accompagné', 'Un rythme graduel', 'Des repères clairs sur le rôle de chacun'],
+    role: 'Gardien de l’humain : repérer qui décroche et aider les collègues à embarquer.',
+    convaincre: 'On l’apprend ensemble, à ton rythme, et voici ce que ça change pour toi.',
+  },
+  I: {
+    title: 'L’explorateur',
+    question: 'Wow, on peut faire quoi avec ça?',
+    attire: ['La nouveauté et l’expérimentation', 'La créativité et les idées', 'Montrer ses découvertes aux autres'],
+    freine: ['Les règles trop strictes', 'La routine, une fois l’effet de nouveauté passé', 'Travailler seul avec l’outil'],
+    piege: 'S’éparpiller d’un outil à l’autre, ou partager des résultats sans les vérifier.',
+    aide: ['La liberté d’explorer', 'Des défis créatifs', 'Une tribune pour partager les découvertes'],
+    role: 'Ambassadeur : un enthousiasme qui donne envie aux autres d’essayer.',
+    convaincre: 'Imagine ce que tu pourrais créer avec ça.',
+  },
+};
+
 // Duos : [friction, complémentarité, titre, ce qui marche, ce qui accroche, l'astuce]
 export const PAIRS = {
   CC: [1, 1, 'Deux esprits rigoureux', 'Vous parlez la même langue : faits, méthode, qualité. Le travail est solide et bien documenté.', 'Personne ne tranche. L’analyse s’allonge, la décision recule, l’occasion passe.', 'Fixez d’avance la date de la décision et le seuil d’information « suffisant ».'],

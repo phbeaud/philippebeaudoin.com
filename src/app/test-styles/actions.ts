@@ -1,6 +1,6 @@
 "use server";
 
-import { BLENDS, ORDER, PURE, QUAL, SIT, STY, blendSlug } from "@/components/styles-test/content";
+import { BLENDS, IA, ORDER, PURE, QUAL, SIT, STY, blendSlug } from "@/components/styles-test/content";
 
 type Key = "C" | "D" | "S" | "I";
 type Scores = Record<Key, number>;
@@ -73,6 +73,9 @@ function reportHtml(name: string, s: Scores, adap: Scores | null, flex: number |
         <td style="vertical-align:top;width:50%"><b>Tes angles morts</b>${li(P.faibl)}</td></tr></table>
       <h2 style="font-family:Georgia,serif;font-weight:400;font-size:22px;margin:26px 0 8px">Pour bien communiquer avec chaque style</h2>
       ${KEYS.map((k) => `<p style="margin:0 0 8px;padding-left:10px;border-left:4px solid ${HEX[k]}"><b>${STY[k].name} (${STY[k].disc})</b> : explique d’abord ${STY[k].talk[0]}, procède ${STY[k].talk[1]}, sois ${STY[k].talk[2]}.</p>`).join("")}
+      <h2 style="font-family:Georgia,serif;font-weight:400;font-size:22px;margin:26px 0 4px">Toi et l’IA : ${esc(IA[t1].title.toLowerCase())}</h2>
+      <p style="margin:0">Ta première question : « ${esc(IA[t1].question)} » Ton piège : ${esc(IA[t1].piege.charAt(0).toLowerCase() + IA[t1].piege.slice(1))}</p>
+      <p style="margin:8px 0 0"><b>Ce qui t’aide à l’adopter</b>${li(IA[t1].aide)}</p>
       ${adap ? `<p style="margin:18px 0 0"><b>Au travail :</b> ${rank(adap).map((k) => `${STY[k].name} ${pct(adap, k)} %`).join(" · ")}</p>` : ""}
       ${flex ? `<p style="margin:8px 0 0"><b>Flexibilité :</b> ${flex}/30</p>` : ""}
       <p style="margin:26px 0 0"><a href="${SITE}/test-styles" style="color:#e8552b">Revoir ton profil détaillé et ta carte perceptuelle</a></p>
