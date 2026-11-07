@@ -235,10 +235,10 @@ export default function Accueil() {
             <AnimatedSection>
               <p className="eyebrow opacity-60">Pourquoi Philippe Beaudoin</p>
               <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">
-                Infirmier, gestionnaire, entrepreneur, <em className="italic text-paper/70">enseignant</em>.
+                Entrepreneur, gestionnaire, <em className="italic text-paper/70">enseignant</em>.
               </h2>
               <p className="mt-6 text-lg leading-8 text-paper/70">
-                Un parcours vécu de l&apos;intérieur, qui rend chaque intervention concrète et crédible.
+                Un parcours vécu de l&apos;intérieur, du milieu de la santé à la direction d&apos;entreprise, qui rend chaque intervention concrète et crédible.
               </p>
             </AnimatedSection>
             <div className="mt-10 flex flex-wrap gap-x-10 gap-y-6 border-t border-paper/15 pt-8">
