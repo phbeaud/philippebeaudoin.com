@@ -59,7 +59,12 @@ export default function Footer() {
         </div>
 
         <div className="mt-20 flex flex-wrap justify-between gap-4 border-t border-paper/10 pt-6 text-xs text-paper/60">
-          <p>&copy; {new Date().getFullYear()} Philippe Beaudoin. Tous droits réservés.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Philippe Beaudoin. Tous droits réservés.{" "}
+            <Link href="/confidentialite" className="ml-3 underline underline-offset-4 transition hover:text-accent">
+              Confidentialité
+            </Link>
+          </p>
           <p className="eyebrow">Mieux comprendre les humains</p>
         </div>
       </div>

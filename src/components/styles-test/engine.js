@@ -176,7 +176,7 @@ export function mountStylesTest(root, opts = {}) {
         <button class="cta" id="st-go">${started ? 'Reprendre où j’étais' : 'Commencer le test'} ${arrow}</button>
         ${started ? '<button class="ghost" id="st-reset">Recommencer à zéro</button>' : ''}
       </div>
-      <p class="note">Réponds selon ta façon d’être spontanée, celle qui te vient sans effort, et non selon ce que tu aimerais être. Ta première impression est souvent la bonne. Ton résultat est conservé de façon anonyme, sans ton prénom ni ton adresse IP, pour des statistiques globales.</p>
+      <p class="note">Réponds selon ta façon d’être spontanée, celle qui te vient sans effort, et non selon ce que tu aimerais être. Ta première impression est souvent la bonne. Ton résultat est conservé de façon anonyme, sans ton prénom ni ton adresse IP, pour des statistiques globales (<a href="/confidentialite" style="color:inherit;text-decoration:underline">confidentialité</a>).</p>
     </section>`;
     const nom = root.querySelector('#st-nom');
     nom.addEventListener('input', () => { st.name = nom.value.slice(0, 40); save(); });
@@ -389,7 +389,7 @@ export function mountStylesTest(root, opts = {}) {
       ${opts.sendReport ? `<form class="mailbox" id="st-mail" novalidate>
         <div><p class="eyebrow">Ton rapport par courriel</p><h3>Reçois ton profil complet dans ta boîte de réception.</h3></div>
         <div class="mailrow"><input type="email" id="st-email" required autocomplete="email" placeholder="ton@courriel.com" aria-label="Ton courriel"><button class="cta" type="submit" id="st-send">M’envoyer mon rapport ${arrow}</button></div>
-        <label class="check"><input type="checkbox" id="st-consent" required> J’accepte que mon adresse et mon profil soient transmis à Philippe Beaudoin pour l’envoi de ce rapport.</label>
+        <label class="check"><input type="checkbox" id="st-consent" required> J’accepte que mon adresse et mon profil soient transmis à Philippe Beaudoin pour l’envoi de ce rapport (<a href="/confidentialite" target="_blank" style="color:inherit;text-decoration:underline">confidentialité</a>).</label>
         <label class="check"><input type="checkbox" id="st-news"> J’aimerais aussi recevoir, à l’occasion, des outils et des nouvelles de Philippe (facultatif).</label>
         <input type="text" id="st-hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
         <p class="toast" id="st-mailmsg" role="status"></p>

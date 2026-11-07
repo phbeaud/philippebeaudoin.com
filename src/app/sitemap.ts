@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/test-styles", priority: 0.8 },
     { path: "/a-propos", priority: 0.7 },
     { path: "/contact", priority: 0.8 },
+    { path: "/confidentialite", priority: 0.3 },
     ...allSlugs().map((slug) => ({ path: `/test-styles/resultat/${slug}`, priority: 0.5 })),
   ].map(({ path, priority }) => ({
     url: `${BASE}${path}`,

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { sendContact, type ContactState } from "@/app/contact/actions";
 
@@ -198,6 +199,12 @@ export default function ContactForm({ topic }: { topic?: string }) {
             </span>
           )}
         </button>
+        <p className="mt-4 text-xs text-muted">
+          Vos renseignements servent uniquement à répondre à votre demande.{" "}
+          <Link href="/confidentialite" className="underline underline-offset-4 hover:text-accent">
+            Politique de confidentialité
+          </Link>
+        </p>
       </div>
     </form>
   );
