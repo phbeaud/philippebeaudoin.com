@@ -1,6 +1,8 @@
 "use server";
 
+import { headers } from "next/headers";
 import { BLENDS, IA, ORDER, PURE, QUAL, SIT, STY, blendSlug } from "@/components/styles-test/content";
+import { AGES, ROLES, SECTORS, db } from "@/lib/stats";
 
 type Key = "C" | "D" | "S" | "I";
 type Scores = Record<Key, number>;
@@ -15,6 +17,7 @@ type Payload = {
   scores: Scores;
   adap?: Scores | null;
   flex?: number | null;
+  sid?: string;
 };
 type Result = { ok: boolean; message: string };
 
@@ -129,5 +132,97 @@ export async function sendStylesReport(p: Payload): Promise<Result> {
     email,
   );
 
+  await markReport(p.sid, !!p.news);
   return { ok: true, message: `Rapport envoyé à ${email}. Vérifie aussi tes courriels indésirables.` };
+}
+
+// ---------- Statistiques anonymes ----------
+type Track = {
+  sid: string;
+  event: "start" | "result";
+  source?: string;
+  device?: string;
+  about?: { age?: string | null; role?: string | null; sector?: string | null };
+  scores?: Scores;
+  adap?: Scores | null;
+  flex?: number | null;
+};
+
+const validSid = (v: unknown): v is string => typeof v === "string" && /^[a-z0-9]{10,32}$/.test(v);
+const pick = <T extends string>(list: readonly T[], v: unknown) => (list.includes(v as T) ? (v as T) : null);
+const clean = (v: unknown, n = 60) => (typeof v === "string" ? v.replace(/[^\p{L}\p{N} .:/_-]/gu, "").slice(0, n) || null : null);
+
+async function markReport(sid: unknown, news: boolean) {
+  const d = db();
+  if (!d || !validSid(sid)) return;
+  try {
+    await d.ready;
+    await d.sql`update test_sessions set report = true, news = news or ${news}, updated_at = now() where sid = ${sid}`;
+  } catch (e) {
+    console.error("Statistiques : échec de la mise à jour du rapport", e);
+  }
+}
+
+// Appelé au début du test et chaque fois que le résultat change (modules, questions facultatives)
+export async function trackTest(t: Track): Promise<void> {
+  const d = db();
+  if (!d || !t || !validSid(t.sid)) return;
+  // Région approximative fournie par Vercel à partir de l'adresse IP, qui elle n'est jamais conservée
+  const h = await headers();
+  const geo = (k: string) => {
+    const v = h.get(k);
+    try {
+      return v ? decodeURIComponent(v).slice(0, 60) : null;
+    } catch {
+      return null;
+    }
+  };
+  const country = geo("x-vercel-ip-country");
+  const region = geo("x-vercel-ip-country-region");
+  const city = geo("x-vercel-ip-city");
+  const device = pick(["mobile", "tablette", "ordinateur"] as const, t.device);
+  const source = clean(t.source);
+  try {
+    await d.ready;
+    if (t.event === "start") {
+      await d.sql`insert into test_sessions (sid, country, region, city, device, source)
+        values (${t.sid}, ${country}, ${region}, ${city}, ${device}, ${source})
+        on conflict (sid) do nothing`;
+      return;
+    }
+    if (!validScores(t.scores, QUAL.length + SIT.length)) return;
+    const s = t.scores;
+    const [t1, t2] = rank(s);
+    const pure = pct(s, t2) <= 15;
+    const adap = t.adap && validScores(t.adap, QUAL.length) ? t.adap : null;
+    const flex = Number.isInteger(t.flex) && (t.flex as number) >= 6 && (t.flex as number) <= 30 ? (t.flex as number) : null;
+    const row = {
+      sid: t.sid,
+      country, region, city, device, source,
+      age: pick(AGES, t.about?.age),
+      role: pick(ROLES, t.about?.role),
+      sector: pick(SECTORS, t.about?.sector),
+      t1, t2: pure ? null : t2,
+      profile: blendSlug(t1, pure ? null : t2),
+      sc: s.C, sd: s.D, ss: s.S, si: s.I,
+      work_t1: adap ? rank(adap)[0] : null,
+      flex,
+    };
+    // La première fin de test fixe la date de complétion et la provenance; les mises à jour suivantes complètent la ligne
+    await d.sql`insert into test_sessions (sid, country, region, city, device, source, age, role, sector,
+        t1, t2, profile, sc, sd, ss, si, work_t1, flex, completed_at)
+      values (${row.sid}, ${row.country}, ${row.region}, ${row.city}, ${row.device}, ${row.source}, ${row.age}, ${row.role}, ${row.sector},
+        ${row.t1}, ${row.t2}, ${row.profile}, ${row.sc}, ${row.sd}, ${row.ss}, ${row.si}, ${row.work_t1}, ${row.flex}, now())
+      on conflict (sid) do update set
+        completed_at = coalesce(test_sessions.completed_at, now()), updated_at = now(),
+        country = coalesce(test_sessions.country, excluded.country), region = coalesce(test_sessions.region, excluded.region),
+        city = coalesce(test_sessions.city, excluded.city), device = coalesce(test_sessions.device, excluded.device),
+        source = coalesce(test_sessions.source, excluded.source),
+        age = excluded.age, role = excluded.role, sector = excluded.sector,
+        t1 = excluded.t1, t2 = excluded.t2, profile = excluded.profile,
+        sc = excluded.sc, sd = excluded.sd, ss = excluded.ss, si = excluded.si,
+        work_t1 = excluded.work_t1, flex = excluded.flex`;
+  } catch (e) {
+    console.error("Statistiques : échec de l'enregistrement", e);
+  }
 }

@@ -1,5 +1,5 @@
 // Moteur du test des styles de communication : écrans rendus en HTML dans un conteneur, état sauvegardé localement.
-// Rien n'est envoyé à un serveur : les réponses restent dans le navigateur de la personne.
+// Le résultat est aussi enregistré de façon anonyme (opts.track) pour les statistiques : jamais le prénom ni le courriel.
 import { STY, ORDER, QUAL, SIT, BACKUP, SEEN, PAIRS, IA, FLEX, LIK, BLENDS, PURE, blendSlug } from './content.js';
 
 const TOTAL = QUAL.length + SIT.length;
@@ -15,13 +15,35 @@ const disc = (k) => `${STY[k].disc} · ${STY[k].discTerm}`;
 const full = (k) => `${STY[k].name} (${STY[k].color}) · DISC ${disc(k)}`;
 
 const newSeed = () => Math.floor(Math.random() * 1e9);
-const fresh = (name = '') => ({ seed: newSeed(), screen: 'intro', i: 0, ans: Array(TOTAL).fill(null), adap: Array(QUAL.length).fill(null), flex: Array(FLEX.length).fill(null), name, tab: null, sec: 'profil', other: null, team: '' });
+const newSid = () => Array.from(crypto.getRandomValues(new Uint8Array(12)), (b) => (b % 36).toString(36)).join('');
+const fresh = (name = '') => ({ seed: newSeed(), sid: newSid(), screen: 'intro', i: 0, ans: Array(TOTAL).fill(null), adap: Array(QUAL.length).fill(null), flex: Array(FLEX.length).fill(null), name, tab: null, sec: 'profil', other: null, team: '', about: null });
+
+// Questions facultatives posées avant le résultat, pour les statistiques (tranches alignées sur les générations en 2026)
+const ABOUT = [
+  ['age', 'Ton âge', [['moins-30', 'Moins de 30 ans'], ['30-45', '30 à 45 ans'], ['46-61', '46 à 61 ans'], ['62-plus', '62 ans et plus']]],
+  ['role', 'Ton rôle', [['gestion', 'Gestionnaire ou cadre'], ['employe', 'Employé ou professionnel'], ['rh', 'RH ou formation'], ['autonome', 'Travailleur autonome ou entrepreneur'], ['etudiant', 'Étudiant'], ['autre', 'Autre']]],
+  ['sector', 'Ton secteur', [['sante', 'Santé et services sociaux'], ['education', 'Éducation'], ['public', 'Municipal ou public'], ['prive', 'Entreprise privée'], ['obnl', 'OBNL ou communautaire'], ['autre', 'Autre']]],
+];
+const device = () => (window.innerWidth < 768 ? 'mobile' : window.matchMedia('(pointer: coarse)').matches ? 'tablette' : 'ordinateur');
+// Provenance : paramètre utm_source, sinon le site d'où vient la personne
+function source() {
+  const u = new URLSearchParams(window.location.search).get('utm_source');
+  if (u) return u.slice(0, 40);
+  try {
+    const r = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, '') : '';
+    return r && r !== window.location.hostname.replace(/^www\./, '') ? r : 'direct';
+  } catch {
+    return 'direct';
+  }
+}
 
 function load() {
   try {
     const s = JSON.parse(localStorage.getItem(KEY));
     if (!(s && Array.isArray(s.ans) && s.ans.length === TOTAL && Array.isArray(s.adap) && Array.isArray(s.flex))) return null;
     if (typeof s.seed !== 'number') s.seed = newSeed();
+    if (typeof s.sid !== 'string') s.sid = newSid();
+    if (s.about === undefined) s.about = null;
     return s;
   } catch {
     return null;
@@ -98,6 +120,8 @@ export function mountStylesTest(root, opts = {}) {
   let handlers = null;
   let lock = false;
   let interacted = false;
+  const track = (data) => { if (opts.track) opts.track({ sid: st.sid, device: device(), ...data }).catch(() => {}); };
+  if (!st.src) st.src = source();
 
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch { /* stockage indisponible : le test fonctionne quand même */ } };
   const scoreNat = () => scoreOf(st.ans, (k, a) => (k < QUAL.length ? QUAL[k][a][1] : SIT[k - QUAL.length][1][a][1]));
@@ -117,7 +141,7 @@ export function mountStylesTest(root, opts = {}) {
 
   function render() {
     save();
-    ({ intro, q: question, pause, res: results, aq: adQuestion, fx: fxQuestion }[st.screen] || intro)();
+    ({ intro, q: question, pause, about, res: results, aq: adQuestion, fx: fxQuestion }[st.screen] || intro)();
     if (interacted) {
       const h = root.querySelector('h1, h2');
       if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
@@ -152,11 +176,11 @@ export function mountStylesTest(root, opts = {}) {
         <button class="cta" id="st-go">${started ? 'Reprendre où j’étais' : 'Commencer le test'} ${arrow}</button>
         ${started ? '<button class="ghost" id="st-reset">Recommencer à zéro</button>' : ''}
       </div>
-      <p class="note">Réponds selon ta façon d’être spontanée, celle qui te vient sans effort, et non selon ce que tu aimerais être. Ta première impression est souvent la bonne. Tes réponses restent dans ton navigateur : rien n’est envoyé.</p>
+      <p class="note">Réponds selon ta façon d’être spontanée, celle qui te vient sans effort, et non selon ce que tu aimerais être. Ta première impression est souvent la bonne. Ton résultat est conservé de façon anonyme, sans ton prénom ni ton adresse IP, pour des statistiques globales.</p>
     </section>`;
     const nom = root.querySelector('#st-nom');
     nom.addEventListener('input', () => { st.name = nom.value.slice(0, 40); save(); });
-    root.querySelector('#st-go').onclick = () => { const f = st.ans.findIndex((a) => a == null); st.i = f < 0 ? TOTAL - 1 : f; st.screen = f < 0 ? 'res' : 'q'; render(); toTop(); };
+    root.querySelector('#st-go').onclick = () => { if (!started) track({ event: 'start', source: st.src }); const f = st.ans.findIndex((a) => a == null); st.i = f < 0 ? TOTAL - 1 : f; st.screen = f < 0 ? 'res' : 'q'; render(); toTop(); };
     const r = root.querySelector('#st-reset');
     if (r) r.onclick = () => { st = fresh(st.name); render(); };
   }
@@ -204,7 +228,7 @@ export function mountStylesTest(root, opts = {}) {
     if (st.i >= TOTAL - 1) {
       const f = st.ans.findIndex((a) => a == null);
       if (f >= 0) { st.i = f; return render(); }
-      st.screen = 'res'; st.tab = null; st.sec = 'profil'; render(); return toTop();
+      st.screen = st.about ? 'res' : 'about'; st.tab = null; st.sec = 'profil'; render(); return toTop();
     }
     st.i++;
     render();
@@ -225,6 +249,24 @@ export function mountStylesTest(root, opts = {}) {
     </section>`;
     root.querySelector('#st-go').onclick = () => { st.screen = 'q'; st.i = QUAL.length; render(); };
     root.querySelector('#st-back').onclick = () => { st.screen = 'q'; st.i = QUAL.length - 1; render(); };
+  }
+
+  // Trois questions facultatives avant le résultat : âge, rôle, secteur
+  function about() {
+    handlers = null;
+    const a = st.aboutDraft || { age: null, role: null, sector: null };
+    root.innerHTML = `${top(`${TOTAL} / ${TOTAL}`)}${progress(st.ans, -1, QUAL.length)}<section class="stage about">
+      <div class="qhead"><p class="eyebrow">Dernière étape · facultatif</p><h2 class="prompt">Avant ton résultat, trois questions rapides<span class="dot">.</span></h2>
+        <p class="note" style="margin-top:8px">Elles servent seulement à des statistiques globales et anonymes. Tu peux passer.</p></div>
+      ${ABOUT.map(([key, label, opts2]) => `<div class="aboutq"><p class="eyebrow">${label}</p><div class="chips" role="radiogroup" aria-label="${label}">${opts2.map(([v, l]) => `<button class="chipbtn${a[key] === v ? ' sel' : ''}" role="radio" aria-checked="${a[key] === v}" data-k="${key}" data-v="${v}">${esc(l)}</button>`).join('')}</div></div>`).join('')}
+      <div class="actions"><button class="cta" id="st-go">Voir mon résultat ${arrow}</button><button class="ghost" id="st-skip">Passer</button></div>
+    </section>`;
+    root.querySelectorAll('[data-k]').forEach((b) => {
+      b.onclick = () => { const k = b.dataset.k; a[k] = a[k] === b.dataset.v ? null : b.dataset.v; st.aboutDraft = a; render(); };
+    });
+    const go = (keep) => { st.about = keep ? a : { age: null, role: null, sector: null }; delete st.aboutDraft; st.screen = 'res'; render(); toTop(); };
+    root.querySelector('#st-go').onclick = () => go(true);
+    root.querySelector('#st-skip').onclick = () => go(false);
   }
 
   // Module « Au travail » : style adapté
@@ -362,6 +404,10 @@ export function mountStylesTest(root, opts = {}) {
       <p class="ref">Outil de réflexion conçu par Philippe Beaudoin, inspiré du modèle DISC (William Marston) et des styles sociaux. Ce n’est ni un test psychométrique ni un diagnostic : nous utilisons tous les quatre styles, à des degrés divers.</p>
     </section>`;
     wireResults(s, t1, t2, tie, B);
+    // Enregistre le résultat seulement s'il a changé depuis le dernier envoi (modules, questions facultatives)
+    const snap = { event: 'result', source: st.src, about: st.about, scores: s, adap: done(st.adap) ? scoreAdap() : null, flex: done(st.flex) ? flexScore() : null };
+    const sig = JSON.stringify(snap);
+    if (sig !== st.sent) { st.sent = sig; save(); track(snap); }
   }
 
   function secProfil(s, t1) {
@@ -601,7 +647,7 @@ export function mountStylesTest(root, opts = {}) {
         try {
           const r = await opts.sendReport({
             email, name: st.name, news: root.querySelector('#st-news').checked, website: root.querySelector('#st-hp').value,
-            scores: s, adap: done(st.adap) ? scoreAdap() : null, flex: done(st.flex) ? flexScore() : null,
+            scores: s, adap: done(st.adap) ? scoreAdap() : null, flex: done(st.flex) ? flexScore() : null, sid: st.sid,
           });
           msg.textContent = r?.message || (r?.ok ? 'Rapport envoyé!' : 'L’envoi a échoué.');
           if (!r?.ok) btn.disabled = false;
