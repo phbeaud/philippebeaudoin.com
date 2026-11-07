@@ -3,6 +3,7 @@ import AnimatedSection from "@/components/AnimatedSection";
 import Formulas from "@/components/Formulas";
 import Icon, { type IconName } from "@/components/Icon";
 import PageHero from "@/components/PageHero";
+import Image from "next/image";
 import SectionCTA from "@/components/SectionCTA";
 
 export const metadata: Metadata = {
@@ -131,8 +132,9 @@ export default function Formations() {
 
       {/* ═══ BESOIN → FORMATION ═══ */}
       <section className="mx-auto max-w-7xl px-6 pt-20 sm:pt-28 lg:px-8 lg:pt-36">
-        <AnimatedSection className="max-w-3xl">
-          <p className="eyebrow opacity-60">Partir de votre besoin</p>
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+          <AnimatedSection className="max-w-3xl lg:col-span-7">
+            <p className="eyebrow opacity-60">Partir de votre besoin</p>
           <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
             Une conférence inspire. Une formation <em className="italic">transforme</em>.
           </h2>
@@ -140,7 +142,20 @@ export default function Formations() {
             Vous ne cherchez pas qu&apos;un sujet : vous voulez développer une compétence ou régler un problème. Voici par où
             commencer.
           </p>
-        </AnimatedSection>
+          </AnimatedSection>
+          {/* Photo d'ambiance libre de droits (Unsplash) */}
+          <AnimatedSection delay={120} className="lg:col-span-5">
+            <figure className="relative aspect-[4/3] overflow-hidden rounded-[2rem]">
+              <Image
+                src="/images/illustrations/atelier-tableau.jpg"
+                alt="Une participante présente des idées sur un tableau couvert de papillons adhésifs pendant un atelier"
+                fill
+                sizes="(min-width:1024px) 40vw, 100vw"
+                className="object-cover object-[60%_50%] transition duration-700 hover:scale-105"
+              />
+            </figure>
+          </AnimatedSection>
+        </div>
         <ul className="mt-12 border-t border-ink/15">
           {needs.map((n, i) => (
             <AnimatedSection key={n.need} delay={i * 70}>

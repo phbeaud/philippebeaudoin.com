@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import AnimatedSection from "@/components/AnimatedSection";
 import Icon, { type IconName } from "@/components/Icon";
 import PageHero from "@/components/PageHero";
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 const blocs = [
   {
     tag: "Personnalités et intelligence émotionnelle",
+    image: { src: "/images/illustrations/equipe-collegues.jpg", alt: "Quatre collègues échangent autour d'un ordinateur portable", position: "50% 40%" },
     intro:
       "Dans chaque équipe, des personnes fonctionnent différemment — dans leur façon de penser, de communiquer, de réagir au stress et de collaborer. Quand ces différences ne sont pas comprises, elles créent des malentendus, des frustrations et des tensions silencieuses. Ces conférences donnent les clés pour décoder les profils humains et adapter sa communication.",
     conferences: [
@@ -37,6 +39,7 @@ const blocs = [
   },
   {
     tag: "Générations et synergie d'équipe",
+    image: { src: "/images/illustrations/generations-discussion.jpg", alt: "Deux collègues de générations différentes discutent en marchant au bureau", position: "55% 35%" },
     intro:
       "Plusieurs générations cohabitent aujourd'hui dans les organisations. Leurs repères diffèrent parfois, même si l'âge, le contexte et la personnalité pèsent tout autant. Mal comprises, ces différences alimentent des malentendus ; bien décodées, elles deviennent des leviers de complémentarité.",
     conferences: [
@@ -58,6 +61,7 @@ const blocs = [
   },
   {
     tag: "Leadership et mobilisation",
+    image: { src: "/images/illustrations/leadership-reunion.jpg", alt: "Une équipe en réunion autour d'une table, une personne prend la parole", position: "45% 50%" },
     intro:
       "Être leader aujourd'hui, c'est mobiliser des équipes composées de profils variés — des personnalités différentes, des générations différentes, des attentes différentes. Les vieux modèles de gestion ne suffisent plus. Il faut un leadership plus relationnel, plus lucide, plus adapté.",
     conferences: [
@@ -79,6 +83,7 @@ const blocs = [
   },
   {
     tag: "Communication et art du pitch",
+    image: { src: "/images/illustrations/pitch-micro.webp", alt: "Illustration : un conférencier au micro devant un auditoire", position: "30% 35%" },
     intro:
       "Convaincre, mobiliser, vendre une idée — tout repose sur la capacité à structurer un message clair et à le livrer avec impact. Que ce soit pour un pitch de vente, une présentation stratégique ou une mobilisation d'équipe, la communication est un levier sous-utilisé.",
     conferences: [
@@ -100,6 +105,7 @@ const blocs = [
   },
   {
     tag: "Quand l'IA rencontre les générations",
+    image: { src: "/images/illustrations/ia-generations.jpg", alt: "Deux collègues de générations différentes travaillent ensemble devant un ordinateur", position: "50% 45%" },
     intro:
       "L'intelligence artificielle transforme le travail — mais pas de la même manière pour tout le monde. Un analytique et un créatif ne vivent pas l'IA pareil, et d'une génération à l'autre, les réflexes d'adoption varient souvent. Cette conférence croise IA, personnalités et générations dans une lecture unique.",
     conferences: [
@@ -214,6 +220,17 @@ export default function Conferences() {
                   <span className="eyebrow opacity-60">Thème 0{bi + 1}</span>
                   <h2 className="mt-4 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">{bloc.tag}</h2>
                   <p className="mt-6 leading-7 text-muted">{bloc.intro}</p>
+                  {/* Image d'ambiance du thème : photo libre de droits (Unsplash) ou illustration */}
+                  <figure className="relative mt-8 aspect-[4/3] overflow-hidden rounded-[1.75rem]">
+                    <Image
+                      src={bloc.image.src}
+                      alt={bloc.image.alt}
+                      fill
+                      sizes="(min-width:1024px) 40vw, 100vw"
+                      className="object-cover transition duration-700 hover:scale-105"
+                      style={{ objectPosition: bloc.image.position }}
+                    />
+                  </figure>
                   {bloc.differentiator && (
                     <p className="mt-6 border-l-2 border-accent pl-5 text-sm leading-6">
                       <span className="eyebrow block opacity-60">Angle distinctif</span>
