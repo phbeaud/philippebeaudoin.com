@@ -55,9 +55,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/hero/philippe-conference.jpg",
-        width: 1920,
-        height: 1080,
+        url: "/images/hero/philippe-scene-sourire.jpg",
+        width: 1672,
+        height: 941,
         alt: "Philippe Beaudoin en conférence",
       },
     ],
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     title: "Philippe Beaudoin — Conférencier en personnalités, générations, leadership et communication",
     description:
       "Conférences et formations sur les personnalités, les générations, le leadership et la communication.",
-    images: ["/images/hero/philippe-conference.jpg"],
+    images: ["/images/hero/philippe-scene-sourire.jpg"],
   },
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
@@ -93,7 +93,7 @@ const jsonLd = {
       "@id": "https://www.philippebeaudoin.com/#service",
       name: "Philippe Beaudoin — Conférences et formations",
       url: "https://www.philippebeaudoin.com",
-      image: "https://www.philippebeaudoin.com/images/hero/philippe-conference.jpg",
+      image: "https://www.philippebeaudoin.com/images/hero/philippe-scene-sourire.jpg",
       telephone: "+1-819-349-8334",
       founder: { "@id": "https://www.philippebeaudoin.com/#philippe" },
       areaServed: [{ "@type": "AdministrativeArea", name: "Québec" }, { "@type": "Country", name: "Canada" }],
