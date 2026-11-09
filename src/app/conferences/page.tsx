@@ -23,6 +23,7 @@ const blocs = [
     conferences: [
       {
         title: "Mieux se connaître pour mieux collaborer (MBTI / Nova)",
+        more: { href: "/profils-nova-mbti", label: "Les profils NOVA et MBTI" },
         fiche: "/fiches/philippe-beaudoin-mieux-se-connaitre.pdf",
         problem: "Beaucoup de conflits en équipe ne viennent pas d'un désaccord sur le fond, mais d'une incompatibilité de fonctionnement. Une personne analytique et une personne intuitive ne traitent pas l'information de la même manière — et cela crée des frictions invisibles.",
         impact: "Les participants découvrent leur style de personnalité, comprennent celui des autres et repartent avec des réflexes concrets pour adapter leur communication et réduire les malentendus au quotidien.",
@@ -115,6 +116,13 @@ const blocs = [
         problem: "Les organisations déploient l'IA en pensant que l'adoption est uniforme. Or, les profils de personnalité et les générations perçoivent, adoptent et utilisent souvent l'IA de manières différentes. Ignorer ces différences, c'est créer de la résistance.",
         impact: "Les participants comprennent comment les différents profils humains réagissent à l'IA, pourquoi certains résistent et d'autres foncent, et comment adapter la communication et l'accompagnement pour accélérer l'adoption en respectant les personnes.",
         benefits: ["Adoption différenciée de l'IA", "Stratégie par profil", "Moins de résistance, plus d'engagement"],
+      },
+      {
+        title: "Leader à l'ère de l'IA : ce qui reste humain",
+        fiche: "/fiches/philippe-beaudoin-leader-ere-ia.pdf",
+        problem: "L'IA rédige, résume, analyse et planifie de plus en plus vite. Beaucoup de gestionnaires se demandent ce qu'il leur reste, et leurs équipes aussi. Sans repères, on gère l'outil plutôt que les personnes, et la confiance s'effrite.",
+        impact: "Les participants repèrent ce que l'IA fait bien et ce qui reste profondément humain : donner du sens, juger, rassurer, mobiliser. Ils repartent avec une posture de leader qui intègre l'IA sans perdre le lien avec leur équipe.",
+        benefits: ["Rôle du gestionnaire clarifié", "Confiance de l'équipe préservée", "IA au service du leadership"],
       },
     ],
     differentiator: true,
@@ -287,6 +295,11 @@ export default function Conferences() {
                             </span>
                           </Link>
                           {/* Fiche recto-verso à transmettre au comité organisateur, générée par fiches/build.mjs */}
+                          {"more" in conf && conf.more && (
+                            <Link href={conf.more.href} className={`text-sm font-medium underline underline-offset-4 transition hover:text-accent ${dark ? "text-paper/80" : "text-muted"}`}>
+                              {conf.more.label}
+                            </Link>
+                          )}
                           {"fiche" in conf && (
                             <a
                               href={conf.fiche}

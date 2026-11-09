@@ -199,7 +199,12 @@ export default function APropos() {
               </div>
               <div className="border-t border-paper/15 pt-6">
                 <p className="font-display text-4xl tracking-tight sm:text-5xl">MBTI · NOVA</p>
-                <p className="mt-3 text-paper/70">formateur certifié</p>
+                <p className="mt-3 text-paper/70">
+                  formateur certifié ·{" "}
+                  <Link href="/profils-nova-mbti" className="underline underline-offset-4 hover:text-accent">
+                    voir les profils
+                  </Link>
+                </p>
               </div>
             </div>
           </div>

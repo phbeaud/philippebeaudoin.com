@@ -271,4 +271,30 @@ export const fiches = [
     programDescription:
       "Informer ne suffit pas : il faut donner envie d'agir. Dans cette conférence interactive, Philippe Beaudoin montre comment adapter son message à son auditoire, gagner l'adhésion et vendre un projet à l'interne, pour une communication qui mobilise réellement une équipe, un comité ou des partenaires.",
   },
+  {
+    slug: "leader-ere-ia",
+    contactSubject: "Leader à l'ère de l'IA : ce qui reste humain",
+    theme: "IA · leadership",
+    title: "Leader à l'ère de l'IA",
+    subtitle: "Ce qui reste profondément humain",
+    photo: "philippe-micro-costume.jpg",
+    photoPosition: "50% 30%",
+    problem:
+      "L'IA rédige, résume, analyse et planifie de plus en plus vite. Beaucoup de gestionnaires se demandent ce qu'il leur reste, et leurs équipes aussi. Sans repères, on gère l'outil plutôt que les personnes, et la confiance s'effrite.",
+    takeaways: [
+      "Distinguer ce que l'IA fait bien de ce qui demande un jugement humain.",
+      "Clarifier leur rôle de gestionnaire : donner du sens, trancher, rassurer, mobiliser.",
+      "Parler d'IA avec leur équipe sans créer d'inquiétude ni de fracture entre les profils.",
+      "Intégrer l'IA à leur leadership au quotidien, sans perdre le lien avec les personnes.",
+    ],
+    experience: [
+      ["En ouverture", "« Qu'est-ce que l'IA ne pourra jamais faire à votre place? » Les réponses de la salle tracent le portrait du leader humain."],
+      ["Au cœur", "Des exemples concrets d'un dirigeant de PME qui utilise l'IA chaque jour : ce qui aide, ce qui dérape, ce qui reste à lui."],
+      ["En clôture", "Chacun choisit un geste de leadership à poser avec son équipe la semaine suivante."],
+    ],
+    audience: "Gestionnaires, directions et équipes RH qui intègrent l'IA dans leur organisation.",
+    teaser: true,
+    programDescription:
+      "L'IA fait de plus en plus de tâches à notre place. Alors, que reste-t-il au leader? Dans cette conférence interactive, Philippe Beaudoin, dirigeant de PME qui utilise l'IA au quotidien, aide les gestionnaires à clarifier leur rôle, à rassurer leur équipe et à intégrer l'IA sans perdre le lien humain.",
+  },
 ];

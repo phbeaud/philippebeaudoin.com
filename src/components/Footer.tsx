@@ -6,6 +6,7 @@ const nav = [
   { href: "/formations", label: "Formations" },
   { href: "/clienteles", label: "Clientèles" },
   { href: "/a-propos", label: "À propos" },
+  { href: "/profils-nova-mbti", label: "Profils NOVA et MBTI" },
   { href: "/test-styles", label: "Test des styles de communication" },
   { href: "/contact", label: "Contact" },
 ];

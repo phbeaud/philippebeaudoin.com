@@ -4,6 +4,7 @@ import Formulas from "@/components/Formulas";
 import Icon, { type IconName } from "@/components/Icon";
 import PageHero from "@/components/PageHero";
 import Image from "next/image";
+import Link from "next/link";
 import SectionCTA from "@/components/SectionCTA";
 
 export const metadata: Metadata = {
@@ -210,6 +211,24 @@ export default function Formations() {
             </AnimatedSection>
           ))}
         </div>
+      </section>
+
+      {/* ═══ OUTILS PSYCHOMÉTRIQUES ═══ */}
+      <section className="mx-auto max-w-7xl px-6 pb-20 sm:pb-28 lg:px-8">
+        <Link
+          href="/profils-nova-mbti"
+          className="group flex flex-col gap-6 rounded-[2rem] bg-ink p-8 text-paper transition hover:bg-ink/90 sm:flex-row sm:items-center sm:justify-between lg:p-12"
+        >
+          <div>
+            <p className="eyebrow text-paper/60">Formateur certifié</p>
+            <p className="mt-3 font-display text-3xl tracking-tight sm:text-4xl">
+              Profils <em className="italic text-accent">NOVA</em> et MBTI, pour vous et votre équipe.
+            </p>
+          </div>
+          <span className="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white sm:self-center">
+            Découvrir les profils <span aria-hidden="true" className="transition group-hover:translate-x-1">→</span>
+          </span>
+        </Link>
       </section>
 
       {/* ═══ FORMULES ═══ */}
