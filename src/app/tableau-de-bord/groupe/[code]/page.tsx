@@ -98,7 +98,24 @@ export default async function GroupProfile({ params }: { params: Promise<{ code:
     flex: r.flex,
   }));
 
-  const link = `${SITE}/test-styles?groupe=${code}&utm_source=formation`;
+  // Lien court (/g/CODE) : facile à écrire au tableau ou à mettre dans un courriel
+  const link = `${SITE}/g/${code}`;
+  const email = [
+    `Objet : Avant notre formation, découvrez votre style de communication (8 minutes)`,
+    ``,
+    `Bonjour,`,
+    ``,
+    `En préparation de notre formation${group.org ? ` avec ${group.org}` : ""}, je vous invite à faire un court test sur votre style de communication. Il prend environ 8 minutes, sur ordinateur ou sur téléphone :`,
+    ``,
+    link,
+    ``,
+    `À la fin, faites aussi l'étape 2, « Mon style au travail » (2 minutes) : c'est elle qui révèle la culture de votre milieu.`,
+    ``,
+    `Vos réponses restent anonymes : je verrai seulement le profil d'ensemble du groupe, que nous découvrirons ensemble en formation. Vous recevrez votre propre profil détaillé dès la fin du test.`,
+    ``,
+    `Au plaisir de vous rencontrer,`,
+    `Philippe Beaudoin`,
+  ].join("\n");
   const qr = await QRCode.toString(link, { type: "svg", margin: 0, color: { dark: "#16130f", light: "#00000000" } });
   const t = members.length >= MIN_GROUP ? analyze(members) : null;
   const pct = (n: number) => (t ? Math.round((n / t.n) * 100) : 0);
@@ -121,7 +138,7 @@ export default async function GroupProfile({ params }: { params: Promise<{ code:
               {members.length} participant{members.length > 1 ? "s" : ""}
             </p>
           </div>
-          <Actions link={link} />
+          <Actions link={link} email={email} />
         </div>
 
         {/* Lien et code QR pour les participants */}
@@ -129,13 +146,18 @@ export default async function GroupProfile({ params }: { params: Promise<{ code:
           <div className="h-28 w-28 shrink-0 rounded-xl bg-paper p-2" dangerouslySetInnerHTML={{ __html: qr }} />
           <div className="min-w-0">
             <p className="eyebrow text-paper/60">Pour les participants</p>
-            <p className="mt-2 break-all font-mono text-sm">{link.replace("https://", "")}</p>
+            <p className="mt-2 break-all font-mono text-xl">{link.replace("https://www.", "")}</p>
             <p className="mt-2 text-sm text-paper/60">
-              Ils scannent le code ou ouvrent le lien, font le test (8 minutes), puis idéalement le module « Mon style au travail ». Le
-              profil se met à jour à chaque résultat : rechargez la page.
+              Ils scannent le code, ouvrent le lien ou entrent le code <b className="font-mono">{code}</b> au début du test. Ils font le test
+              (8 minutes), puis l&apos;étape 2 « Mon style au travail ». Le profil se met à jour à chaque résultat : rechargez la page.
             </p>
           </div>
         </div>
+
+        <details className={`${card} mt-4 print:hidden`}>
+          <summary className="cursor-pointer text-sm font-medium">Voir le courriel d&apos;invitation à envoyer aux participants</summary>
+          <pre className="mt-4 whitespace-pre-wrap font-sans text-sm leading-6 text-paper/80">{email}</pre>
+        </details>
 
         {!t ? (
           <p className={`${card} mt-8 text-lg text-paper/70`}>

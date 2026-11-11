@@ -232,3 +232,16 @@ export async function trackTest(t: Track): Promise<void> {
     console.error("Statistiques : échec de l'enregistrement", e);
   }
 }
+
+// Nom du groupe de formation, pour confirmer au participant que son résultat y est bien rattaché
+export async function groupInfo(code: unknown): Promise<{ name: string } | null> {
+  const d = db();
+  if (!d || typeof code !== "string" || !GROUP_CODE.test(code)) return null;
+  try {
+    await d.ready;
+    const [g] = await d.sql`select name from test_groups where code = ${code}`;
+    return g ? { name: g.name } : null;
+  } catch {
+    return null;
+  }
+}

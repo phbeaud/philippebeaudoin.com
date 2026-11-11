@@ -124,7 +124,15 @@ export function mountStylesTest(root, opts = {}) {
   if (!st.src) st.src = source();
   // Lien de formation (?groupe=CODE) : le résultat s'ajoute, anonymement, au profil d'équipe du groupe
   const g = new URLSearchParams(window.location.search).get('groupe');
-  if (g && /^[A-HJKMNP-Z2-9]{6}$/.test(g.toUpperCase())) st.group = g.toUpperCase();
+  if (g && /^[A-HJKMNP-Z2-9]{6}$/.test(g.toUpperCase()) && g.toUpperCase() !== st.group) { st.group = g.toUpperCase(); st.groupName = null; }
+  // Nom du groupe : confirme au participant que son résultat y est rattaché (un code inconnu est retiré)
+  const checkGroup = (code) => (opts.groupInfo ? opts.groupInfo(code) : Promise.resolve(null)).catch(() => null);
+  if (st.group && !st.groupName) {
+    checkGroup(st.group).then((info) => {
+      if (info) st.groupName = info.name; else { st.group = undefined; st.groupName = null; }
+      if (['intro', 'res'].includes(st.screen)) render(); else save();
+    });
+  }
 
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch { /* stockage indisponible : le test fonctionne quand même */ } };
   const scoreNat = () => scoreOf(st.ans, (k, a) => (k < QUAL.length ? QUAL[k][a][1] : SIT[k - QUAL.length][1][a][1]));
@@ -175,6 +183,11 @@ export function mountStylesTest(root, opts = {}) {
         <label for="st-nom">Ton prénom (facultatif, pour personnaliser ton profil)</label>
         <input id="st-nom" type="text" autocomplete="given-name" maxlength="40" value="${esc(st.name)}" placeholder="Ex. : Camille">
       </div>
+      <div class="field">
+        <label for="st-groupe">Code de groupe (facultatif, si ton formateur t’en a donné un)</label>
+        <input id="st-groupe" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false" value="${esc(st.group || '')}" placeholder="Ex. : 4U6KQE" style="text-transform:uppercase;letter-spacing:.15em">
+        <p class="note" id="st-gmsg" role="status" style="margin:0">${st.groupName ? '✓ Groupe : ' + esc(st.groupName) : ''}</p>
+      </div>
       <div class="actions">
         <button class="cta" id="st-go">${started ? 'Reprendre où j’étais' : 'Commencer le test'} ${arrow}</button>
         ${started ? '<button class="ghost" id="st-reset">Recommencer à zéro</button>' : ''}
@@ -184,6 +197,21 @@ export function mountStylesTest(root, opts = {}) {
     </section>`;
     const nom = root.querySelector('#st-nom');
     nom.addEventListener('input', () => { st.name = nom.value.slice(0, 40); save(); });
+    const grp = root.querySelector('#st-groupe');
+    const gmsg = root.querySelector('#st-gmsg');
+    grp.addEventListener('input', () => {
+      const v = grp.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+      st.group = undefined; st.groupName = null; save();
+      if (!v) { gmsg.textContent = ''; return; }
+      if (v.length < 6) { gmsg.textContent = ''; return; }
+      if (!/^[A-HJKMNP-Z2-9]{6}$/.test(v)) { gmsg.textContent = 'Ce code ne semble pas valide. Vérifie auprès de ton formateur.'; return; }
+      gmsg.textContent = 'Vérification…';
+      checkGroup(v).then((info) => {
+        if (grp.value.toUpperCase().replace(/[^A-Z0-9]/g, '') !== v) return;
+        if (info) { st.group = v; st.groupName = info.name; save(); gmsg.textContent = '✓ Groupe : ' + info.name; }
+        else gmsg.textContent = 'Code introuvable. Vérifie auprès de ton formateur.';
+      });
+    });
     root.querySelector('#st-go').onclick = () => { if (!started) track({ event: 'start', source: st.src, group: st.group }); const f = st.ans.findIndex((a) => a == null); st.i = f < 0 ? TOTAL - 1 : f; st.screen = f < 0 ? 'res' : 'q'; render(); toTop(); };
     const r = root.querySelector('#st-reset');
     if (r) r.onclick = () => { st = fresh(st.name, st.group); render(); };
@@ -365,6 +393,11 @@ export function mountStylesTest(root, opts = {}) {
         <div class="discline"><span class="chip" style="background:var(${P.v});color:${P.dark ? '#16130f' : '#fff'}">${P.disc}</span>DISC : <b>${P.discTerm}</b>${tie ? ` + <b>${STY[t2].discTerm}</b> (${STY[t2].disc})` : ` · secondaire : ${STY[t2].discTerm} (${STY[t2].disc})`}</div>
         <div class="sub">${tie ? 'Deux styles à égalité : tu passes de l’un à l’autre selon la situation.' : `${P.color}, avec une touche ${STY[t2].name.toLowerCase()} (${STY[t2].color.toLowerCase()}) en second.`}</div>
       </div>
+      ${st.group && st.groupName ? `<div class="offer cta-block" style="margin-bottom:22px">
+        <div><p class="eyebrow">✓ Ton résultat est ajouté au groupe</p><h3>${esc(st.groupName)}</h3>
+        <p class="note" style="margin-top:6px">${done(st.adap) ? 'Étape 2 complétée : merci! Ton formateur verra le profil de l’équipe, de façon anonyme.' : 'Étape 2 pour ton groupe : <b>Mon style au travail</b>, 2 minutes. C’est ce qui révèle la culture de votre milieu.'}</p></div>
+        ${done(st.adap) ? '' : `<button class="cta" id="st-startAd2">Faire l’étape 2 ${arrow}</button>`}
+      </div>` : ''}
       <div class="blendbox" style="--b1:var(${STY[B.t1].v});--b2:var(${B.t2 ? STY[B.t2].v : STY[B.t1].v})">
         <div class="blendchips"><span></span><span></span></div>
         <div><p class="eyebrow" style="margin-bottom:6px">Ton profil combiné${B.t2 ? ` · ${STY[B.t1].disc}${STY[B.t2].disc}` : ''}</p><h3>${B.title}</h3><p style="margin:6px 0 0">${B.text}</p>
@@ -622,8 +655,7 @@ export function mountStylesTest(root, opts = {}) {
     root.querySelectorAll('[data-tab]').forEach((b) => { b.onclick = () => { st.tab = b.dataset.tab; st.sec = 'profil'; render(); goSec(); }; });
     root.querySelectorAll('[data-iatab]').forEach((b) => { b.onclick = () => { st.iaTab = b.dataset.iatab; render(); goSec(); }; });
     root.querySelectorAll('[data-other]').forEach((b) => { b.onclick = () => { st.other = b.dataset.other; render(); goSec(); }; });
-    const sa = root.querySelector('#st-startAd');
-    if (sa) sa.onclick = () => { if (done(st.adap)) st.adap = Array(QUAL.length).fill(null); const f = st.adap.findIndex((a) => a == null); st.i = f < 0 ? 0 : f; st.screen = 'aq'; render(); toTop(); };
+    root.querySelectorAll('#st-startAd, #st-startAd2').forEach((sa) => sa.onclick = () => { if (done(st.adap)) st.adap = Array(QUAL.length).fill(null); const f = st.adap.findIndex((a) => a == null); st.i = f < 0 ? 0 : f; st.screen = 'aq'; render(); toTop(); });
     const sf = root.querySelector('#st-startFx');
     if (sf) sf.onclick = () => { if (done(st.flex)) st.flex = Array(FLEX.length).fill(null); const f = st.flex.findIndex((a) => a == null); st.i = f < 0 ? 0 : f; st.screen = 'fx'; render(); toTop(); };
     const team = root.querySelector('#st-team');
