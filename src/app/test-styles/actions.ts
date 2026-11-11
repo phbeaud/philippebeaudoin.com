@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { BLENDS, IA, ORDER, PURE, QUAL, SIT, STY, blendSlug } from "@/components/styles-test/content";
-import { AGES, ROLES, SECTORS, db } from "@/lib/stats";
+import { AGES, GROUP_CODE, ROLES, SECTORS, db } from "@/lib/stats";
 
 type Key = "C" | "D" | "S" | "I";
 type Scores = Record<Key, number>;
@@ -142,6 +142,7 @@ type Track = {
   event: "start" | "result";
   source?: string;
   device?: string;
+  group?: string;
   about?: { age?: string | null; role?: string | null; sector?: string | null };
   scores?: Scores;
   adap?: Scores | null;
@@ -182,11 +183,14 @@ export async function trackTest(t: Track): Promise<void> {
   const city = geo("x-vercel-ip-city");
   const device = pick(["mobile", "tablette", "ordinateur"] as const, t.device);
   const source = clean(t.source);
+  // Seuls les groupes créés dans le tableau de bord sont acceptés
+  const code = typeof t.group === "string" && GROUP_CODE.test(t.group) ? t.group : null;
   try {
     await d.ready;
+    const group = code ? ((await d.sql`select code from test_groups where code = ${code}`)[0]?.code ?? null) : null;
     if (t.event === "start") {
-      await d.sql`insert into test_sessions (sid, country, region, city, device, source)
-        values (${t.sid}, ${country}, ${region}, ${city}, ${device}, ${source})
+      await d.sql`insert into test_sessions (sid, country, region, city, device, source, group_code)
+        values (${t.sid}, ${country}, ${region}, ${city}, ${device}, ${source}, ${group})
         on conflict (sid) do nothing`;
       return;
     }
@@ -206,13 +210,14 @@ export async function trackTest(t: Track): Promise<void> {
       profile: blendSlug(t1, pure ? null : t2),
       sc: s.C, sd: s.D, ss: s.S, si: s.I,
       work_t1: adap ? rank(adap)[0] : null,
+      wc: adap?.C ?? null, wd: adap?.D ?? null, ws: adap?.S ?? null, wi: adap?.I ?? null,
       flex,
     };
     // La première fin de test fixe la date de complétion et la provenance; les mises à jour suivantes complètent la ligne
     await d.sql`insert into test_sessions (sid, country, region, city, device, source, age, role, sector,
-        t1, t2, profile, sc, sd, ss, si, work_t1, flex, completed_at)
+        t1, t2, profile, sc, sd, ss, si, work_t1, wc, wd, ws, wi, flex, group_code, completed_at)
       values (${row.sid}, ${row.country}, ${row.region}, ${row.city}, ${row.device}, ${row.source}, ${row.age}, ${row.role}, ${row.sector},
-        ${row.t1}, ${row.t2}, ${row.profile}, ${row.sc}, ${row.sd}, ${row.ss}, ${row.si}, ${row.work_t1}, ${row.flex}, now())
+        ${row.t1}, ${row.t2}, ${row.profile}, ${row.sc}, ${row.sd}, ${row.ss}, ${row.si}, ${row.work_t1}, ${row.wc}, ${row.wd}, ${row.ws}, ${row.wi}, ${row.flex}, ${group}, now())
       on conflict (sid) do update set
         completed_at = coalesce(test_sessions.completed_at, now()), updated_at = now(),
         country = coalesce(test_sessions.country, excluded.country), region = coalesce(test_sessions.region, excluded.region),
@@ -221,7 +226,8 @@ export async function trackTest(t: Track): Promise<void> {
         age = excluded.age, role = excluded.role, sector = excluded.sector,
         t1 = excluded.t1, t2 = excluded.t2, profile = excluded.profile,
         sc = excluded.sc, sd = excluded.sd, ss = excluded.ss, si = excluded.si,
-        work_t1 = excluded.work_t1, flex = excluded.flex`;
+        work_t1 = excluded.work_t1, wc = excluded.wc, wd = excluded.wd, ws = excluded.ws, wi = excluded.wi, flex = excluded.flex,
+        group_code = coalesce(test_sessions.group_code, excluded.group_code)`;
   } catch (e) {
     console.error("Statistiques : échec de l'enregistrement", e);
   }

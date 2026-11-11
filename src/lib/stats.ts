@@ -7,6 +7,8 @@ import postgres from "postgres";
 export const AGES = ["moins-30", "30-45", "46-61", "62-plus"] as const;
 export const ROLES = ["gestion", "employe", "rh", "autonome", "etudiant", "autre"] as const;
 export const SECTORS = ["sante", "education", "public", "prive", "obnl", "autre"] as const;
+// Code de groupe : lettres et chiffres sans ambiguïté (pas de 0/O, 1/I/L)
+export const GROUP_CODE = /^[A-HJKMNP-Z2-9]{6}$/;
 
 let sql: postgres.Sql | null = null;
 let ready: Promise<unknown> | null = null;
@@ -17,7 +19,9 @@ export function db() {
   if (!url) return null;
   if (!sql) {
     sql = postgres(url, { max: 1, idle_timeout: 20, prepare: false });
-    ready = sql`
+    const q = sql;
+    ready = (async () => {
+      await q`
       create table if not exists test_sessions (
         sid text primary key,
         started_at timestamptz not null default now(),
@@ -31,6 +35,16 @@ export function db() {
         report boolean not null default false,
         news boolean not null default false
       )`;
+      // Ajouts : groupe de formation et scores « au travail », pour le profil d'équipe
+      await q`alter table test_sessions add column if not exists group_code text,
+        add column if not exists wc int, add column if not exists wd int, add column if not exists ws int, add column if not exists wi int`;
+      await q`create table if not exists test_groups (
+        code text primary key,
+        name text not null,
+        org text,
+        created_at timestamptz not null default now()
+      )`;
+    })();
   }
   return { sql, ready: ready! };
 }
@@ -60,4 +74,15 @@ export function placeName(country: string | null, region: string | null) {
   if (country === "CA") return region ? PROVINCES[region] ?? region : "Canada";
   const name = new Intl.DisplayNames(["fr"], { type: "region" }).of(country) ?? country;
   return region ? `${name} (${region})` : name;
+}
+
+export async function isAuthed() {
+  const { cookies } = await import("next/headers");
+  const expected = await passwordHash();
+  return !!expected && (await cookies()).get(COOKIE)?.value === expected;
+}
+
+export function newGroupCode() {
+  const alphabet = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+  return Array.from(crypto.getRandomValues(new Uint8Array(6)), (b) => alphabet[b % alphabet.length]).join("");
 }

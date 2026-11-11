@@ -16,7 +16,7 @@ const full = (k) => `${STY[k].name} (${STY[k].color}) · DISC ${disc(k)}`;
 
 const newSeed = () => Math.floor(Math.random() * 1e9);
 const newSid = () => Array.from(crypto.getRandomValues(new Uint8Array(12)), (b) => (b % 36).toString(36)).join('');
-const fresh = (name = '') => ({ seed: newSeed(), sid: newSid(), screen: 'intro', i: 0, ans: Array(TOTAL).fill(null), adap: Array(QUAL.length).fill(null), flex: Array(FLEX.length).fill(null), name, tab: null, sec: 'profil', other: null, team: '', about: null });
+const fresh = (name = '', group) => ({ group, seed: newSeed(), sid: newSid(), screen: 'intro', i: 0, ans: Array(TOTAL).fill(null), adap: Array(QUAL.length).fill(null), flex: Array(FLEX.length).fill(null), name, tab: null, sec: 'profil', other: null, team: '', about: null });
 
 // Questions facultatives posées avant le résultat, pour les statistiques (tranches alignées sur les générations en 2026)
 const ABOUT = [
@@ -122,6 +122,9 @@ export function mountStylesTest(root, opts = {}) {
   let interacted = false;
   const track = (data) => { if (opts.track) opts.track({ sid: st.sid, device: device(), ...data }).catch(() => {}); };
   if (!st.src) st.src = source();
+  // Lien de formation (?groupe=CODE) : le résultat s'ajoute, anonymement, au profil d'équipe du groupe
+  const g = new URLSearchParams(window.location.search).get('groupe');
+  if (g && /^[A-HJKMNP-Z2-9]{6}$/.test(g.toUpperCase())) st.group = g.toUpperCase();
 
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch { /* stockage indisponible : le test fonctionne quand même */ } };
   const scoreNat = () => scoreOf(st.ans, (k, a) => (k < QUAL.length ? QUAL[k][a][1] : SIT[k - QUAL.length][1][a][1]));
@@ -176,13 +179,14 @@ export function mountStylesTest(root, opts = {}) {
         <button class="cta" id="st-go">${started ? 'Reprendre où j’étais' : 'Commencer le test'} ${arrow}</button>
         ${started ? '<button class="ghost" id="st-reset">Recommencer à zéro</button>' : ''}
       </div>
+      ${st.group ? '<p class="note" style="border-left:3px solid var(--st-accent);padding-left:12px">Tu fais ce test avec ton groupe de formation : ton résultat s’ajoutera, de façon anonyme, au profil d’équipe que ton formateur présentera. Fais aussi le module « Mon style au travail » après ton résultat : il révèle la culture de votre milieu.</p>' : ''}
       <p class="note">Réponds selon ta façon d’être spontanée, celle qui te vient sans effort, et non selon ce que tu aimerais être. Ta première impression est souvent la bonne. Ton résultat est conservé de façon anonyme, sans ton prénom ni ton adresse IP, pour des statistiques globales (<a href="/confidentialite" style="color:inherit;text-decoration:underline">confidentialité</a>).</p>
     </section>`;
     const nom = root.querySelector('#st-nom');
     nom.addEventListener('input', () => { st.name = nom.value.slice(0, 40); save(); });
-    root.querySelector('#st-go').onclick = () => { if (!started) track({ event: 'start', source: st.src }); const f = st.ans.findIndex((a) => a == null); st.i = f < 0 ? TOTAL - 1 : f; st.screen = f < 0 ? 'res' : 'q'; render(); toTop(); };
+    root.querySelector('#st-go').onclick = () => { if (!started) track({ event: 'start', source: st.src, group: st.group }); const f = st.ans.findIndex((a) => a == null); st.i = f < 0 ? TOTAL - 1 : f; st.screen = f < 0 ? 'res' : 'q'; render(); toTop(); };
     const r = root.querySelector('#st-reset');
-    if (r) r.onclick = () => { st = fresh(st.name); render(); };
+    if (r) r.onclick = () => { st = fresh(st.name, st.group); render(); };
   }
 
   function wordsUI(group, sel, k) {
@@ -405,7 +409,7 @@ export function mountStylesTest(root, opts = {}) {
     </section>`;
     wireResults(s, t1, t2, tie, B);
     // Enregistre le résultat seulement s'il a changé depuis le dernier envoi (modules, questions facultatives)
-    const snap = { event: 'result', source: st.src, about: st.about, scores: s, adap: done(st.adap) ? scoreAdap() : null, flex: done(st.flex) ? flexScore() : null };
+    const snap = { event: 'result', source: st.src, group: st.group, about: st.about, scores: s, adap: done(st.adap) ? scoreAdap() : null, flex: done(st.flex) ? flexScore() : null };
     const sig = JSON.stringify(snap);
     if (sig !== st.sent) { st.sent = sig; save(); track(snap); }
   }
@@ -661,7 +665,7 @@ export function mountStylesTest(root, opts = {}) {
     root.querySelector('#st-reset').onclick = () => {
       const c = root.querySelector('#st-confirm');
       c.innerHTML = '<div class="confirm">Effacer toutes tes réponses, modules compris? <button class="ghost" id="st-yes">Oui, recommencer</button><button class="ghost" id="st-no">Annuler</button></div>';
-      c.querySelector('#st-yes').onclick = () => { st = fresh(st.name); render(); toTop(); };
+      c.querySelector('#st-yes').onclick = () => { st = fresh(st.name, st.group); render(); toTop(); };
       c.querySelector('#st-no').onclick = () => { c.innerHTML = ''; };
     };
     root.querySelector('#st-copy').onclick = () => {

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 // Mettre à jour cette date à chaque changement de la politique
-const UPDATED = "6 novembre 2026";
+const UPDATED = "11 novembre 2026";
 const EMAIL = "phbeaudoin@outlook.com";
 
 const sections: { title: string; body: React.ReactNode }[] = [
@@ -48,6 +48,13 @@ const sections: { title: string; body: React.ReactNode }[] = [
           rôle, secteur), la date, le type d&apos;appareil, le site d&apos;où vous venez et une région approximative
           déduite de votre connexion Internet. Ils servent à produire des statistiques globales, par exemple la
           répartition des styles selon les générations. Ils ne permettent pas de vous identifier.
+        </p>
+        <h3>Profil d&apos;équipe en formation</h3>
+        <p>
+          Si vous faites le test avec le lien d&apos;un groupe de formation, votre résultat anonyme est associé à ce groupe. Philippe
+          Beaudoin en tire un profil d&apos;équipe regroupé (répartition des styles, carte collective, culture de travail) qu&apos;il
+          présente au groupe et à l&apos;organisation. Aucun résultat individuel n&apos;y est identifiable, et le profil ne
+          s&apos;affiche qu&apos;à partir de trois participants.
         </p>
         <h3>Dans votre navigateur</h3>
         <p>

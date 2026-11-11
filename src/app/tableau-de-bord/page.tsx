@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { COOKIE, LABELS, db, passwordHash, placeName } from "@/lib/stats";
-import { logout } from "./actions";
+import { createGroup, logout } from "./actions";
 import Login from "./Login";
 
 export const metadata: Metadata = { title: "Tableau de bord", robots: { index: false, follow: false } };
@@ -109,6 +109,10 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
     count("device"),
     sql`select * from test_sessions where ${done} order by completed_at desc limit 30`,
   ]);
+  // Groupes de formation, du plus récent au plus ancien, avec le nombre de tests complétés
+  const groups = await sql`select g.code, g.name, g.org, g.created_at, count(s.completed_at)::int as n
+    from test_groups g left join test_sessions s on s.group_code = g.code
+    group by g.code order by g.created_at desc limit 50`;
 
   const total = tot.completed as number;
   const pctOf = (n: number, of = total) => (of ? `${Math.round((n / of) * 100)} %` : "–");
@@ -155,6 +159,43 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
           </div>
         ))}
       </div>
+
+      <Card title="Groupes de formation : profil d'équipe" className="mt-6">
+        <p className="-mt-2 mb-5 text-sm text-muted">
+          Créez un groupe avant une formation : les participants font le test avec le lien du groupe, et vous obtenez un profil
+          d&apos;équipe anonyme à projeter.
+        </p>
+        <form action={createGroup} className="flex flex-wrap items-end gap-3">
+          <label className="flex flex-col gap-1 text-sm">
+            Nom du groupe
+            <input name="name" required maxLength={80} placeholder="Ex. : Gestionnaires, 12 novembre" className="w-72 rounded-full border border-ink/20 bg-white px-4 py-2" />
+          </label>
+          <label className="flex flex-col gap-1 text-sm">
+            Organisation (facultatif)
+            <input name="org" maxLength={80} placeholder="Ex. : CIUSSS de l'Estrie" className="w-64 rounded-full border border-ink/20 bg-white px-4 py-2" />
+          </label>
+          <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-paper hover:bg-ink/85">Créer le groupe</button>
+        </form>
+        {groups.length > 0 && (
+          <ul className="mt-6 divide-y divide-ink/10 border-t border-ink/10">
+            {groups.map((g) => (
+              <li key={g.code} className="flex flex-wrap items-center justify-between gap-3 py-3 text-sm">
+                <span>
+                  <b>{g.name}</b>
+                  {g.org && <span className="text-muted"> · {g.org}</span>}
+                  <span className="ml-2 font-mono text-xs text-muted">{g.code}</span>
+                </span>
+                <span className="flex items-center gap-4">
+                  <span className="tabular-nums text-muted">{g.n} test{g.n > 1 ? "s" : ""}</span>
+                  <Link href={`/tableau-de-bord/groupe/${g.code}`} className="rounded-full border border-ink/20 px-4 py-1.5 hover:border-ink">
+                    Profil d&apos;équipe →
+                  </Link>
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <Card title="Tests complétés par jour" className="lg:col-span-2">
