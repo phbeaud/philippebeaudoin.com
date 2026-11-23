@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 // Mettre à jour cette date à chaque changement de la politique
-const UPDATED = "11 novembre 2026";
+const UPDATED = "23 novembre 2026";
 const EMAIL = "phbeaudoin@outlook.com";
 
 const sections: { title: string; body: React.ReactNode }[] = [
@@ -56,6 +56,14 @@ const sections: { title: string; body: React.ReactNode }[] = [
           présente au groupe et à l&apos;organisation. Aucun résultat individuel n&apos;y est identifiable, et le profil ne
           s&apos;affiche qu&apos;à partir de trois participants.
         </p>
+        <h3>Avis après une conférence</h3>
+        <p>
+          Le formulaire d&apos;avis (accessible par un code QR) recueille votre note, ce que vous retenez et votre commentaire, sans votre
+          nom ni votre courriel. Ils servent à améliorer les conférences et à produire un bilan anonyme remis à l&apos;organisation
+          hôte. Si vous cochez la case prévue, votre commentaire peut être publié sur ce site avec votre fonction, votre organisation
+          et votre nom si vous l&apos;indiquez; vous pouvez demander son retrait en tout temps. Si vous demandez les ressources ou un
+          suivi, votre courriel et vos coordonnées sont transmis à Philippe Beaudoin pour vous répondre, et ne servent qu&apos;à cette fin.
+        </p>
         <h3>Dans votre navigateur</h3>
         <p>
           Vos réponses au test et votre prénom sont gardés dans votre propre navigateur, pour que vous puissiez reprendre
@@ -85,7 +93,7 @@ const sections: { title: string; body: React.ReactNode }[] = [
         <ul>
           <li>Vercel : hébergement du site (États-Unis);</li>
           <li>Resend : envoi des courriels (États-Unis);</li>
-          <li>Neon : base de données des statistiques anonymes (États-Unis);</li>
+          <li>Neon : base de données des statistiques anonymes et des avis de conférence (États-Unis);</li>
           <li>Microsoft Outlook : réception des demandes et des avis.</li>
         </ul>
         <p>

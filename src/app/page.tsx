@@ -9,6 +9,9 @@ import Testimonials from "@/components/Testimonials";
 import { clientLogos } from "@/lib/clients";
 import { featuredTalks, offers } from "@/lib/content";
 
+// Les témoignages publiés depuis le tableau de bord mettent la page à jour; sinon, rafraîchie chaque heure
+export const revalidate = 3600;
+
 const step = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 export default function Accueil() {

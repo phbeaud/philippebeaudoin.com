@@ -1,9 +1,26 @@
 import AnimatedSection from "@/components/AnimatedSection";
-import { testimonials, type Testimonial } from "@/lib/testimonials";
+import { testimonials as curated, type Testimonial } from "@/lib/testimonials";
+import { db } from "@/lib/stats";
 
 const byline = (t: Testimonial) => [t.name, t.role, t.org].filter(Boolean).join(" · ");
 
-export default function Testimonials() {
+// Commentaires des formulaires d'avis : seulement ceux que la personne a autorisés ET que Philippe a publiés
+async function approved(): Promise<Testimonial[]> {
+  const d = db();
+  if (!d) return [];
+  try {
+    await d.ready;
+    const rows = await d.sql`select f.comment, f.name, f.role, f.org, e.title from feedback f join feedback_events e on e.code = f.event_code
+      where f.publish and f.approved and f.comment is not null order by f.created_at desc limit 12`;
+    return rows.map((r) => ({ quote: r.comment, name: r.name ?? undefined, role: r.role ?? "", org: r.org ?? "", context: `Conférence ${r.title}` }));
+  } catch (e) {
+    console.error("Témoignages : lecture impossible", e);
+    return [];
+  }
+}
+
+export default async function Testimonials() {
+  const testimonials = [...curated, ...(await approved())];
   if (testimonials.length === 0) return null;
   const [featured, ...others] = testimonials;
 

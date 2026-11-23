@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { COOKIE, db, isAuthed, newGroupCode, passwordHash } from "@/lib/stats";
 
@@ -31,4 +32,31 @@ export async function createGroup(form: FormData) {
   for (let i = 0; i < 5 && (await d.sql`select 1 from test_groups where code = ${code}`).length; i++) code = newGroupCode();
   await d.sql`insert into test_groups (code, name, org) values (${code}, ${name}, ${org})`;
   redirect(`/tableau-de-bord/groupe/${code}`);
+}
+
+// Avis de conférence : un événement avec un code QR à mettre sur la dernière diapo
+export async function createEvent(form: FormData) {
+  if (!(await isAuthed())) redirect("/tableau-de-bord");
+  const d = db();
+  if (!d) redirect("/tableau-de-bord");
+  const title = String(form.get("title") ?? "").trim().slice(0, 140);
+  const org = String(form.get("org") ?? "").trim().slice(0, 80) || null;
+  const date = /^\d{4}-\d{2}-\d{2}$/.test(String(form.get("date"))) ? String(form.get("date")) : null;
+  if (!title) redirect("/tableau-de-bord");
+  await d.ready;
+  let code = newGroupCode();
+  for (let i = 0; i < 5 && (await d.sql`select 1 from feedback_events where code = ${code}`).length; i++) code = newGroupCode();
+  await d.sql`insert into feedback_events (code, title, org, event_date) values (${code}, ${title}, ${org}, ${date})`;
+  redirect(`/tableau-de-bord/avis/${code}`);
+}
+
+// Publier ou retirer un commentaire du site (seulement si la personne l'a autorisé)
+export async function setApproved(id: number, code: string, approved: boolean) {
+  if (!(await isAuthed())) redirect("/tableau-de-bord");
+  const d = db();
+  if (!d) return;
+  await d.ready;
+  await d.sql`update feedback set approved = ${approved} where id = ${id} and publish`;
+  revalidatePath("/");
+  revalidatePath(`/tableau-de-bord/avis/${code}`);
 }

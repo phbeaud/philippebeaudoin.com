@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { COOKIE, LABELS, db, passwordHash, placeName } from "@/lib/stats";
-import { createGroup, logout } from "./actions";
+import { createEvent, createGroup, logout } from "./actions";
 import Login from "./Login";
 
 export const metadata: Metadata = { title: "Tableau de bord", robots: { index: false, follow: false } };
@@ -19,6 +19,19 @@ const PERIODS = [
 ] as const;
 const L = LABELS as unknown as Record<string, Record<string, string>>;
 const TZ = "America/Toronto";
+// Titres proposés à la création d'un événement d'avis (on peut aussi en écrire un autre)
+const CONFS = [
+  "Le défi des générations en entreprise",
+  "Synergie d'équipe : transformer les différences en force",
+  "Mieux se connaître pour mieux collaborer (MBTI / Nova)",
+  "Intelligence émotionnelle en milieu de travail",
+  "Leader en étant humain",
+  "Mobiliser dans l'incertitude et le changement",
+  "L'art du pitch",
+  "Mobiliser et influencer par la communication",
+  "Comment les personnalités et les générations vivent l'IA",
+  "Leader à l'ère de l'IA : ce qui reste humain",
+];
 
 type Row = { k: string | null; n: number };
 
@@ -114,6 +127,11 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
     from test_groups g left join test_sessions s on s.group_code = g.code
     group by g.code order by g.created_at desc limit 50`;
 
+  // Avis de conférence : événements récents avec le nombre de réponses et la note moyenne
+  const events = await sql`select e.code, e.title, e.org, e.event_date, count(f.id)::int as n, round(avg(f.rating), 1)::float as avg
+    from feedback_events e left join feedback f on f.event_code = e.code
+    group by e.code order by e.created_at desc limit 50`;
+
   const total = tot.completed as number;
   const pctOf = (n: number, of = total) => (of ? `${Math.round((n / of) * 100)} %` : "–");
   const fmt = (dt: Date) => dt.toLocaleString("fr-CA", { timeZone: TZ, dateStyle: "medium", timeStyle: "short" });
@@ -159,6 +177,57 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
           </div>
         ))}
       </div>
+
+      <Card title="Avis de conférence : code QR pour la salle" className="mt-6">
+        <p className="-mt-2 mb-5 text-sm text-muted">
+          Créez un événement avant une conférence : mettez son code QR sur votre dernière diapo. Les participants donnent leur avis en 30
+          secondes; vous obtenez un bilan à remettre au client et des témoignages à publier.
+        </p>
+        <form action={createEvent} className="flex flex-wrap items-end gap-3">
+          <label className="flex flex-col gap-1 text-sm">
+            Conférence
+            <input name="title" required maxLength={140} list="conf-titles" placeholder="Ex. : Le défi des générations" className="w-80 rounded-full border border-ink/20 bg-white px-4 py-2" />
+            <datalist id="conf-titles">
+              {CONFS.map((c) => (
+                <option key={c} value={c} />
+              ))}
+            </datalist>
+          </label>
+          <label className="flex flex-col gap-1 text-sm">
+            Organisation (facultatif)
+            <input name="org" maxLength={80} placeholder="Ex. : Congrès de l'AQESSS" className="w-64 rounded-full border border-ink/20 bg-white px-4 py-2" />
+          </label>
+          <label className="flex flex-col gap-1 text-sm">
+            Date
+            <input name="date" type="date" className="rounded-full border border-ink/20 bg-white px-4 py-2" />
+          </label>
+          <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-paper hover:bg-ink/85">Créer l&apos;événement</button>
+        </form>
+        {events.length > 0 && (
+          <ul className="mt-6 divide-y divide-ink/10 border-t border-ink/10">
+            {events.map((e) => (
+              <li key={e.code} className="flex flex-wrap items-center justify-between gap-3 py-3 text-sm">
+                <span>
+                  <b>{e.title}</b>
+                  {e.org && <span className="text-muted"> · {e.org}</span>}
+                  {e.event_date && (
+                    <span className="text-muted"> · {new Date(e.event_date).toLocaleDateString("fr-CA", { timeZone: "UTC", dateStyle: "medium" })}</span>
+                  )}
+                  <span className="ml-2 font-mono text-xs text-muted">{e.code}</span>
+                </span>
+                <span className="flex items-center gap-4">
+                  <span className="tabular-nums text-muted">
+                    {e.n} avis{e.avg ? ` · ${String(e.avg).replace(".", ",")} ★` : ""}
+                  </span>
+                  <Link href={`/tableau-de-bord/avis/${e.code}`} className="rounded-full border border-ink/20 px-4 py-1.5 hover:border-ink">
+                    Code QR et bilan →
+                  </Link>
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
 
       <Card title="Groupes de formation : profil d'équipe" className="mt-6">
         <p className="-mt-2 mb-5 text-sm text-muted">

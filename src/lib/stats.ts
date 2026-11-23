@@ -44,6 +44,25 @@ export function db() {
         org text,
         created_at timestamptz not null default now()
       )`;
+      // Avis après une conférence : un événement (code QR) et les réponses des participants
+      await q`create table if not exists feedback_events (
+        code text primary key,
+        title text not null,
+        org text,
+        event_date date,
+        created_at timestamptz not null default now()
+      )`;
+      await q`create table if not exists feedback (
+        id serial primary key,
+        event_code text not null references feedback_events(code) on delete cascade,
+        created_at timestamptz not null default now(),
+        rating int, takeaway text, comment text,
+        publish boolean not null default false,
+        name text, role text, org text, email text,
+        wants_resources boolean not null default false,
+        wants_contact boolean not null default false,
+        approved boolean not null default false
+      )`;
     })();
   }
   return { sql, ready: ready! };
