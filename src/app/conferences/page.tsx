@@ -6,6 +6,7 @@ import Icon, { type IconName } from "@/components/Icon";
 import PageHero from "@/components/PageHero";
 import SectionCTA from "@/components/SectionCTA";
 import TypeExplorer from "@/components/TypeExplorer";
+import { talkHref } from "@/lib/talks";
 
 export const metadata: Metadata = {
   title: "Conférences — leadership, communication, générations, IA",
@@ -261,7 +262,15 @@ export default function Conferences() {
                             : "border border-ink/10 bg-paper-deep/50 hover:bg-white hover:shadow-[0_24px_70px_-30px_rgba(22,19,15,0.35)]"
                         }`}
                       >
-                        <h3 className="relative font-display text-3xl leading-tight tracking-tight sm:text-4xl">{conf.title}</h3>
+                        <h3 className="relative font-display text-3xl leading-tight tracking-tight sm:text-4xl">
+                          {talkHref(conf.title) ? (
+                            <Link href={talkHref(conf.title)!} className="transition hover:text-accent">
+                              {conf.title}
+                            </Link>
+                          ) : (
+                            conf.title
+                          )}
+                        </h3>
                         <p className={`relative mt-5 text-lg leading-8 ${dark ? "text-paper/80" : ""}`}>{conf.impact}</p>
                         <ul className="relative mt-6 flex flex-wrap gap-2">
                           {conf.benefits.map((b) => (
@@ -294,6 +303,14 @@ export default function Conferences() {
                               →
                             </span>
                           </Link>
+                          {talkHref(conf.title) && (
+                            <Link
+                              href={talkHref(conf.title)!}
+                              className={`text-sm font-semibold underline underline-offset-4 transition hover:text-accent ${dark ? "text-paper" : ""}`}
+                            >
+                              Voir la conférence
+                            </Link>
+                          )}
                           {/* Fiche recto-verso à transmettre au comité organisateur, générée par fiches/build.mjs */}
                           {"more" in conf && conf.more && (
                             <Link href={conf.more.href} className={`text-sm font-medium underline underline-offset-4 transition hover:text-accent ${dark ? "text-paper/80" : "text-muted"}`}>

@@ -139,7 +139,7 @@ export default function Accueil() {
               <AnimatedSection key={talk.title} delay={i * 80}>
                 <li>
                   <Link
-                    href="/conferences"
+                    href={talk.href}
                     className="group relative isolate grid items-baseline gap-4 overflow-hidden border-b border-paper/15 py-8 transition-colors sm:py-10 duration-500 hover:text-white sm:grid-cols-12 sm:gap-8"
                   >
                     <span aria-hidden="true" className="absolute inset-0 -z-10 origin-left scale-x-0 bg-accent transition-transform duration-700 ease-out group-hover:scale-x-100" />

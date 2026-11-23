@@ -74,21 +74,25 @@ export const pricingNote =
 export const featuredTalks = [
   {
     title: "Le défi des générations",
+    href: "/conferences/defi-des-generations",
     text: "Comprendre ce qui distingue vraiment les générations au travail, et ce qui relève plutôt de l'âge, du contexte ou de la personnalité.",
     tags: ["Gestionnaires", "Équipes", "Congrès"],
   },
   {
     title: "L'art du pitch",
+    href: "/conferences/art-du-pitch",
     text: "Structurer une idée pour qu'elle soit comprise, retenue et adoptée, qu'il s'agisse de vendre, de convaincre ou de mobiliser.",
     tags: ["Ventes", "Dirigeants", "Entrepreneurs"],
   },
   {
     title: "Personnalités et intelligence émotionnelle",
+    href: "/conferences#personnalites-et-intelligence-emotionnelle",
     text: "Se connaître et reconnaître les autres pour mieux communiquer, désamorcer les tensions et travailler avec des profils différents du sien.",
     tags: ["MBTI · NOVA", "Équipes", "Leadership"],
   },
   {
     title: "Quand l'IA rencontre les générations",
+    href: "/conferences/ia-et-generations",
     text: "Comment chacun vit l'arrivée de l'intelligence artificielle, et comment en faire un projet d'équipe plutôt qu'une source de fracture.",
     tags: ["Éducation", "Organisations", "Changement"],
   },

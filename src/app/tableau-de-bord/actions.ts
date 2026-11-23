@@ -58,5 +58,6 @@ export async function setApproved(id: number, code: string, approved: boolean) {
   await d.ready;
   await d.sql`update feedback set approved = ${approved} where id = ${id} and publish`;
   revalidatePath("/");
+  revalidatePath("/conferences/[slug]", "page");
   revalidatePath(`/tableau-de-bord/avis/${code}`);
 }
