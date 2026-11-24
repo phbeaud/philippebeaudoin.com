@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { Definition } from "@/lib/diag/engine";
-import { ensureSeed } from "@/lib/diag/store";
+import { TEMPLATES, ensureSeed } from "@/lib/diag/store";
 import { db, isAuthed } from "@/lib/stats";
-import { createQuestionnaire, createSession, duplicateQuestionnaire, setStatus } from "./actions";
+import { addTemplate, createQuestionnaire, createSession, duplicateQuestionnaire, setStatus } from "./actions";
 
 export const metadata: Metadata = { title: "Diagnostics", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
@@ -136,6 +136,26 @@ export default async function Diagnostics({ searchParams }: { searchParams: Prom
               </li>
             );
           })}
+        </ul>
+      </div>
+
+      <div className={`${card} mt-6`}>
+        <h2 className="eyebrow mb-1 opacity-60">Modèles prêts à l&apos;emploi</h2>
+        <p className="mb-4 text-sm text-muted">Chaque modèle s&apos;ajoute comme un nouveau brouillon, à relire et à ajuster avant de le publier.</p>
+        <ul className="divide-y divide-ink/10 border-t border-ink/10">
+          {TEMPLATES.map((t) => (
+            <li key={t.key} className="flex flex-wrap items-center justify-between gap-3 py-4">
+              <span>
+                <b>{t.def.title}</b>
+                <span className="mt-1 block text-sm text-muted">
+                  {t.note} {t.def.questions.length} questions · {t.def.dimensions.map((x) => x.name).join(", ")}
+                </span>
+              </span>
+              <form action={addTemplate.bind(null, t.key)}>
+                <button className={pill}>Ajouter comme brouillon</button>
+              </form>
+            </li>
+          ))}
         </ul>
       </div>
     </section>

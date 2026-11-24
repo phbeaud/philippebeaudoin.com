@@ -144,7 +144,7 @@ export default function Runner({ def, code, draft, preview }: { def: Definition;
       </div>
 
       {q.context && <p className="eyebrow mt-10 text-accent">{q.context}</p>}
-      <h2 className="mt-3 font-display text-2xl leading-snug tracking-tight sm:text-3xl">{q.prompt}</h2>
+      <h2 className="mt-3 font-display text-xl leading-snug tracking-tight sm:text-2xl">{q.prompt}</h2>
 
       {q.type === "single" ? (
         <ul className="mt-8 space-y-3">

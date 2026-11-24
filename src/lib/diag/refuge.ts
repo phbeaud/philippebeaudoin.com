@@ -1,6 +1,6 @@
 import type { Definition, Option } from "./engine";
 
-// BROUILLON à valider par Philippe : « Quel est votre refuge professionnel? »
+// BROUILLON (version 2) à valider par Philippe : « Quel est votre refuge professionnel? »
 // 12 mises en situation, 4 réponses chacune; chaque réponse nourrit une dimension (poids 1).
 // Outil pédagogique d'autoréflexion, pas un instrument psychométrique validé.
 
@@ -10,125 +10,127 @@ const M = "mobilisateur";
 const S = "securisateur";
 const o = (text: string, k: string): Option => ({ text, weights: { [k]: 1 } });
 
+// Version 2 (plus incisive) : scènes tendues et précises, réponses écrites comme le premier réflexe,
+// toutes défendables, chacune portant le piège de son profil.
 const situations: [string, string, Option[]][] = [
   [
-    "Le projet ne passe pas",
-    "Vous présentez un projet auquel vous croyez. Autour de la table, les visages se ferment et les objections fusent. Votre premier réflexe :",
+    "Le silence après votre présentation",
+    "Vous venez de présenter au comité de direction un projet qui vous tient à cœur. Personne ne dit rien. Le DG regarde son téléphone. Dans votre tête, tout de suite :",
     [
-      o("Je reprends mon argumentaire avec des données plus précises pour démontrer que le projet tient la route.", C),
-      o("Je m'arrête pour demander ce qui inquiète les gens, quitte à reporter la décision.", R),
-      o("Je propose d'en faire un essai à petite échelle : on verra bien sur le terrain.", M),
-      o("Je présente un plan détaillé des risques et des mesures pour les contrôler.", S),
+      o("« Ils n'ont pas compris. Je reprends avec les chiffres. »", C),
+      o("« Quelque chose les dérange. Il faut que je sache quoi. »", R),
+      o("« On arrête de parler. Je propose un projet pilote dès lundi. »", M),
+      o("« J'aurais dû préparer leurs objections avant d'entrer. »", S),
     ],
   ],
   [
-    "Votre équipe décroche",
-    "Depuis quelques semaines, votre équipe semble moins engagée : moins d'initiatives, plus de silence en réunion. Vous :",
+    "Votre meilleure employée s'en va",
+    "Elle vous annonce, calmement, qu'elle a accepté une offre ailleurs. Il lui reste deux semaines. Votre premier réflexe :",
     [
-      o("Rappelez clairement les objectifs, le pourquoi des priorités et ce qui est attendu de chacun.", C),
-      o("Prenez le temps de rencontrer chaque personne pour comprendre ce qu'elle vit.", R),
-      o("Lancez un nouveau défi stimulant pour relancer l'énergie du groupe.", M),
-      o("Revoyez l'organisation du travail : rôles, échéanciers, suivis.", S),
+      o("Comprendre, point par point, ce qui l'a fait partir.", C),
+      o("Lui dire sincèrement à quel point elle va vous manquer.", R),
+      o("Lui faire une contre-offre, là, maintenant.", M),
+      o("Penser à la relève et au transfert de ses dossiers.", S),
     ],
   ],
   [
-    "Un changement imposé d'en haut",
-    "La direction annonce un changement que vous n'avez pas choisi et que votre équipe accueille mal. Vous devez le porter. Vous misez d'abord sur :",
+    "On vous retire un dossier",
+    "Votre patron annonce, devant votre équipe, que votre projet passe à un collègue. Aucune explication. Dans l'heure qui suit, vous :",
     [
-      o("Expliquer le contexte et la logique de la décision, pour qu'on la comprenne.", C),
-      o("Accueillir les réactions et préserver le lien de confiance avec l'équipe.", R),
-      o("Passer rapidement à l'action pour que le changement devienne concret.", M),
-      o("Préparer un plan de transition clair, étape par étape.", S),
+      o("Écrivez un courriel qui rappelle les résultats obtenus jusqu'ici.", C),
+      o("Allez voir votre équipe pour la rassurer avant tout.", R),
+      o("Vous lancez sur un autre projet pour montrer ce que vous valez.", M),
+      o("Demandez une rencontre pour clarifier votre rôle et vos mandats.", S),
     ],
   ],
   [
-    "Une critique publique",
-    "En pleine rencontre, un collègue remet en question votre travail devant tout le monde. Sur le moment, vous :",
+    "La réunion qui dérape",
+    "Un collègue hausse le ton, deux personnes croisent les bras. Il reste 20 minutes et trois points à l'ordre du jour. Vous dites :",
     [
-      o("Rectifiez les faits, calmement, point par point.", C),
-      o("Désamorcez la tension et proposez d'en reparler en privé.", R),
-      o("Ramenez la discussion vers les solutions et la suite des choses.", M),
-      o("Notez les éléments soulevés pour les vérifier avant de répondre.", S),
+      o("« Revenons aux faits : qu'est-ce qu'on sait vraiment? »", C),
+      o("« Prenons une pause. Personne ne sortira d'ici blessé. »", R),
+      o("« On tranche maintenant, on reviendra sur le reste plus tard. »", M),
+      o("« On reporte ce point et on s'en tient à l'ordre du jour. »", S),
     ],
   ],
   [
-    "Votre influence diminue",
-    "Vous sentez que vos idées ont moins de poids qu'avant : on vous consulte moins, vos propositions passent inaperçues. Vous :",
+    "Le client furieux",
+    "Un client important vous appelle, hors de lui : la livraison est en retard et il menace d'aller chez un concurrent. Vous :",
     [
-      o("Documentez mieux vos propositions pour qu'elles soient irréfutables.", C),
-      o("Renforcez vos relations avec les personnes clés, une à une.", R),
-      o("Prenez une initiative visible qui démontre ce que vous apportez.", M),
-      o("Clarifiez votre rôle et vos responsabilités avec votre supérieur.", S),
+      o("Lui expliquez précisément ce qui s'est passé.", C),
+      o("Le laissez vider son sac, sans l'interrompre.", R),
+      o("Lui promettez une solution avant la fin de la journée.", M),
+      o("Lui détaillez ce qui empêchera que ça se reproduise.", S),
     ],
   ],
   [
-    "Un dossier en retard",
-    "Un dossier important prend du retard et la pression monte de tous les côtés. Votre réflexe :",
+    "L'erreur devant tout le monde",
+    "En pleine présentation au conseil d'administration, vous réalisez qu'un chiffre de votre rapport est faux. Quelqu'un vient de le citer. Vous :",
     [
-      o("Analyser ce qui a causé le retard avant de décider quoi que ce soit.", C),
-      o("Rassurer l'équipe et m'assurer que personne ne s'épuise.", R),
-      o("Retrousser mes manches, accélérer et trancher rapidement.", M),
-      o("Resserrer le suivi : points d'étape fréquents et responsabilités précises.", S),
+      o("Corrigez tout de suite et expliquez d'où vient l'écart.", C),
+      o("Vous excusez simplement, en assumant l'erreur devant tous.", R),
+      o("Corrigez en une phrase et enchaînez sans vous y attarder.", M),
+      o("Proposez de revalider tout le rapport avant toute décision.", S),
     ],
   ],
   [
-    "Un client mécontent",
-    "Un client ou un partenaire important exprime son insatisfaction, avec une certaine émotion. Vous commencez par :",
+    "Le changement tombe demain",
+    "La direction annonce une restructuration demain matin, et votre équipe l'apprendra par vous. Pour cette rencontre, vous misez sur :",
     [
-      o("Lui expliquer ce qui s'est passé et pourquoi.", C),
-      o("L'écouter jusqu'au bout et reconnaître ce qu'il vit.", R),
-      o("Lui proposer tout de suite une solution concrète.", M),
-      o("Lui présenter les mesures qui éviteront que cela se reproduise.", S),
+      o("Le pourquoi : la logique derrière la décision.", C),
+      o("Beaucoup de place pour les réactions et les émotions.", R),
+      o("Ce qu'on peut en faire, avec de premiers chantiers dès la semaine prochaine.", M),
+      o("Un échéancier clair : qui, quoi, quand.", S),
     ],
   ],
   [
-    "Une décision dans le flou",
-    "Vous devez décider vite, sans avoir toute l'information. Ce qui vous aide le plus :",
+    "Le conflit qui contamine l'équipe",
+    "Deux de vos employés ne se parlent plus depuis un mois. Le reste de l'équipe commence à prendre parti. Ce que vous vous dites :",
     [
-      o("Prendre quelques minutes pour structurer les options et leurs arguments.", C),
-      o("Consulter les personnes concernées pour obtenir leur adhésion.", R),
-      o("Décider, avancer, puis ajuster en cours de route.", M),
-      o("Choisir l'option la plus sûre et prévoir un plan B.", S),
+      o("« Je dois comprendre qui a raison sur le fond. »", C),
+      o("« Il faut les réunir et recréer le lien, coûte que coûte. »", R),
+      o("« Je leur donne un projet commun : ils n'auront pas le choix. »", M),
+      o("« Je précise les rôles pour qu'ils n'aient plus à se marcher dessus. »", S),
     ],
   ],
   [
-    "Une résistance silencieuse",
-    "Une personne de votre équipe dit « oui » en réunion, mais rien ne bouge ensuite. Vous :",
+    "L'IA arrive dans l'équipe",
+    "Un outil d'IA va automatiser une partie du travail de votre équipe. Plusieurs ont peur pour leur emploi. Votre réflexe :",
     [
-      o("Lui réexpliquez les attentes et l'importance du dossier.", C),
-      o("Cherchez à comprendre ce qui la retient, dans une conversation ouverte.", R),
-      o("Lui confiez une première étape simple pour amorcer le mouvement.", M),
-      o("Fixez des échéances précises et un suivi régulier.", S),
+      o("Expliquer concrètement ce que l'outil fait, et ce qu'il ne fait pas.", C),
+      o("Écouter les craintes de chacun avant même de parler de l'outil.", R),
+      o("Le faire essayer dès cette semaine : la peur baisse en pratiquant.", M),
+      o("Poser un cadre : formation, étapes, aucune décision précipitée.", S),
     ],
   ],
   [
-    "Une erreur de votre part",
-    "Vous constatez une erreur que vous avez commise et qui a des conséquences pour d'autres. Vous :",
+    "Décider sans les chiffres",
+    "Vous devez trancher un investissement important d'ici midi. Il vous manque la moitié de l'information. Ce que vous vous dites :",
     [
-      o("Expliquez ce qui s'est produit et comment l'erreur est arrivée.", C),
-      o("Allez voir les personnes touchées pour vous excuser et réparer le lien.", R),
-      o("Corrigez la situation le plus vite possible, sans trop en parler.", M),
-      o("Mettez en place une vérification pour que cela ne se reproduise plus.", S),
+      o("« Je prends une heure pour bâtir le meilleur raisonnement possible. »", C),
+      o("« J'appelle deux personnes de confiance pour sentir leur position. »", R),
+      o("« Je décide. Mieux vaut une bonne décision maintenant qu'une parfaite trop tard. »", M),
+      o("« Je choisis l'option la moins risquée, avec une porte de sortie. »", S),
     ],
   ],
   [
-    "Un conflit dans l'équipe",
-    "Deux membres de l'équipe s'opposent ouvertement et le climat s'en ressent. Vous intervenez en :",
+    "Le oui qui veut dire non",
+    "Un collègue appuie votre projet en réunion, puis le critique dans votre dos auprès de la direction. Vous l'apprenez. Vous :",
     [
-      o("Clarifiant les faits et les positions de chacun.", C),
-      o("Les réunissant pour rétablir le dialogue et la confiance.", R),
-      o("Les amenant à travailler ensemble sur une solution concrète.", M),
-      o("Précisant les règles de fonctionnement et les rôles de chacun.", S),
+      o("Lui présentez les faits et lui demandez ce qui cloche vraiment.", C),
+      o("L'invitez à dîner pour comprendre ce qui se passe entre vous.", R),
+      o("Accélérez le projet : les résultats répondront à votre place.", M),
+      o("Documentez tout et faites valider chaque étape par écrit.", S),
     ],
   ],
   [
-    "Une situation déstabilisante",
-    "Une réorganisation majeure bouscule vos repères : nouveau patron, nouvelles priorités. Pour retrouver votre équilibre, vous :",
+    "Le contrat perdu",
+    "Un gros contrat vient de tomber à l'eau, et toute l'équipe le sait déjà. Le lendemain matin, vous arrivez avec :",
     [
-      o("Cherchez à comprendre la nouvelle logique de l'organisation.", C),
-      o("Vous appuyez sur vos relations de confiance au travail.", R),
-      o("Vous lancez dans les nouveaux dossiers pour reprendre votre élan.", M),
-      o("Établissez vos propres repères : priorités, routines, plan de travail.", S),
+      o("Une analyse : pourquoi on l'a perdu, et ce qu'on en apprend.", C),
+      o("Du temps pour chacun : comment ça va, et ce qui inquiète.", R),
+      o("Trois nouvelles pistes de clients à attaquer aujourd'hui.", M),
+      o("Un budget revu et des priorités pour sécuriser les prochains mois.", S),
     ],
   ],
 ];
@@ -138,7 +140,8 @@ export const refuge: Definition = {
   subtitle: "Vos stratégies spontanées quand ça résiste",
   intro:
     "Quand on rencontre de la résistance, qu'on perd de l'influence ou qu'une situation nous déstabilise, on se réfugie souvent dans une stratégie familière. Ce diagnostic vous aide à reconnaître la vôtre, ses forces et ses pièges. 12 mises en situation, environ 5 minutes.",
-  instruction: "Pour chaque situation, choisissez la réaction la plus proche de votre premier réflexe, pas de ce que vous devriez faire.",
+  instruction:
+    "Répondez vite. Choisissez votre premier réflexe, pas la réponse du manuel : les quatre réactions se défendent, et aucun refuge n'est meilleur qu'un autre.",
   disclaimer:
     "Outil pédagogique d'autoréflexion, et non un instrument psychométrique validé. Votre résultat décrit des réflexes, pas votre personnalité : il varie selon le contexte et peut évoluer.",
   // Avec 12 questions, une réponse d'écart = 8,3 points : seul un ex æquo est présenté comme profil mixte

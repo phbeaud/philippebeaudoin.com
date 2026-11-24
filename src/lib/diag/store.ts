@@ -43,4 +43,9 @@ export async function ensureSeed() {
   if (n === 0) await d.sql`insert into diag_questionnaires (title, definition) values (${refuge.title}, ${d.sql.json(refuge as never)})`;
 }
 
+// Modèles prêts à l'emploi : chacun s'ajoute comme brouillon modifiable (le modèle lui-même ne change pas)
+export const TEMPLATES: { key: string; def: Definition; note: string }[] = [
+  { key: "refuge", def: refuge, note: "Version 2, plus incisive : 12 scènes tendues, 4 refuges." },
+];
+
 export const randomToken = () => Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString("hex");

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { isDefinition, problems, type Definition } from "@/lib/diag/engine";
+import { TEMPLATES } from "@/lib/diag/store";
 import { GROUP_CODE, db, isAuthed, newGroupCode } from "@/lib/stats";
 
 const BASE = "/tableau-de-bord/diagnostics";
@@ -30,6 +31,14 @@ const blank: Definition = {
 export async function createQuestionnaire() {
   const sql = await guard();
   const [r] = await sql`insert into diag_questionnaires (title, definition) values (${blank.title}, ${sql.json(blank as never)}) returning id`;
+  redirect(`${BASE}/q/${r.id}`);
+}
+
+export async function addTemplate(key: string) {
+  const sql = await guard();
+  const t = TEMPLATES.find((x) => x.key === key);
+  if (!t) return;
+  const [r] = await sql`insert into diag_questionnaires (title, definition) values (${t.def.title}, ${sql.json(t.def as never)}) returning id`;
   redirect(`${BASE}/q/${r.id}`);
 }
 
