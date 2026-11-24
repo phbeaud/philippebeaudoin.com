@@ -1,6 +1,7 @@
 import "server-only";
 import { GROUP_CODE, db } from "@/lib/stats";
 import type { Definition, Result } from "./engine";
+import { changement } from "./changement";
 import { refuge } from "./refuge";
 
 export const SITE = "https://www.philippebeaudoin.com";
@@ -46,6 +47,7 @@ export async function ensureSeed() {
 // Modèles prêts à l'emploi : chacun s'ajoute comme brouillon modifiable (le modèle lui-même ne change pas)
 export const TEMPLATES: { key: string; def: Definition; note: string }[] = [
   { key: "refuge", def: refuge, note: "Version 2, plus incisive : 12 scènes tendues, 4 refuges." },
+  { key: "changement", def: changement, note: "Inspiré des 7 phases de préoccupations de Céline Bareil : 21 énoncés sur une échelle." },
 ];
 
 export const randomToken = () => Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString("hex");

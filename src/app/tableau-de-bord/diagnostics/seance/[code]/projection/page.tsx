@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import QRCode from "qrcode";
+import { labelsOf } from "@/lib/diag/engine";
 import { SITE, getSession } from "@/lib/diag/store";
 import { isAuthed } from "@/lib/stats";
 import Projection from "./Projection";
@@ -16,5 +17,5 @@ export default async function ProjectionPage({ params }: { params: Promise<{ cod
   const link = `${SITE}/d/${code}`;
   const qr = await QRCode.toString(link, { type: "svg", margin: 0, color: { dark: "#16130f", light: "#00000000" } });
   const dims = s.definition.dimensions.map(({ key, name, color, tagline }) => ({ key, name, color, tagline }));
-  return <Projection code={code} title={s.definition.title} name={s.name} link={link.replace("https://www.", "")} qr={qr} dims={dims} />;
+  return <Projection code={code} title={s.definition.title} name={s.name} link={link.replace("https://www.", "")} qr={qr} dims={dims} labels={labelsOf(s.definition)} />;
 }

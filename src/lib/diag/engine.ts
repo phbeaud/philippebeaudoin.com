@@ -19,12 +19,48 @@ export type Question =
   | { id: string; type: "single"; prompt: string; context?: string; options: Option[]; shuffle?: boolean }
   | { id: string; type: "scale"; prompt: string; context?: string; dimension: string; reverse?: boolean; min: number; max: number; labels: [string, string] };
 
+// Vocabulaire du résultat : chaque questionnaire peut nommer ses rubriques (par défaut, celles de « Refuge »)
+export type Labels = {
+  term: string; // ex. « refuge », « préoccupation »
+  feminine?: boolean; // accord : « la plus fréquente »
+  dominant: string;
+  secondary: string;
+  repartition: string;
+  brief: [string, string, string, string];
+  noSecondary: string;
+  forces: string;
+  blindspots: string;
+  pressure: string;
+  reflection: string;
+  leastHint: string;
+  unit: string; // ex. « réflexe » : « part moyenne du réflexe »
+};
+
+export const DEFAULT_LABELS: Labels = {
+  term: "refuge",
+  dominant: "Votre refuge dominant",
+  secondary: "Secondaire",
+  repartition: "La répartition de vos réflexes",
+  brief: ["Votre premier refuge", "En renfort", "Votre atout", "Votre piège"],
+  noSecondary: "Aucun : votre premier refuge domine nettement.",
+  forces: "Vos forces",
+  blindspots: "Angles morts potentiels",
+  pressure: "Sous pression",
+  reflection: "Pour réfléchir",
+  leastHint: "Dans une équipe, c'est souvent le réflexe qui manque quand ça résiste.",
+  unit: "réflexe",
+};
+
+export const labelsOf = (def: Pick<Definition, "labels">): Labels => ({ ...DEFAULT_LABELS, ...(def.labels ?? {}) });
+
 export type Definition = {
+  labels?: Partial<Labels>;
   title: string;
   subtitle?: string;
   intro: string;
   disclaimer: string;
   instruction?: string; // consigne affichée au-dessus des questions
+  bars?: "share" | "pct"; // graphique du résultat : part du total (défaut) ou intensité de chaque dimension sur 100
   mixedThreshold: number; // écart (en points de %) sous lequel le profil est présenté comme mixte
   dimensions: Dimension[];
   questions: Question[];

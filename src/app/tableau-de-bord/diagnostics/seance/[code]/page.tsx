@@ -110,7 +110,7 @@ export default async function Seance({ params }: { params: Promise<{ code: strin
             </ul>
           </div>
           <div className={card}>
-            <h2 className="eyebrow mb-5 opacity-60">Part moyenne de chaque réflexe</h2>
+            <h2 className="eyebrow mb-5 opacity-60">Part moyenne de chaque profil</h2>
             <ul className="space-y-3">
               {def.dimensions.map((d) => (
                 <li key={d.key} className="grid grid-cols-[8rem_1fr_3rem] items-center gap-3 text-sm">

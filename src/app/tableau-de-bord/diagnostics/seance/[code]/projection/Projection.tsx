@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import type { Labels } from "@/lib/diag/engine";
 
 type Dim = { key: string; name: string; color: string; tagline: string };
 type Stats = { n: number; dominants: Record<string, number>; avgShare: Record<string, number>; ranked: string[]; mixed: number; open: boolean };
 
 // Écran de salle : se met à jour toutes les 3 secondes; les résultats restent masqués tant qu'on ne les révèle pas
-export default function Projection({ code, title, name, link, qr, dims }: { code: string; title: string; name: string; link: string; qr: string; dims: Dim[] }) {
+export default function Projection({ code, title, name, link, qr, dims, labels: L }: { code: string; title: string; name: string; link: string; qr: string; dims: Dim[]; labels: Labels }) {
   const [stats, setStats] = useState<Stats | null>(null);
   const [shown, setShown] = useState(false);
   const [offline, setOffline] = useState(false);
@@ -105,7 +106,7 @@ export default function Projection({ code, title, name, link, qr, dims }: { code
                       <div className="h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${pct(k)}%`, background: dim[k]?.color }} />
                     </div>
                     <p className="mt-1 text-sm text-paper/50">
-                      {stats?.dominants[k] ?? 0} personne{(stats?.dominants[k] ?? 0) > 1 ? "s" : ""} · part moyenne du réflexe : {stats?.avgShare[k] ?? 0} %
+                      {stats?.dominants[k] ?? 0} personne{(stats?.dominants[k] ?? 0) > 1 ? "s" : ""} · part moyenne du {L.unit} : {stats?.avgShare[k] ?? 0} %
                     </p>
                   </li>
                 ))}
@@ -113,23 +114,23 @@ export default function Projection({ code, title, name, link, qr, dims }: { code
               {top && least && (
                 <div className="mt-8 grid gap-4 md:grid-cols-3">
                   <p className="rounded-[1.5rem] bg-paper/[0.06] p-5">
-                    <span className="eyebrow block text-paper/50">Refuge le plus fréquent</span>
+                    <span className="eyebrow block text-paper/50">{L.term} {L.feminine ? "la plus fréquente" : "le plus fréquent"}</span>
                     <span className="mt-2 block font-display text-2xl" style={{ color: top.color }}>
                       {top.name}
                     </span>
                     <span className="text-sm text-paper/60">{top.tagline}</span>
                   </p>
                   <p className="rounded-[1.5rem] bg-paper/[0.06] p-5">
-                    <span className="eyebrow block text-paper/50">Le moins présent</span>
+                    <span className="eyebrow block text-paper/50">{L.feminine ? "La moins présente" : "Le moins présent"}</span>
                     <span className="mt-2 block font-display text-2xl" style={{ color: least.color }}>
                       {least.name}
                     </span>
-                    <span className="text-sm text-paper/60">Qui, dans la salle, joue ce rôle quand ça résiste?</span>
+                    <span className="text-sm text-paper/60">{L.leastHint}</span>
                   </p>
                   <p className="rounded-[1.5rem] bg-paper/[0.06] p-5">
                     <span className="eyebrow block text-paper/50">Profils mixtes</span>
                     <span className="mt-2 block font-display text-4xl">{n ? Math.round(((stats?.mixed ?? 0) / n) * 100) : 0} %</span>
-                    <span className="text-sm text-paper/60">deux réflexes presque à égalité</span>
+                    <span className="text-sm text-paper/60">deux résultats à égalité</span>
                   </p>
                 </div>
               )}
