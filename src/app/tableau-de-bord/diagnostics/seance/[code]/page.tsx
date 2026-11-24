@@ -25,6 +25,10 @@ export default async function Seance({ params }: { params: Promise<{ code: strin
   const def = s.definition;
   const dim = Object.fromEntries(def.dimensions.map((d) => [d.key, d]));
   const agg = aggregate(def, rows.map((r) => r.result));
+  // Questionnaires en intensité (ex. Bareil) : on montre le score sur 100 de chaque dimension, sinon sa part du total
+  const intensity = def.bars === "pct";
+  const val = (r: (typeof rows)[number], k: string) => (intensity ? r.result.pct?.[k] : r.result.share[k]) ?? 0;
+  const avg = Object.fromEntries(def.dimensions.map((d) => [d.key, rows.length ? Math.round(rows.reduce((a, r) => a + val(r, d.key), 0) / rows.length) : 0]));
   const link = `${SITE}/d/${code}`;
   const qr = await QRCode.toString(link, { type: "svg", margin: 0, color: { dark: "#16130f", light: "#00000000" } });
   const base = `/tableau-de-bord/diagnostics/seance/${code}`;
@@ -110,7 +114,7 @@ export default async function Seance({ params }: { params: Promise<{ code: strin
             </ul>
           </div>
           <div className={card}>
-            <h2 className="eyebrow mb-5 opacity-60">Part moyenne de chaque profil</h2>
+            <h2 className="eyebrow mb-5 opacity-60">{intensity ? "Intensité moyenne de chaque dimension (sur 100)" : "Part moyenne de chaque profil"}</h2>
             <ul className="space-y-3">
               {def.dimensions.map((d) => (
                 <li key={d.key} className="grid grid-cols-[8rem_1fr_3rem] items-center gap-3 text-sm">
@@ -118,9 +122,9 @@ export default async function Seance({ params }: { params: Promise<{ code: strin
                     {d.name}
                   </span>
                   <span className="h-3 overflow-hidden rounded-full bg-ink/10">
-                    <span className="block h-full rounded-full" style={{ width: `${agg.avgShare[d.key]}%`, background: d.color }} />
+                    <span className="block h-full rounded-full" style={{ width: `${avg[d.key]}%`, background: d.color }} />
                   </span>
-                  <span className="text-right tabular-nums">{agg.avgShare[d.key]} %</span>
+                  <span className="text-right tabular-nums">{avg[d.key]} %</span>
                 </li>
               ))}
             </ul>
@@ -165,7 +169,7 @@ export default async function Seance({ params }: { params: Promise<{ code: strin
                     <td className="py-2 pr-4">{dim[r.result.secondary]?.name}</td>
                     {def.dimensions.map((d) => (
                       <td key={d.key} className="py-2 pr-4 tabular-nums">
-                        {r.result.share[d.key]} %
+                        {val(r, d.key)} %
                       </td>
                     ))}
                   </tr>
