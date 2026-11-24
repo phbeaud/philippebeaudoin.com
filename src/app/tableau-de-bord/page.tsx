@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import Link from "next/link";
-import { COOKIE, LABELS, db, passwordHash, placeName } from "@/lib/stats";
+import { LABELS, db, isAuthed, placeName } from "@/lib/stats";
 import { createEvent, createGroup, logout } from "./actions";
 import Login from "./Login";
 
@@ -65,8 +64,7 @@ function Card({ title, children, className = "" }: { title: string; children: Re
 }
 
 export default async function Dashboard({ searchParams }: { searchParams: Promise<{ p?: string }> }) {
-  const expected = await passwordHash();
-  const authed = !!expected && (await cookies()).get(COOKIE)?.value === expected;
+  const authed = await isAuthed();
   if (!authed) {
     return (
       <section className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
@@ -177,6 +175,14 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
           </div>
         ))}
       </div>
+
+      <Link href="/tableau-de-bord/diagnostics" className="group mt-6 flex flex-wrap items-center justify-between gap-4 rounded-[1.5rem] bg-accent p-6 text-white">
+        <span>
+          <span className="eyebrow block opacity-80">Diagnostics en salle</span>
+          <span className="mt-1 block font-display text-2xl">Questionnaires, séances par code QR et projection en direct</span>
+        </span>
+        <span className="text-2xl transition group-hover:translate-x-1">→</span>
+      </Link>
 
       <Card title="Avis de conférence : code QR pour la salle" className="mt-6">
         <p className="-mt-2 mb-5 text-sm text-muted">

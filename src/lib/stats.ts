@@ -1,4 +1,5 @@
 import "server-only";
+import { timingSafeEqual } from "node:crypto";
 import postgres from "postgres";
 
 // Statistiques anonymes du test des styles : une ligne par personne (identifiant aléatoire du navigateur),
@@ -63,18 +64,108 @@ export function db() {
         wants_contact boolean not null default false,
         approved boolean not null default false
       )`;
+      // Diagnostics : questionnaires configurables, séances (copie figée du questionnaire) et réponses anonymes
+      await q`create table if not exists diag_questionnaires (
+        id serial primary key,
+        title text not null,
+        status text not null default 'brouillon',
+        definition jsonb not null,
+        created_at timestamptz not null default now(),
+        updated_at timestamptz not null default now()
+      )`;
+      await q`create table if not exists diag_sessions (
+        code text primary key,
+        questionnaire_id int references diag_questionnaires(id) on delete set null,
+        name text not null,
+        client text,
+        definition jsonb not null,
+        draft boolean not null default false,
+        open boolean not null default true,
+        created_at timestamptz not null default now()
+      )`;
+      await q`create table if not exists diag_responses (
+        id serial primary key,
+        session_code text not null references diag_sessions(code) on delete cascade,
+        token text not null unique,
+        device text not null,
+        answers jsonb not null,
+        result jsonb not null,
+        dominant text not null,
+        created_at timestamptz not null default now(),
+        unique (session_code, device)
+      )`;
+      await q`create index if not exists diag_responses_session on diag_responses (session_code)`;
+      // Limite d'essais : connexions ratées et envois par connexion Internet (adresse IP hachée, jamais en clair)
+      await q`create table if not exists rate_events (
+        kind text not null,
+        ip_hash text not null,
+        at timestamptz not null default now()
+      )`;
+      await q`create index if not exists rate_events_lookup on rate_events (kind, ip_hash, at)`;
     })();
   }
   return { sql, ready: ready! };
 }
 
-// Accès au tableau de bord : un mot de passe (DASHBOARD_PASSWORD) dont on garde l'empreinte dans un témoin
+// Accès au tableau de bord : mot de passe DASHBOARD_PASSWORD. Après connexion, le témoin contient une session signée
+// qui expire (7 jours); changer le mot de passe déconnecte toutes les sessions. Les essais ratés sont limités.
 export const COOKIE = "tdb";
-export async function passwordHash() {
+const SESSION_DAYS = 7;
+const enc = new TextEncoder();
+const hex = (b: ArrayBuffer) => Buffer.from(b).toString("hex");
+async function hmac(key: string, msg: string) {
+  const k = await crypto.subtle.importKey("raw", enc.encode(key), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  return hex(await crypto.subtle.sign("HMAC", k, enc.encode(msg)));
+}
+// Comparaison en temps constant, pour ne rien révéler par la durée de la vérification
+function same(a: string, b: string) {
+  const x = Buffer.from(a);
+  const y = Buffer.from(b);
+  return x.length === y.length && timingSafeEqual(x, y);
+}
+
+export const dashboardConfigured = () => !!process.env.DASHBOARD_PASSWORD;
+
+export async function checkPassword(given: string) {
   const pw = process.env.DASHBOARD_PASSWORD;
-  if (!pw) return null;
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`tdb:${pw}`));
-  return Buffer.from(buf).toString("hex");
+  if (!pw) return false;
+  return same(await hmac("pw", given), await hmac("pw", pw));
+}
+
+export async function newSession() {
+  const exp = Date.now() + SESSION_DAYS * 864e5;
+  return { value: `${exp}.${await hmac(`tdb:${process.env.DASHBOARD_PASSWORD}`, String(exp))}`, maxAge: SESSION_DAYS * 86400 };
+}
+
+export async function isAuthed() {
+  const pw = process.env.DASHBOARD_PASSWORD;
+  if (!pw) return false;
+  const { cookies } = await import("next/headers");
+  const [exp, sig] = ((await cookies()).get(COOKIE)?.value ?? "").split(".");
+  if (!exp || !sig || !(Number(exp) > Date.now())) return false;
+  return same(sig, await hmac(`tdb:${pw}`, exp));
+}
+
+// Adresse IP hachée (sel quotidien) : sert seulement à limiter les abus, jamais conservée en clair
+export async function ipHash() {
+  const { headers } = await import("next/headers");
+  const h = await headers();
+  const ip = (h.get("x-forwarded-for") ?? h.get("x-real-ip") ?? "inconnue").split(",")[0].trim();
+  return (await hmac(`ip:${process.env.DASHBOARD_PASSWORD ?? ""}:${new Date().toISOString().slice(0, 10)}`, ip)).slice(0, 32);
+}
+
+// Vrai si cette connexion a déjà atteint la limite (max événements en `minutes`); sinon, enregistre l'événement
+export async function overLimit(kind: string, ip: string, max: number, minutes: number, record = true) {
+  const d = db();
+  if (!d) return false;
+  await d.ready;
+  const [{ n }] = await d.sql`select count(*)::int as n from rate_events
+    where kind = ${kind} and ip_hash = ${ip} and at > now() - make_interval(mins => ${minutes})`;
+  if (n >= max) return true;
+  if (record) await d.sql`insert into rate_events (kind, ip_hash) values (${kind}, ${ip})`;
+  // Ménage occasionnel des vieux événements
+  if (Math.random() < 0.02) await d.sql`delete from rate_events where at < now() - interval '2 days'`;
+  return false;
 }
 
 export const LABELS = {
@@ -95,11 +186,6 @@ export function placeName(country: string | null, region: string | null) {
   return region ? `${name} (${region})` : name;
 }
 
-export async function isAuthed() {
-  const { cookies } = await import("next/headers");
-  const expected = await passwordHash();
-  return !!expected && (await cookies()).get(COOKIE)?.value === expected;
-}
 
 export function newGroupCode() {
   const alphabet = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";

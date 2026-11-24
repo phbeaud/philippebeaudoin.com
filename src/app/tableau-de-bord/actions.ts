@@ -3,14 +3,19 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { COOKIE, db, isAuthed, newGroupCode, passwordHash } from "@/lib/stats";
+import { COOKIE, checkPassword, dashboardConfigured, db, ipHash, isAuthed, newGroupCode, newSession, overLimit } from "@/lib/stats";
 
 export async function login(_: string | null, form: FormData): Promise<string | null> {
-  const expected = await passwordHash();
-  if (!expected) return "Le tableau de bord n'est pas configuré (DASHBOARD_PASSWORD manquant).";
-  const given = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`tdb:${String(form.get("password") ?? "")}`));
-  if (Buffer.from(given).toString("hex") !== expected) return "Mot de passe incorrect.";
-  (await cookies()).set(COOKIE, expected, { httpOnly: true, secure: true, sameSite: "lax", path: "/tableau-de-bord", maxAge: 60 * 60 * 24 * 30 });
+  if (!dashboardConfigured()) return "Le tableau de bord n'est pas configuré (DASHBOARD_PASSWORD manquant).";
+  // 5 essais ratés en 15 minutes bloquent la connexion pour cette adresse
+  const ip = await ipHash();
+  if (await overLimit("login", ip, 5, 15, false)) return "Trop d'essais. Réessayez dans 15 minutes.";
+  if (!(await checkPassword(String(form.get("password") ?? "")))) {
+    await overLimit("login", ip, 5, 15);
+    return "Mot de passe incorrect.";
+  }
+  const s = await newSession();
+  (await cookies()).set(COOKIE, s.value, { httpOnly: true, secure: true, sameSite: "lax", path: "/tableau-de-bord", maxAge: s.maxAge });
   redirect("/tableau-de-bord");
 }
 

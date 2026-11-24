@@ -1,10 +1,8 @@
-import { cookies } from "next/headers";
-import { COOKIE, LABELS, db, passwordHash, placeName } from "@/lib/stats";
+import { LABELS, db, isAuthed, placeName } from "@/lib/stats";
 
 // Export CSV de toutes les réponses, pour colliger dans Excel
 export async function GET() {
-  const expected = await passwordHash();
-  if (!expected || (await cookies()).get(COOKIE)?.value !== expected) return new Response("Accès refusé", { status: 401 });
+  if (!(await isAuthed())) return new Response("Accès refusé", { status: 401 });
   const d = db();
   if (!d) return new Response("Base de données non configurée", { status: 503 });
   await d.ready;
