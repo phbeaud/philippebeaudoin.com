@@ -121,3 +121,19 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Résultat de diagnostic enregistré en PDF : sans en-tête ni pied de page, couleurs conservées */
+@media print {
+  body:has(.diag-print) header,
+  body:has(.diag-print) footer,
+  .no-print {
+    display: none !important;
+  }
+  .diag-print {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .diag-print section {
+    break-inside: avoid;
+  }
+}
