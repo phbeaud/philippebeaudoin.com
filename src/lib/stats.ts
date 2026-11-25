@@ -39,6 +39,8 @@ export function db() {
       // Ajouts : groupe de formation et scores « au travail », pour le profil d'équipe
       await q`alter table test_sessions add column if not exists group_code text,
         add column if not exists wc int, add column if not exists wd int, add column if not exists ws int, add column if not exists wi int`;
+      // Tests faits sans code, rattachés après coup à un groupe (permet d'annuler le rattachement)
+      await q`alter table test_sessions add column if not exists linked_at timestamptz`;
       await q`create table if not exists test_groups (
         code text primary key,
         name text not null,

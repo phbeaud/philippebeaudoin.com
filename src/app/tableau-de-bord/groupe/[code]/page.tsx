@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import QRCode from "qrcode";
 import { GROUP_CODE, LABELS, db, isAuthed } from "@/lib/stats";
 import { HEX, KEYS, MIN_GROUP, analyze, type Key, type Member } from "@/lib/team";
+import { attachTests, detachTests } from "../../actions";
 import Actions from "./Actions";
 
 export const metadata: Metadata = { title: "Profil d'équipe", robots: { index: false, follow: false } };
@@ -80,7 +81,13 @@ function Bars({ values, compare }: { values: Record<Key, number>; compare?: Reco
 
 const card = "rounded-[1.75rem] border border-paper/10 bg-paper/[0.04] p-7 print:border-ink/20 print:bg-white";
 
-export default async function GroupProfile({ params }: { params: Promise<{ code: string }> }) {
+export default async function GroupProfile({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ code: string }>;
+  searchParams: Promise<{ de?: string; a?: string; rattache?: string }>;
+}) {
   if (!(await isAuthed())) redirect("/tableau-de-bord");
   const { code } = await params;
   if (!GROUP_CODE.test(code)) notFound();
@@ -91,6 +98,16 @@ export default async function GroupProfile({ params }: { params: Promise<{ code:
   if (!group) notFound();
   const rows = await d.sql`select sc, sd, ss, si, wc, wd, ws, wi, age, flex from test_sessions
     where group_code = ${code} and completed_at is not null`;
+  // Rattachement après coup : aperçu des tests terminés sans code, sur la période choisie (rien n'est modifié ici)
+  const sp = await searchParams;
+  const DAY = /^\d{4}-\d{2}-\d{2}$/;
+  const de = DAY.test(sp.de ?? "") ? sp.de! : "";
+  const a = DAY.test(sp.a ?? "") ? sp.a! : "";
+  const orphans = await d.sql`select completed_at, profile, source, region, city, age from test_sessions
+    where group_code is null and completed_at is not null
+      and (completed_at at time zone 'America/Toronto')::date between ${de || "2000-01-01"}::date and ${a || "2100-01-01"}::date
+    order by completed_at desc`;
+  const [{ n: linked }] = await d.sql`select count(*)::int as n from test_sessions where group_code = ${code} and linked_at is not null`;
   const members: Member[] = rows.map((r) => ({
     nat: { C: r.sc, D: r.sd, S: r.ss, I: r.si },
     work: r.wc == null ? null : { C: r.wc, D: r.wd, S: r.ws, I: r.wi },
@@ -157,6 +174,77 @@ export default async function GroupProfile({ params }: { params: Promise<{ code:
         <details className={`${card} mt-4 print:hidden`}>
           <summary className="cursor-pointer text-sm font-medium">Voir le courriel d&apos;invitation à envoyer aux participants</summary>
           <pre className="mt-4 whitespace-pre-wrap font-sans text-sm leading-6 text-paper/80">{email}</pre>
+        </details>
+
+        <details className={`${card} mt-4 print:hidden`} open={!!(sp.de || sp.a || sp.rattache)}>
+          <summary className="cursor-pointer text-sm font-medium">
+            Rattacher à ce groupe des tests faits sans code{linked ? ` · ${linked} déjà rattaché${linked > 1 ? "s" : ""}` : ""}
+          </summary>
+          {sp.rattache && <p className="mt-4 rounded-xl bg-[#2fb39f]/20 px-4 py-3 text-sm">C&apos;est fait : les tests ont été rattachés au groupe.</p>}
+          <p className="mt-4 text-sm leading-6 text-paper/70">
+            Pour les participants qui ont fait le test avant d&apos;avoir le code du groupe. Choisissez la période, vérifiez la liste, puis
+            rattachez. Attention : la liste contient aussi les visiteurs du site qui ont fait le test gratuit pendant cette période.
+          </p>
+          <form className="mt-4 flex flex-wrap items-end gap-3 text-sm">
+            <label className="grid gap-1">
+              <span className="text-paper/60">Du</span>
+              <input type="date" name="de" defaultValue={de} className="rounded-lg border border-paper/20 bg-transparent px-3 py-2" />
+            </label>
+            <label className="grid gap-1">
+              <span className="text-paper/60">Au</span>
+              <input type="date" name="a" defaultValue={a} className="rounded-lg border border-paper/20 bg-transparent px-3 py-2" />
+            </label>
+            <button className="rounded-full border border-paper/25 px-4 py-2 hover:border-paper">Voir les tests</button>
+          </form>
+          <p className="mt-5 text-sm">
+            <b>{orphans.length}</b> test{orphans.length > 1 ? "s" : ""} terminé{orphans.length > 1 ? "s" : ""} sans groupe
+            {de || a ? ` du ${de || "début"} au ${a || "aujourd'hui"}` : ", depuis le début"}.
+          </p>
+          {orphans.length > 0 && (
+            <>
+              <div className="mt-3 max-h-72 overflow-auto rounded-xl border border-paper/10">
+                <table className="w-full text-left text-xs">
+                  <thead className="sticky top-0 bg-ink text-paper/50">
+                    <tr>
+                      {["Date", "Profil", "Provenance", "Lieu", "Âge"].map((h) => (
+                        <th key={h} className="px-3 py-2 font-normal">
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-paper/10">
+                    {orphans.map((r, i) => (
+                      <tr key={i}>
+                        <td className="px-3 py-1.5 tabular-nums">
+                          {new Date(r.completed_at).toLocaleString("fr-CA", { timeZone: "America/Toronto", dateStyle: "medium", timeStyle: "short" })}
+                        </td>
+                        <td className="px-3 py-1.5">{r.profile ?? "–"}</td>
+                        <td className="px-3 py-1.5">{r.source ?? "–"}</td>
+                        <td className="px-3 py-1.5">{[r.city, r.region].filter(Boolean).join(", ") || "–"}</td>
+                        <td className="px-3 py-1.5">{r.age ? (AGE[r.age] ?? r.age) : "–"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <form action={attachTests.bind(null, code, de, a)} className="mt-4 flex flex-wrap items-center gap-4 text-sm">
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" required /> J&apos;ai vérifié la liste
+                </label>
+                <button className="rounded-full bg-accent px-5 py-2.5 font-semibold text-white">
+                  Rattacher ces {orphans.length} tests au groupe
+                </button>
+              </form>
+            </>
+          )}
+          {linked > 0 && (
+            <form action={detachTests.bind(null, code)} className="mt-5 border-t border-paper/10 pt-4 text-sm">
+              <button className="rounded-full border border-paper/25 px-4 py-2 hover:border-paper">
+                Annuler : détacher les {linked} test{linked > 1 ? "s" : ""} rattaché{linked > 1 ? "s" : ""} après coup
+              </button>
+            </form>
+          )}
         </details>
 
         {!t ? (

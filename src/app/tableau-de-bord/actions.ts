@@ -39,6 +39,34 @@ export async function createGroup(form: FormData) {
   redirect(`/tableau-de-bord/groupe/${code}`);
 }
 
+// Tests faits sans code : les rattacher après coup à un groupe, sur une période choisie (et pouvoir annuler)
+const DAY = /^\d{4}-\d{2}-\d{2}$/;
+export async function attachTests(code: string, from: string, to: string) {
+  if (!(await isAuthed())) redirect("/tableau-de-bord");
+  const d = db();
+  if (!d) redirect("/tableau-de-bord");
+  await d.ready;
+  const f = DAY.test(from) ? from : "2000-01-01";
+  const t = DAY.test(to) ? to : "2100-01-01";
+  const [g] = await d.sql`select 1 from test_groups where code = ${code}`;
+  if (!g) redirect("/tableau-de-bord");
+  await d.sql`update test_sessions set group_code = ${code}, linked_at = now()
+    where group_code is null and completed_at is not null
+      and (completed_at at time zone 'America/Toronto')::date between ${f}::date and ${t}::date`;
+  revalidatePath(`/tableau-de-bord/groupe/${code}`);
+  redirect(`/tableau-de-bord/groupe/${code}?rattache=1`);
+}
+
+export async function detachTests(code: string) {
+  if (!(await isAuthed())) redirect("/tableau-de-bord");
+  const d = db();
+  if (!d) redirect("/tableau-de-bord");
+  await d.ready;
+  await d.sql`update test_sessions set group_code = null, linked_at = null where group_code = ${code} and linked_at is not null`;
+  revalidatePath(`/tableau-de-bord/groupe/${code}`);
+  redirect(`/tableau-de-bord/groupe/${code}`);
+}
+
 // Avis de conférence : un événement avec un code QR à mettre sur la dernière diapo
 export async function createEvent(form: FormData) {
   if (!(await isAuthed())) redirect("/tableau-de-bord");
