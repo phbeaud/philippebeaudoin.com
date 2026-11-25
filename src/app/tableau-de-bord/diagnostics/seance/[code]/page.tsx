@@ -56,6 +56,9 @@ export default async function Seance({ params }: { params: Promise<{ code: strin
           <Link href={`${base}/projection`} className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-paper">
             Projection en salle →
           </Link>
+          <Link href={`${base}/rapport`} className="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white">
+            Rapport du groupe (PDF) →
+          </Link>
           <form action={setOpen.bind(null, code, !s.open)}>
             <button className={`rounded-full px-5 py-2.5 text-sm font-semibold ${s.open ? "bg-[#2fb39f] text-white" : "border border-ink/20"}`}>
               {s.open ? "● Ouverte : fermer" : "○ Fermée : rouvrir"}

@@ -137,3 +137,24 @@ body {
     break-inside: avoid;
   }
 }
+
+/* Rapport du groupe (Diagnostics) : une diapositive paysage par page, sans marge */
+@page rapport {
+  size: 11in 8.5in;
+  margin: 0;
+}
+@media print {
+  .rapport-root {
+    padding: 0 !important;
+  }
+  .rapport-slide {
+    page: rapport;
+    width: 11in !important;
+    max-width: none !important;
+    height: 8.5in;
+    aspect-ratio: auto;
+    margin: 0 !important;
+    break-after: page;
+    break-inside: avoid;
+  }
+}
