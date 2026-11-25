@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { labelsOf, type Definition, type Result } from "@/lib/diag/engine";
+import AxesResult from "./AxesResult";
 
 // Résultat individuel d'un diagnostic : profil dominant et secondaire, graphique, forces, angles morts, pression, réflexion
-export type GroupTrend = { n: number; dominants: Record<string, number>; ranked: string[]; min: number };
+export type GroupTrend = { n: number; dominants: Record<string, number>; ranked: string[]; min: number; axes?: Record<string, { left: number; right: number }> };
 
 const lower = (t: string) => t.charAt(0).toLowerCase() + t.slice(1);
 
 export default function ResultView({ def, result, actions, group }: { def: Definition; result: Result; actions?: React.ReactNode; group?: GroupTrend }) {
+  if (def.axes?.length) return <AxesResult def={def} result={result} actions={actions} group={group} />;
   const dim = Object.fromEntries(def.dimensions.map((d) => [d.key, d]));
   const top = dim[result.dominant];
   const second = dim[result.secondary];

@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import type { Labels } from "@/lib/diag/engine";
+import type { Axis, Labels } from "@/lib/diag/engine";
 
 type Dim = { key: string; name: string; color: string; tagline: string };
-type Stats = { n: number; dominants: Record<string, number>; avgShare: Record<string, number>; ranked: string[]; mixed: number; open: boolean };
+type Stats = { n: number; dominants: Record<string, number>; avgShare: Record<string, number>; ranked: string[]; mixed: number; open: boolean; axes?: Record<string, { left: number; right: number }> };
 
 // Écran de salle : se met à jour toutes les 3 secondes; les résultats restent masqués tant qu'on ne les révèle pas
-export default function Projection({ code, title, name, link, qr, dims, labels: L }: { code: string; title: string; name: string; link: string; qr: string; dims: Dim[]; labels: Labels }) {
+export default function Projection({ code, title, name, link, qr, dims, labels: L, axes }: { code: string; title: string; name: string; link: string; qr: string; dims: Dim[]; labels: Labels; axes?: Axis[] }) {
   const [stats, setStats] = useState<Stats | null>(null);
   const [shown, setShown] = useState(false);
   const [offline, setOffline] = useState(false);
@@ -91,6 +91,35 @@ export default function Projection({ code, title, name, link, qr, dims, labels: 
               <p className="font-display text-4xl lg:text-6xl">Répondez sur votre téléphone</p>
               <p className="mt-4 text-xl text-paper/60">Les résultats du groupe apparaîtront ici.</p>
             </div>
+          ) : axes?.length ? (
+            // Mode axes : la part de la salle de chaque côté de chaque axe
+            <ul className="space-y-8">
+              {axes.map((ax) => {
+                const c = stats?.axes?.[ax.key] ?? { left: 0, right: 0 };
+                const tot = c.left + c.right;
+                const lp = tot ? Math.round((c.left / tot) * 100) : 50;
+                const l = dim[ax.left];
+                const r = dim[ax.right];
+                return (
+                  <li key={ax.key}>
+                    <p className="text-sm uppercase tracking-widest text-paper/50">{ax.name}</p>
+                    <div className="mt-2 flex items-baseline justify-between font-display text-3xl lg:text-4xl">
+                      <span style={{ color: l?.color }}>
+                        {l?.name} <span className="tabular-nums text-paper">{tot ? lp : 0} %</span>
+                      </span>
+                      <span style={{ color: r?.color }}>
+                        <span className="tabular-nums text-paper">{tot ? 100 - lp : 0} %</span> {r?.name}
+                      </span>
+                    </div>
+                    <div className="relative mt-2 flex h-8 overflow-hidden rounded-full bg-paper/10">
+                      <div className="transition-all duration-1000 ease-out" style={{ width: `${tot ? lp : 0}%`, background: l?.color }} />
+                      <div className="ml-auto transition-all duration-1000 ease-out" style={{ width: `${tot ? 100 - lp : 0}%`, background: r?.color }} />
+                      <div className="absolute inset-y-0 left-1/2 w-1 -translate-x-1/2 bg-ink" />
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           ) : (
             <>
               <ul className="space-y-5">

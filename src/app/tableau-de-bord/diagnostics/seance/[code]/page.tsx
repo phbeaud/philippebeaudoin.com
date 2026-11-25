@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import QRCode from "qrcode";
+import { SplitBar } from "@/components/diag/AxesResult";
 import CopyLink from "@/components/diag/CopyLink";
-import { aggregate } from "@/lib/diag/engine";
+import { aggregate, comboOf } from "@/lib/diag/engine";
 import { SITE, getSession, sessionResults } from "@/lib/diag/store";
 import { isAuthed } from "@/lib/stats";
 import { deleteSessionData, setOpen } from "../../actions";
@@ -26,9 +27,14 @@ export default async function Seance({ params }: { params: Promise<{ code: strin
   const dim = Object.fromEntries(def.dimensions.map((d) => [d.key, d]));
   const agg = aggregate(def, rows.map((r) => r.result));
   // Questionnaires en intensité (ex. Bareil) : on montre le score sur 100 de chaque dimension, sinon sa part du total
-  const intensity = def.bars === "pct";
+  const intensity = def.bars === "pct" || !!def.axes?.length;
   const val = (r: (typeof rows)[number], k: string) => (intensity ? r.result.pct?.[k] : r.result.share[k]) ?? 0;
   const avg = Object.fromEntries(def.dimensions.map((d) => [d.key, rows.length ? Math.round(rows.reduce((a, r) => a + val(r, d.key), 0) / rows.length) : 0]));
+  // Mode axes : la combinaison de préférences la plus fréquente
+  const combos = new Map<string, number>();
+  if (def.axes?.length) rows.forEach((r) => combos.set(comboOf(def, r.result), (combos.get(comboOf(def, r.result)) ?? 0) + 1));
+  const [bestCombo] = [...combos.entries()].sort((a, b) => b[1] - a[1])[0] ?? [""];
+  const topCombo = bestCombo ? bestCombo.split("|").map((k) => dim[k]?.name).join(" · ") : "–";
   const link = `${SITE}/d/${code}`;
   const qr = await QRCode.toString(link, { type: "svg", margin: 0, color: { dark: "#16130f", light: "#00000000" } });
   const base = `/tableau-de-bord/diagnostics/seance/${code}`;
@@ -85,8 +91,12 @@ export default async function Seance({ params }: { params: Promise<{ code: strin
       <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
         {[
           ["Réponses", String(agg.n)],
-          ["Profil le plus fréquent", agg.n ? dim[agg.ranked[0]]?.name : "–"],
-          ["Profils mixtes", agg.n ? `${Math.round((agg.mixed / agg.n) * 100)} %` : "–"],
+          ...(def.axes?.length
+            ? [["Combinaison la plus fréquente", topCombo]]
+            : [
+                ["Profil le plus fréquent", agg.n ? dim[agg.ranked[0]]?.name : "–"],
+                ["Profils mixtes", agg.n ? `${Math.round((agg.mixed / agg.n) * 100)} %` : "–"],
+              ]),
           ["Statut", s.open ? "Ouverte" : "Fermée"],
         ].map(([l, v]) => (
           <div key={l} className="rounded-[1.25rem] bg-ink p-5 text-paper">
@@ -96,7 +106,29 @@ export default async function Seance({ params }: { params: Promise<{ code: strin
         ))}
       </div>
 
-      {agg.n > 0 && (
+      {agg.n > 0 && def.axes?.length && agg.axes && (
+        <div className={`${card} mt-6`}>
+          <h2 className="eyebrow mb-5 opacity-60">Préférences du groupe, axe par axe</h2>
+          <ul className="grid gap-6 lg:grid-cols-2">
+            {def.axes.map((ax) => {
+              const c = agg.axes![ax.key] ?? { left: 0, right: 0 };
+              const tot = c.left + c.right || 1;
+              const lp = Math.round((c.left / tot) * 100);
+              return (
+                <li key={ax.key}>
+                  <p className="mb-2 text-xs text-muted">{ax.name}</p>
+                  <SplitBar left={dim[ax.left]} right={dim[ax.right]} leftPct={lp} small />
+                  <p className="mt-1 text-xs text-muted">
+                    {c.left} · {c.right} personnes
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+
+      {agg.n > 0 && !def.axes?.length && (
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
           <div className={card}>
             <h2 className="eyebrow mb-5 opacity-60">Profils dominants</h2>

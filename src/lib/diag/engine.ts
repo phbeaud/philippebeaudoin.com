@@ -53,8 +53,13 @@ export const DEFAULT_LABELS: Labels = {
 
 export const labelsOf = (def: Pick<Definition, "labels">): Labels => ({ ...DEFAULT_LABELS, ...(def.labels ?? {}) });
 
+// Mode « axes » : des paires de pôles opposés (ex. Échange / Recul). Chaque question oppose les deux pôles d'un axe;
+// le résultat est une préférence par axe, avec sa netteté, plutôt qu'un profil dominant unique.
+export type Axis = { key: string; name: string; left: string; right: string };
+
 export type Definition = {
   labels?: Partial<Labels>;
+  axes?: Axis[];
   title: string;
   subtitle?: string;
   intro: string;
@@ -110,14 +115,38 @@ export function score(def: Definition, answers: Answers): Result {
   const pct = Object.fromEntries(keys.map((k) => [k, max[k] ? Math.round((raw[k] / max[k]) * 100) : 0])) as Record<string, number>;
   const total = keys.reduce((a, k) => a + raw[k], 0) || 1;
   const share = Object.fromEntries(keys.map((k) => [k, Math.round((raw[k] / total) * 100)])) as Record<string, number>;
+  if (def.axes?.length) {
+    // Dominant = la préférence la plus nette, secondaire = la suivante; les pôles non retenus ferment le classement
+    const reads = readAxes(def, { raw }).sort((a, b) => b.clarity - a.clarity);
+    const winners = reads.map((r) => r.winner);
+    const ranking = [...winners, ...keys.filter((k) => !winners.includes(k))];
+    return { raw, pct, share, ranking, dominant: winners[0], secondary: winners[1] ?? winners[0], mixed: false };
+  }
   // Classement sur le score relatif à son maximum (équitable si les dimensions n'ont pas le même nombre de questions)
   const ranking = [...keys].sort((a, b) => pct[b] - pct[a] || raw[b] - raw[a]);
   const [dominant, secondary] = ranking;
   return { raw, pct, share, ranking, dominant, secondary: secondary ?? dominant, mixed: pct[dominant] - (pct[secondary] ?? 0) < def.mixedThreshold };
 }
 
+export type AxisRead = { axis: Axis; leftPct: number; winner: string; loser: string; clarity: number; strength: "légère" | "modérée" | "nette" };
+
+// Préférence sur chaque axe : part du pôle de gauche (0-100), pôle retenu et netteté (0 = égalité, 100 = toutes les réponses du même côté)
+export function readAxes(def: Pick<Definition, "axes">, result: Pick<Result, "raw">): AxisRead[] {
+  return (def.axes ?? []).map((axis) => {
+    const l = result.raw?.[axis.left] ?? 0;
+    const r = result.raw?.[axis.right] ?? 0;
+    const leftPct = l + r ? Math.round((l / (l + r)) * 100) : 50;
+    const clarity = Math.abs(leftPct - 50) * 2;
+    const winner = leftPct >= 50 ? axis.left : axis.right;
+    return { axis, leftPct, winner, loser: winner === axis.left ? axis.right : axis.left, clarity, strength: clarity <= 25 ? "légère" : clarity <= 65 ? "modérée" : "nette" };
+  });
+}
+
+// Combinaison de préférences d'une personne (une par axe), dans l'ordre des axes
+export const comboOf = (def: Pick<Definition, "axes">, result: Pick<Result, "raw">) => readAxes(def, result).map((r) => r.winner).join("|");
+
 // Lecture collective d'une séance : répartition des profils dominants et moyenne des parts
-export function aggregate(def: Definition, results: Pick<Result, "dominant" | "share" | "mixed">[]) {
+export function aggregate(def: Definition, results: (Pick<Result, "dominant" | "share" | "mixed"> & Partial<Pick<Result, "raw">>)[]) {
   const keys = def.dimensions.map((d) => d.key);
   const n = results.length;
   const dominants = Object.fromEntries(keys.map((k) => [k, results.filter((r) => r.dominant === k).length])) as Record<string, number>;
@@ -125,7 +154,16 @@ export function aggregate(def: Definition, results: Pick<Result, "dominant" | "s
     keys.map((k) => [k, n ? Math.round(results.reduce((a, r) => a + (r.share[k] ?? 0), 0) / n) : 0]),
   ) as Record<string, number>;
   const ranked = [...keys].sort((a, b) => dominants[b] - dominants[a] || avgShare[b] - avgShare[a]);
-  return { n, dominants, avgShare, ranked, mixed: results.filter((r) => r.mixed).length };
+  // Mode axes : nombre de personnes de chaque côté de chaque axe
+  const axes = def.axes?.length
+    ? Object.fromEntries(
+        def.axes.map((ax) => {
+          const reads = results.filter((r) => r.raw).map((r) => readAxes({ axes: [ax] }, { raw: r.raw! })[0]);
+          return [ax.key, { left: reads.filter((x) => x.winner === ax.left).length, right: reads.filter((x) => x.winner === ax.right).length }];
+        }),
+      )
+    : undefined;
+  return { n, dominants, avgShare, ranked, mixed: results.filter((r) => r.mixed).length, axes };
 }
 
 // Contrôles avant publication : renvoie la liste des problèmes (vide = publiable)
@@ -140,6 +178,9 @@ export function problems(def: Definition): string[] {
     if (!d.name.trim()) out.push(`Une dimension n'a pas de nom (${d.key}).`);
     const used = def.questions.some((q) => (q.type === "single" ? q.options.some((o) => (o.weights[d.key] ?? 0) > 0) : q.dimension === d.key));
     if (!used) out.push(`La dimension « ${d.name} » n'est mesurée par aucune question.`);
+  });
+  def.axes?.forEach((ax) => {
+    if (!keys.has(ax.left) || !keys.has(ax.right)) out.push(`L'axe « ${ax.name} » vise une dimension inconnue.`);
   });
   def.questions.forEach((q, i) => {
     if (!q.prompt.trim()) out.push(`La question ${i + 1} n'a pas d'énoncé.`);

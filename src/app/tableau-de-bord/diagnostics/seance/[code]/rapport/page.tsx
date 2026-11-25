@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import type { ReactNode } from "react";
+import { SplitBar } from "@/components/diag/AxesResult";
 import SavePdf from "@/components/diag/SavePdf";
-import { aggregate, labelsOf, type Dimension } from "@/lib/diag/engine";
+import { aggregate, comboOf, labelsOf, type Dimension } from "@/lib/diag/engine";
 import { getSession, sessionResults } from "@/lib/diag/store";
 import { isAuthed } from "@/lib/stats";
 
@@ -103,8 +104,22 @@ export default async function Rapport({ params }: { params: Promise<{ code: stri
     def.dimensions.map((d) => [d.key, Math.round(rows.reduce((a, r) => a + ((intensity ? r.result.pct?.[d.key] : r.result.share[d.key]) ?? 0), 0) / n)]),
   ) as Record<string, number>;
   const byAvg = [...def.dimensions].sort((a, b) => avg[b.key] - avg[a.key]);
-  const lead = dim[agg.ranked[0]];
-  const least = byAvg[byAvg.length - 1];
+  // Mode axes : part du groupe de chaque côté, l'axe le plus tranché donne la tendance forte et le pôle en retrait
+  const axes = def.axes?.length
+    ? def.axes.map((ax) => {
+        const c = agg.axes?.[ax.key] ?? { left: 0, right: 0 };
+        const tot = c.left + c.right || 1;
+        const lp = Math.round((c.left / tot) * 100);
+        const major = lp >= 50 ? ax.left : ax.right;
+        return { ax, c, lp, major, minor: major === ax.left ? ax.right : ax.left, gap: Math.abs(lp - 50) };
+      })
+    : null;
+  const sharpest = axes ? [...axes].sort((a, b) => b.gap - a.gap)[0] : null;
+  const combos = new Map<string, number>();
+  if (axes) rows.forEach((r) => combos.set(comboOf(def, r.result), (combos.get(comboOf(def, r.result)) ?? 0) + 1));
+  const topCombos = [...combos.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const lead = sharpest ? dim[sharpest.major] : dim[agg.ranked[0]];
+  const least = sharpest ? dim[sharpest.minor] : byAvg[byAvg.length - 1];
   const leadPct = pc(agg.dominants[lead.key]);
 
   // Duo le plus fréquent (dominant + secondaire), parmi les profils nets
@@ -190,6 +205,54 @@ export default async function Rapport({ params }: { params: Promise<{ code: stri
         </div>
       </Slide>
 
+      {axes ? (
+        <>
+          {/* 2. Mode axes : les préférences du groupe */}
+          <Slide foot={foot} page={next()}>
+            <Eyebrow>Les préférences de votre groupe</Eyebrow>
+            <H>Comment la salle se répartit, axe par axe</H>
+            <ul className="mt-8 grid min-h-0 flex-1 grid-cols-2 content-center gap-x-12 gap-y-10">
+              {axes.map((a) => (
+                <li key={a.ax.key}>
+                  <p className="eyebrow mb-3 text-ink/55">{a.ax.name}</p>
+                  <SplitBar left={dim[a.ax.left]} right={dim[a.ax.right]} leftPct={a.lp} />
+                  <p className="mt-2 text-sm text-ink/60">
+                    {a.c.left} et {a.c.right} personnes · {a.gap < 10 ? "groupe partagé" : `le groupe penche vers ${dim[a.major].name}`}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </Slide>
+
+          {/* 3. Mode axes : les combinaisons */}
+          <Slide foot={foot} page={next()}>
+            <Eyebrow>Les combinaisons du groupe</Eyebrow>
+            <H>Les combinaisons de préférences les plus fréquentes</H>
+            <ul className="mt-8 space-y-4">
+              {topCombos.map(([k, c]) => (
+                <li key={k} className="flex items-center gap-6 rounded-[1.25rem] bg-white/80 px-6 py-4">
+                  <span className="w-24 shrink-0 font-display text-4xl tabular-nums">{pc(c)} %</span>
+                  <span className="flex flex-wrap gap-x-3 font-display text-2xl">
+                    {k.split("|").map((p, i, arr) => (
+                      <span key={p}>
+                        <span style={{ color: dim[p]?.color }}>{dim[p]?.name}</span>
+                        {i < arr.length - 1 && <span className="text-ink/25"> ·</span>}
+                      </span>
+                    ))}
+                  </span>
+                  <span className="ml-auto shrink-0 text-sm text-ink/55">
+                    {c} personne{c > 1 ? "s" : ""}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-auto text-sm text-ink/55">
+              {`${combos.size} combinaisons différentes dans un groupe de ${n} personnes : la diversité est la règle, pas l'exception.`}
+            </p>
+          </Slide>
+        </>
+      ) : (
+        <>
       {/* 2. Profil du groupe */}
       <Slide foot={foot} page={next()}>
         <Eyebrow>Le profil de votre groupe</Eyebrow>
@@ -265,6 +328,9 @@ export default async function Rapport({ params }: { params: Promise<{ code: stri
           </div>
         </div>
       </Slide>
+
+        </>
+      )}
 
       {/* 4. Ce que ça veut dire */}
       <Slide foot={foot} page={next()}>
@@ -346,7 +412,7 @@ export default async function Rapport({ params }: { params: Promise<{ code: stri
       <Slide dark foot={foot} page={next()}>
         <Eyebrow dark>Pour en discuter ensemble</Eyebrow>
         <ol className="mt-8 space-y-7">
-          {[...lead.reflection.slice(0, 2), `Que gagnerait le groupe à faire plus de place ${fem ? "à la" : "au"} ${L.term} « ${least.name} »?`].map((q, i) => (
+          {[...lead.reflection.slice(0, 2), `Que gagnerait le groupe à faire plus de place ${fem ? "à la" : "au"} ${L.term} «\u00a0${least.name}\u00a0»?`].map((q, i) => (
             <li key={q} className="flex gap-6">
               <span className="font-display text-5xl leading-none text-accent">{i + 1}</span>
               <span className="font-display text-3xl leading-snug">{q}</span>

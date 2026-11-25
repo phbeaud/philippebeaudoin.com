@@ -17,5 +17,5 @@ export default async function ProjectionPage({ params }: { params: Promise<{ cod
   const link = `${SITE}/d/${code}`;
   const qr = await QRCode.toString(link, { type: "svg", margin: 0, color: { dark: "#16130f", light: "#00000000" } });
   const dims = s.definition.dimensions.map(({ key, name, color, tagline }) => ({ key, name, color, tagline }));
-  return <Projection code={code} title={s.definition.title} name={s.name} link={link.replace("https://www.", "")} qr={qr} dims={dims} labels={labelsOf(s.definition)} />;
+  return <Projection code={code} title={s.definition.title} name={s.name} link={link.replace("https://www.", "")} qr={qr} dims={dims} labels={labelsOf(s.definition)} axes={s.definition.axes} />;
 }

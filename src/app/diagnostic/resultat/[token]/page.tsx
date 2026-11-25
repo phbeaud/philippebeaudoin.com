@@ -40,7 +40,7 @@ export default async function MonResultat({ params }: { params: Promise<{ token:
       <ResultView
         def={def}
         result={row.result as Result}
-        group={{ n: agg.n, dominants: agg.dominants, ranked: agg.ranked, min: MIN_GROUP }}
+        group={{ n: agg.n, dominants: agg.dominants, ranked: agg.ranked, min: MIN_GROUP, axes: agg.axes }}
         actions={
           <div className="no-print rounded-[2rem] bg-paper-deep p-6 text-sm leading-6">
             Ce lien est personnel : gardez-le pour revoir votre résultat et les tendances de votre groupe, qui se mettent à jour. Personne
