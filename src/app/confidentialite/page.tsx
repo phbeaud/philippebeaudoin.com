@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 // Mettre à jour cette date à chaque changement de la politique
-const UPDATED = "23 novembre 2026";
+const UPDATED = "25 novembre 2026";
 const EMAIL = "phbeaudoin@outlook.com";
 
 const sections: { title: string; body: React.ReactNode }[] = [
@@ -54,7 +54,8 @@ const sections: { title: string; body: React.ReactNode }[] = [
           Si vous faites le test avec le lien d&apos;un groupe de formation, votre résultat anonyme est associé à ce groupe. Philippe
           Beaudoin en tire un profil d&apos;équipe regroupé (répartition des styles, carte collective, culture de travail) qu&apos;il
           présente au groupe et à l&apos;organisation. Aucun résultat individuel n&apos;y est identifiable, et le profil ne
-          s&apos;affiche qu&apos;à partir de trois participants.
+          s&apos;affiche qu&apos;à partir de trois participants. Si vous avez fait le test sans le lien du groupe, par exemple avant
+          une formation, votre résultat anonyme peut y être associé après coup, pour la période de la formation.
         </p>
         <h3>Avis après une conférence</h3>
         <p>
@@ -64,11 +65,35 @@ const sections: { title: string; body: React.ReactNode }[] = [
           et votre nom si vous l&apos;indiquez; vous pouvez demander son retrait en tout temps. Si vous demandez les ressources ou un
           suivi, votre courriel et vos coordonnées sont transmis à Philippe Beaudoin pour vous répondre, et ne servent qu&apos;à cette fin.
         </p>
+        <h3>Diagnostics en conférence</h3>
+        <p>
+          Lors d&apos;une conférence ou d&apos;une formation, Philippe Beaudoin peut proposer un court diagnostic accessible par un code
+          QR (par exemple sur votre refuge professionnel, vos préoccupations face au changement, vos motivations ou vos préférences).
+          Aucun compte, nom ni courriel n&apos;est demandé. Sont enregistrés : vos réponses, votre résultat, la date et l&apos;heure,
+          la séance à laquelle vous avez participé, et un identifiant aléatoire créé par votre navigateur, qui sert seulement à éviter
+          qu&apos;un même appareil réponde deux fois.
+        </p>
+        <p>
+          Vous recevez un lien personnel et secret vers votre résultat. Toute personne qui possède ce lien peut voir votre résultat :
+          gardez-le pour vous. Les résultats servent à vous remettre votre profil et à produire des totaux anonymes pour la séance
+          (projection en salle, tendances du groupe, rapport remis à l&apos;organisation hôte). Les tendances du groupe ne
+          s&apos;affichent qu&apos;à partir de cinq participants, et le rapport de groupe qu&apos;à partir de trois; aucun résultat
+          individuel n&apos;y est montré ni transmis à l&apos;organisation. Ces diagnostics sont des outils pédagogiques
+          d&apos;autoréflexion, et non des évaluations psychologiques : ils ne servent jamais à évaluer, sélectionner ou classer une
+          personne.
+        </p>
+        <h3>Protection contre les abus</h3>
+        <p>
+          Pour bloquer les envois abusifs et les tentatives d&apos;accès au tableau de bord, une empreinte de votre adresse IP est
+          enregistrée brièvement. Cette empreinte est calculée à sens unique avec une clé qui change chaque jour : elle ne permet pas de retrouver
+          votre adresse, et elle est effacée après quelques jours.
+        </p>
         <h3>Dans votre navigateur</h3>
         <p>
           Vos réponses au test et votre prénom sont gardés dans votre propre navigateur, pour que vous puissiez reprendre
           le test ou revoir votre profil. Vous pouvez les effacer en tout temps avec le bouton « Refaire le test » ou en
-          vidant les données du site dans votre navigateur. Ce site n&apos;utilise aucun témoin publicitaire ni outil de
+          vidant les données du site dans votre navigateur. Pour les diagnostics en conférence, votre navigateur garde aussi vos
+          réponses en cours, votre lien personnel et l&apos;identifiant aléatoire décrit plus haut. Ce site n&apos;utilise aucun témoin publicitaire ni outil de
           suivi d&apos;un tiers.
         </p>
       </>
@@ -93,7 +118,7 @@ const sections: { title: string; body: React.ReactNode }[] = [
         <ul>
           <li>Vercel : hébergement du site (États-Unis);</li>
           <li>Resend : envoi des courriels (États-Unis);</li>
-          <li>Neon : base de données des statistiques anonymes et des avis de conférence (États-Unis);</li>
+          <li>Neon : base de données des statistiques anonymes, des avis de conférence et des résultats des diagnostics (États-Unis);</li>
           <li>Microsoft Outlook : réception des demandes et des avis.</li>
         </ul>
         <p>
@@ -110,7 +135,11 @@ const sections: { title: string; body: React.ReactNode }[] = [
       <p>
         Les demandes et les rapports sont conservés le temps nécessaire pour répondre et assurer le suivi de la relation
         professionnelle, puis supprimés. Les statistiques anonymes peuvent être conservées sans limite de durée,
-        puisqu&apos;elles ne permettent pas d&apos;identifier une personne. L&apos;accès au tableau des statistiques est
+        puisqu&apos;elles ne permettent pas d&apos;identifier une personne. Les résultats des diagnostics en conférence sont conservés
+        le temps de préparer le bilan du groupe et d&apos;assurer le suivi avec l&apos;organisation hôte, puis supprimés; Philippe
+        Beaudoin peut supprimer en tout temps les résultats d&apos;une séance, et votre lien personnel cesse alors de fonctionner.
+        Pour faire supprimer votre seul résultat, écrivez à <a href={`mailto:${EMAIL}`}>{EMAIL}</a> en joignant votre lien
+        personnel. L&apos;accès au tableau des statistiques est
         protégé par mot de passe et réservé à Philippe Beaudoin. En cas d&apos;incident de confidentialité présentant un
         risque de préjudice sérieux, les personnes concernées et la Commission d&apos;accès à l&apos;information seront
         avisées, comme le prévoit la loi.

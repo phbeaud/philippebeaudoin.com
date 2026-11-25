@@ -114,7 +114,13 @@ export default function Runner({ def, code, draft, preview }: { def: Definition;
           }} className="mt-8 w-full rounded-full bg-accent px-6 py-4 text-lg font-semibold text-white hover:bg-accent-deep">
           {answered ? "Reprendre" : "Commencer"} →
         </button>
-        <p className="mt-4 text-center text-xs text-muted">Anonyme : ni nom ni courriel. {def.disclaimer}</p>
+        <p className="mt-4 text-center text-xs text-muted">
+          Anonyme : ni nom ni courriel.{" "}
+          <a href="/confidentialite" target="_blank" className="underline underline-offset-2">
+            Confidentialité
+          </a>
+          . {def.disclaimer}
+        </p>
       </div>
     );
 
